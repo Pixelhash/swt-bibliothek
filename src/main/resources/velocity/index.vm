@@ -1,0 +1,13 @@
+#parse('/velocity/layout.vm')
+#@mainLayout()
+<section class="section">
+    <div class="container">
+        <h1 class="title">
+            Hello World
+        </h1>
+        <p class="subtitle">
+            $message
+        </p>
+    </div>
+</section>
+#end
