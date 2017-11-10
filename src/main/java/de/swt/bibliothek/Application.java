@@ -15,8 +15,7 @@ public class Application {
 
         get("/", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
-            model.put("message", "Hello World!");
-            model.put("title", "Index");
+            model.put("title", "Bibliothek | Suche");
             return render(model, "velocity/index.vm");
         });
 

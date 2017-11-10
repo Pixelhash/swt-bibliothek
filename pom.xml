@@ -7,32 +7,54 @@
     <groupId>de.swt</groupId>
     <artifactId>bibliothek</artifactId>
     <version>1.0.0</version>
-    <name>Bibliothek</name>
+    <name>${project.name}</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.name>Bibliothek</project.name>
+        <spark-core.version>2.6.0</spark-core.version>
+        <spark-template-velocity.version>2.5.5</spark-template-velocity.version>
+        <slf4j-simple.version>1.7.21</slf4j-simple.version>
+        <ormlite-core.version>5.0</ormlite-core.version>
+        <ormlite-jdbc.version>5.0</ormlite-jdbc.version>
+        <jbcrypt.version>0.4</jbcrypt.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>com.sparkjava</groupId>
             <artifactId>spark-core</artifactId>
-            <version>2.6.0</version>
+            <version>${spark-core.version}</version>
         </dependency>
         <dependency>
             <groupId>com.sparkjava</groupId>
             <artifactId>spark-template-velocity</artifactId>
-            <version>2.5.5</version>
+            <version>${spark-template-velocity.version}</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
-            <version>1.7.21</version>
+            <version>${slf4j-simple.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.j256.ormlite</groupId>
+            <artifactId>ormlite-core</artifactId>
+            <version>${ormlite-core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.j256.ormlite</groupId>
+            <artifactId>ormlite-jdbc</artifactId>
+            <version>${ormlite-jdbc.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mindrot</groupId>
+            <artifactId>jbcrypt</artifactId>
+            <version>${jbcrypt.version}</version>
         </dependency>
     </dependencies>
 
     <build>
-        <finalName>Bibliothek</finalName>
+        <finalName>${project.name}</finalName>
         <sourceDirectory>src/main/java</sourceDirectory>
 
         <plugins>
