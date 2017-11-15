@@ -14,6 +14,15 @@ public class ApplicationConfig {
         return ourInstance;
     }
 
+    public static String DATABASE_USER_KEY = "dbuser";
+    public static String DATABASE_PASSWORD_KEY = "dbpassword";
+    public static String DATABASE_HOST_KEY = "dbhost";
+    public static String DATABASE_PORT_KEY = "dbport";
+    public static String DATABASE_NAME_KEY = "dbname";
+
+    public static String HOST_KEY = "host";
+    public static String PORT_KEY = "port";
+
     private Properties properties = null;
     private InputStream in = null;
 
@@ -41,5 +50,9 @@ public class ApplicationConfig {
           }
         }
         return true;
+    }
+
+    public Object get(Object key) {
+        return properties.get(key);
     }
 }
