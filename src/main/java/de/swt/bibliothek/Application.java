@@ -47,23 +47,6 @@ public class Application {
         LOGGER.info("Config successfully loaded!");
 
         ApplicationConfig config = ApplicationConfig.getInstance();
-        try {
-            JdbcConnectionSource connectionSource = new JdbcConnectionSource(String.format(DATABASE_URL,
-                    config.get(ApplicationConfig.DATABASE_HOST_KEY),
-                    config.get(ApplicationConfig.DATABASE_PORT_KEY),
-                    config.get(ApplicationConfig.DATABASE_NAME_KEY),
-                    config.get(ApplicationConfig.DATABASE_USER_KEY),
-                    config.get(ApplicationConfig.DATABASE_PASSWORD_KEY)
-            ));
-
-            kategorieDao = new KategorieDao(connectionSource, Kategorie.class);
-            buchDao = new BuchDao(connectionSource, Buch.class);
-            buchAutorDao = new BuchAutorDao(connectionSource, BuchAutor.class);
-            buchExemplarDao = new BuchExemplarDao(connectionSource, BuchExemplar.class);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
         JdbcConnectionSource connectionSource = new JdbcConnectionSource(String.format(DATABASE_URL,
                 config.get(ApplicationConfig.DATABASE_HOST_KEY),
                 config.get(ApplicationConfig.DATABASE_PORT_KEY),
@@ -109,6 +92,8 @@ public class Application {
 
         kategorieDao = new KategorieDao(connectionSource, Kategorie.class);
         buchDao = new BuchDao(connectionSource, Buch.class);
+        buchAutorDao = new BuchAutorDao(connectionSource, BuchAutor.class);
+        buchExemplarDao = new BuchExemplarDao(connectionSource, BuchExemplar.class);
     }
 
     private static void setupDummyEnities() throws SQLException {
