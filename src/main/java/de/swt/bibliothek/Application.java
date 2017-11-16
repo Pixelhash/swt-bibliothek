@@ -1,6 +1,7 @@
 package de.swt.bibliothek;
 
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
+import com.j256.ormlite.table.TableUtils;
 import de.swt.bibliothek.config.ApplicationConfig;
 import de.swt.bibliothek.controller.SearchController;
 import de.swt.bibliothek.dao.BuchDao;
@@ -15,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import spark.ModelAndView;
 import spark.template.velocity.VelocityTemplateEngine;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,9 +30,9 @@ public class Application {
     public static BuchDao buchDao;
 
     // Reihenfolge: host -> datenbank -> benutzer -> passwort
-    private static String DATABASE_URL = "jdbc:mysql://%s/%s?user=%s&password=%s&useSSL=false";
+    private static String DATABASE_URL = "jdbc:mysql://%s:%s/%s?user=%s&password=%s&useSSL=false";
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         LOGGER.info("Loading config...");
         if (!ApplicationConfig.getInstance().load()) {
             LOGGER.error("Config file is missing! Exiting...");
@@ -39,19 +41,26 @@ public class Application {
         LOGGER.info("Config successfully loaded!");
 
         ApplicationConfig config = ApplicationConfig.getInstance();
-        try {
-            JdbcConnectionSource connectionSource = new JdbcConnectionSource(String.format(DATABASE_URL,
-                    config.get(ApplicationConfig.DATABASE_HOST_KEY),
-                    config.get(ApplicationConfig.DATABASE_NAME_KEY),
-                    config.get(ApplicationConfig.DATABASE_USER_KEY),
-                    config.get(ApplicationConfig.DATABASE_PASSWORD_KEY)
-            ));
+        JdbcConnectionSource connectionSource = new JdbcConnectionSource(String.format(DATABASE_URL,
+                config.get(ApplicationConfig.DATABASE_HOST_KEY),
+                config.get(ApplicationConfig.DATABASE_PORT_KEY),
+                config.get(ApplicationConfig.DATABASE_NAME_KEY),
+                config.get(ApplicationConfig.DATABASE_USER_KEY),
+                config.get(ApplicationConfig.DATABASE_PASSWORD_KEY)
+        ));
 
-            kategorieDao = new KategorieDao(connectionSource, Kategorie.class);
-            buchDao = new BuchDao(connectionSource, Buch.class);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        setupSchema(connectionSource);
+        setupDummyEnities();
+
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            public void run() {
+                try {
+                    connectionSource.close(); // TODO: Check if this is actually called.
+                } catch(IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
         ipAddress((String) config.get(ApplicationConfig.HOST_KEY));
         port(Integer.valueOf((String) config.get(ApplicationConfig.PORT_KEY)));
@@ -65,10 +74,21 @@ public class Application {
         post(Path.Web.INDEX_SEARCH, SearchController.postBookSearch);
 
         get("*", ViewUtil.notFound);
-
     }
 
     private static String render(Map<String, Object> model, String templatePath) {
         return new VelocityTemplateEngine().render(new ModelAndView(model, templatePath));
+    }
+
+    private static void setupSchema(JdbcConnectionSource connectionSource) throws SQLException {
+        TableUtils.createTableIfNotExists(connectionSource, Kategorie.class);
+        TableUtils.createTableIfNotExists(connectionSource, Buch.class);
+
+        kategorieDao = new KategorieDao(connectionSource, Kategorie.class);
+        buchDao = new BuchDao(connectionSource, Buch.class);
+    }
+
+    private static void setupDummyEnities() throws SQLException {
+        // TODO
     }
 }
