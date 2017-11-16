@@ -4,6 +4,8 @@ dbpassword=S3curePassw0rd
 dbhost=localhost
 dbport=3306
 dbname=bibliothek
+create_tables=false
+insert_dummy_data=false
 # Application Settings
 host=localhost
 port=4567

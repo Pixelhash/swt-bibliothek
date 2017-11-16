@@ -4,14 +4,8 @@ import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import de.swt.bibliothek.config.ApplicationConfig;
 import de.swt.bibliothek.controller.SearchController;
-import de.swt.bibliothek.dao.BuchAutorDao;
-import de.swt.bibliothek.dao.BuchDao;
-import de.swt.bibliothek.dao.BuchExemplarDao;
-import de.swt.bibliothek.dao.KategorieDao;
-import de.swt.bibliothek.model.Buch;
-import de.swt.bibliothek.model.BuchAutor;
-import de.swt.bibliothek.model.BuchExemplar;
-import de.swt.bibliothek.model.Kategorie;
+import de.swt.bibliothek.dao.*;
+import de.swt.bibliothek.model.*;
 import de.swt.bibliothek.util.Filters;
 import de.swt.bibliothek.util.Path;
 import de.swt.bibliothek.util.ViewUtil;
@@ -30,12 +24,17 @@ import static spark.Spark.*;
 public class Application {
 
     public static Logger LOGGER = LoggerFactory.getLogger(Application.class);
+
     public static KategorieDao kategorieDao;
     public static BuchDao buchDao;
     public static BuchAutorDao buchAutorDao;
     public static BuchExemplarDao buchExemplarDao;
+    public static AdresseDao adresseDao;
+    public static BenutzerDao benutzerDao;
+    public static VerlagDao verlagDao;
+    public static AutorDao autorDao;
 
-    // Reihenfolge: host -> port -> datenbank -> benutzer -> passwort
+    // Order: host -> port -> name -> user -> password
     private static String DATABASE_URL = "jdbc:mysql://%s:%s/%s?user=%s&password=%s&useSSL=false";
 
     public static void main(String[] args) throws SQLException {
@@ -55,18 +54,24 @@ public class Application {
                 config.get(ApplicationConfig.DATABASE_PASSWORD_KEY)
         ));
 
-        setupSchema(connectionSource);
-        setupDummyEnities();
+        if (Boolean.valueOf((String) config.get(ApplicationConfig.DATABASE_CREATE_TABLES))) {
+            setupSchema(connectionSource);
+        }
+        if (Boolean.valueOf((String) config.get(ApplicationConfig.DATABASE_INSERT_DUMMY_DATA))) {
+            setupDummyEnities();
+        }
+        createDaos(connectionSource);
 
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            public void run() {
-                try {
-                    connectionSource.close(); // TODO: Check if this is actually called.
-                } catch(IOException e) {
-                    e.printStackTrace();
-                }
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            try {
+                LOGGER.info("Closing database connection...");
+                connectionSource.close();
+                LOGGER.info("Database successfully closed.");
+            } catch(IOException e) {
+                LOGGER.error("Unable to close database!");
+                e.printStackTrace();
             }
-        });
+        }));
 
         ipAddress((String) config.get(ApplicationConfig.HOST_KEY));
         port(Integer.valueOf((String) config.get(ApplicationConfig.PORT_KEY)));
@@ -82,18 +87,26 @@ public class Application {
         get("*", ViewUtil.notFound);
     }
 
-    private static String render(Map<String, Object> model, String templatePath) {
-        return new VelocityTemplateEngine().render(new ModelAndView(model, templatePath));
-    }
-
     private static void setupSchema(JdbcConnectionSource connectionSource) throws SQLException {
         TableUtils.createTableIfNotExists(connectionSource, Kategorie.class);
         TableUtils.createTableIfNotExists(connectionSource, Buch.class);
+        TableUtils.createTableIfNotExists(connectionSource, BuchAutor.class);
+        TableUtils.createTableIfNotExists(connectionSource, BuchExemplar.class);
+        TableUtils.createTableIfNotExists(connectionSource, Adresse.class);
+        TableUtils.createTableIfNotExists(connectionSource, Benutzer.class);
+        TableUtils.createTableIfNotExists(connectionSource, Verlag.class);
+        TableUtils.createTableIfNotExists(connectionSource, Autor.class);
+    }
 
+    private static void createDaos(JdbcConnectionSource connectionSource) {
         kategorieDao = new KategorieDao(connectionSource, Kategorie.class);
         buchDao = new BuchDao(connectionSource, Buch.class);
         buchAutorDao = new BuchAutorDao(connectionSource, BuchAutor.class);
         buchExemplarDao = new BuchExemplarDao(connectionSource, BuchExemplar.class);
+        adresseDao = new AdresseDao(connectionSource, Adresse.class);
+        benutzerDao = new BenutzerDao(connectionSource, Benutzer.class);
+        verlagDao = new VerlagDao(connectionSource, Verlag.class);
+        autorDao = new AutorDao(connectionSource, Autor.class);
     }
 
     private static void setupDummyEnities() throws SQLException {

@@ -19,6 +19,8 @@ public class ApplicationConfig {
     public static String DATABASE_HOST_KEY = "dbhost";
     public static String DATABASE_PORT_KEY = "dbport";
     public static String DATABASE_NAME_KEY = "dbname";
+    public static String DATABASE_CREATE_TABLES = "create_tables";
+    public static String DATABASE_INSERT_DUMMY_DATA = "insert_dummy_data";
 
     public static String HOST_KEY = "host";
     public static String PORT_KEY = "port";
