@@ -3,10 +3,18 @@ package de.swt.bibliothek.model;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @DatabaseTable
 public class Buch {
+
+    private static final SimpleDateFormat yearFormatter = new SimpleDateFormat("yyyy");
+
+    List<Autor> autoren;
+
+    int exemplare;
 
     @DatabaseField(generatedId = true, canBeNull = false)
     int id;
@@ -30,8 +38,28 @@ public class Buch {
 
     }
 
+    public List<Autor> getAutoren() {
+        return autoren;
+    }
+
+    public void setAutoren(List<Autor> autoren) {
+        this.autoren = autoren;
+    }
+
+    public int getExemplare() {
+        return exemplare;
+    }
+
+    public void setExemplare(int exemplare) {
+        this.exemplare = exemplare;
+    }
+
     public int getId() {
         return id;
+    }
+
+    public String getYearFormatted() {
+        return yearFormatter.format(this.getErscheinungsjahr());
     }
 
     public void setId(int id) {

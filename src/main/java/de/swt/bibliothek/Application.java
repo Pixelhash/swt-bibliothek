@@ -3,9 +3,13 @@ package de.swt.bibliothek;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import de.swt.bibliothek.config.ApplicationConfig;
 import de.swt.bibliothek.controller.SearchController;
+import de.swt.bibliothek.dao.BuchAutorDao;
 import de.swt.bibliothek.dao.BuchDao;
+import de.swt.bibliothek.dao.BuchExemplarDao;
 import de.swt.bibliothek.dao.KategorieDao;
 import de.swt.bibliothek.model.Buch;
+import de.swt.bibliothek.model.BuchAutor;
+import de.swt.bibliothek.model.BuchExemplar;
 import de.swt.bibliothek.model.Kategorie;
 import de.swt.bibliothek.util.Filters;
 import de.swt.bibliothek.util.Path;
@@ -26,6 +30,8 @@ public class Application {
     public static Logger LOGGER = LoggerFactory.getLogger(Application.class);
     public static KategorieDao kategorieDao;
     public static BuchDao buchDao;
+    public static BuchAutorDao buchAutorDao;
+    public static BuchExemplarDao buchExemplarDao;
 
     // Reihenfolge: host -> datenbank -> benutzer -> passwort
     private static String DATABASE_URL = "jdbc:mysql://%s/%s?user=%s&password=%s&useSSL=false";
@@ -49,6 +55,8 @@ public class Application {
 
             kategorieDao = new KategorieDao(connectionSource, Kategorie.class);
             buchDao = new BuchDao(connectionSource, Buch.class);
+            buchAutorDao = new BuchAutorDao(connectionSource, BuchAutor.class);
+            buchExemplarDao = new BuchExemplarDao(connectionSource, BuchExemplar.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }

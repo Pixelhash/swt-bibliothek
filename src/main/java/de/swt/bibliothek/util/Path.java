@@ -4,6 +4,10 @@ public class Path {
 
     public static class Web {
         public static final String INDEX_SEARCH = "/";
+
+        public static String getIndexSearch() {
+            return INDEX_SEARCH;
+        }
     }
 
     public static class Template {

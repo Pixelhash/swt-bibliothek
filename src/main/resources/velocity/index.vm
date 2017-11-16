@@ -18,6 +18,11 @@
         <div class="columns">
             <div class="column is-3"></div>
             <div class="column is-6">
+                #if($!{error})
+                    <div class="notification is-danger">
+                        $!errorMsg
+                    </div>
+                #end
                 <form action="/" method="post">
                     <div class="field">
                         <div class="control">

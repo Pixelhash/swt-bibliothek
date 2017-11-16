@@ -3,6 +3,7 @@ package de.swt.bibliothek.dao;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
+import com.j256.ormlite.stmt.QueryBuilder;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -21,6 +22,10 @@ public abstract class AbstractDao<T, ID> {
 
     public Dao<T, ID> getRawDao() {
         return dao;
+    }
+
+    public QueryBuilder<T, ID> getQueryBuilder() {
+        return this.dao.queryBuilder();
     }
 
     public List<T> getAll() {
