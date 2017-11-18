@@ -7,8 +7,10 @@
 
 #### Installation
 
-1. ER-Modell in MySQL Datenbank migrieren
-2. ...
+1. Mysql/Mariadb installieren 
+  * (fedora) dnf install mysql-community-server
+2. starten
+  * systemctl start mariadb
 
 #### Verwendete Tools und Libraries
 
