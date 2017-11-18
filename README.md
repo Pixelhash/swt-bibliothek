@@ -7,9 +7,16 @@
 
 #### Installation
 
-1. Mysql/Mariadb installieren 
-..  * (fedora) dnf install mysql-community-server
-2. starten systemctl start mariadb
+1. Mysql/Mariadb installieren
+   * fedora: dnf install mysql-community-server
+2. starten: systemctl start mariadb
+3. Mysql vorbereiten: 
+3.1 user erstellen:  create user 'user'@'localhost' identified by 'password';
+3.2 database erstellen: create database bibliothek
+3.3 user Rchte geben: grant all privileges on bibliothek.* to 'user';
+
+
+
 
 #### Verwendete Tools und Libraries
 
