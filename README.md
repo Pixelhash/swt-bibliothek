@@ -7,16 +7,14 @@
 
 #### Installation
 
-1. Mysql/Mariadb installieren
-   * fedora: dnf install mysql-community-server
-2. starten: systemctl start mariadb
-3. Mysql vorbereiten: 
-   3.1. user erstellen:  create user 'user'@'localhost' identified by 'password';
-   3.2. database erstellen: create database bibliothek
-   3.3. user Rchte geben: grant all privileges on bibliothek.* to 'user';
-
-
-
+1. MySQL/MariaDB installieren
+   - Fedora: `dnf install mysql-community-server`
+   - Ubuntu: `sudo apt install mariadb-server-10.1`
+2. MySQL/MariaDB Server starten: `systemctl start mariadb`
+3. MySQL/MariaDB vorbereiten:
+   3.1. User erstellen: `create user 'user'@'localhost' identified by 'password';`
+   3.2. Datenbank erstellen: `create database bibliothek`
+   3.3. Dem User Rechte geben: `grant all privileges on bibliothek.* to 'user';`
 
 #### Verwendete Tools und Libraries
 
