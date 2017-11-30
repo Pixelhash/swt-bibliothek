@@ -28,6 +28,9 @@ public class Buch {
     @DatabaseField
     Date erscheinungsjahr;
 
+    @DatabaseField(canBeNull = false)
+    String standort;
+
     @DatabaseField(columnName = "kategorie_id", canBeNull = false, foreign = true, foreignAutoRefresh = true)
     Kategorie kategorie;
 
@@ -88,6 +91,14 @@ public class Buch {
 
     public void setErscheinungsjahr(Date erscheinungsjahr) {
         this.erscheinungsjahr = erscheinungsjahr;
+    }
+
+    public String getStandort() {
+        return standort;
+    }
+
+    public void setStandort(String standort) {
+        this.standort = standort;
     }
 
     public Kategorie getKategorie() {

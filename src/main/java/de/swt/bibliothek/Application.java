@@ -9,11 +9,13 @@ import de.swt.bibliothek.model.*;
 import de.swt.bibliothek.util.Filters;
 import de.swt.bibliothek.util.Path;
 import de.swt.bibliothek.util.ViewUtil;
+import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import spark.ModelAndView;
 import spark.template.velocity.VelocityTemplateEngine;
 
+import java.io.Console;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -38,6 +40,20 @@ public class Application {
     private static String DATABASE_URL = "jdbc:mysql://%s:%s/%s?user=%s&password=%s&useSSL=false";
 
     public static void main(String[] args) throws SQLException {
+        // Password hash generation for admin user to insert users into database
+        if (args.length == 1 && args[0].equals("-p")) {
+            Console console = System.console();
+            if (console == null) {
+                System.out.println("Couldn't get Console instance");
+                System.exit(1);
+            }
+
+            char passwordArray[] = console.readPassword("Enter your password: ");
+            String hash = BCrypt.hashpw(new String(passwordArray), BCrypt.gensalt());
+            console.printf("Generated hash: %s%n", hash);
+            System.exit(0);
+        }
+
         LOGGER.info("Loading config...");
         if (!ApplicationConfig.getInstance().load()) {
             LOGGER.error("Config file is missing! Exiting...");

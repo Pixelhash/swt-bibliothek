@@ -20,13 +20,13 @@ public class SearchController {
 
     public static Route getBookSearch = (Request req, Response res) -> {
         Map<String, Object> model = new HashMap<>();
-        model.put("title", "Bibliothek | Suche");
+        model.put("title", "Suche | Bibliothek");
         return ViewUtil.render(req, model, Path.Template.INDEX_SEARCH);
     };
 
     public static Route postBookSearch = (Request req, Response res) -> {
         Map<String, Object> model = new HashMap<>();
-        model.put("title", "Bibliothek | Ergebnisse");
+        model.put("title", "Ergebnisse | Bibliothek");
         String searchQuery = RequestUtil.getQuerySearch(req);
 
         if (searchQuery.isEmpty()) {

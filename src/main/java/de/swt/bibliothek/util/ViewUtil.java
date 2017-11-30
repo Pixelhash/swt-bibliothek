@@ -25,8 +25,10 @@ public class ViewUtil {
     };
 
     public static Route notFound = (Request request, Response response) -> {
+        Map<String, Object> model = new HashMap<>();
+        model.put("title", "Fehler | Bibliothek");
         response.status(HttpStatus.NOT_FOUND_404);
-        return render(request, new HashMap<>(), Path.Template.NOT_FOUND);
+        return render(request, model, Path.Template.NOT_FOUND);
     };
 
     private static VelocityTemplateEngine strictVelocityEngine() {

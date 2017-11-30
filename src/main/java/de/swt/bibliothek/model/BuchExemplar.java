@@ -11,9 +11,6 @@ public class BuchExemplar {
     @DatabaseField(generatedId = true, canBeNull = false)
     int id;
 
-    @DatabaseField(canBeNull = false)
-    String standort;
-
     @DatabaseField
     Date ausleihdatum;
 
@@ -36,14 +33,6 @@ public class BuchExemplar {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getStandort() {
-        return standort;
-    }
-
-    public void setStandort(String standort) {
-        this.standort = standort;
     }
 
     public Date getAusleihdatum() {

@@ -18,6 +18,13 @@
     - Datenbank erstellen: `create database bibliothek;`
     - Dem User Rechte geben: `grant all privileges on bibliothek.* to 'user'@'localhost';`
 
+#### Passwort für Nutzer erstellen
+
+- In das Verzeichnis der kompilierten JAR-Datei wechseln
+- Ausführen mit folgendem Befehl: `java -jar {datei}.jar -p`
+- Das Passwort eingeben (ist in der Konsole nicht sichtbar) und ENTER drücken
+- Der generierte Hash zum Passwort wird angezeigt
+
 #### Verwendete Tools und Libraries
 
 - [Spark Web Framework](http://sparkjava.com/), Java
