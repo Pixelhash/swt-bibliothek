@@ -1,4 +1,4 @@
-#parse('/velocity/layout.vm')
+#parse('/velocity/layouts/layout.vm')
 #@mainLayout()
 <section class="hero is-light is-bold">
     <div class="hero-body">
@@ -42,7 +42,12 @@
                             </div>
                         </div>
                         <footer class="card-footer">
-                            <a href="#" class="card-footer-item">$book.getExemplare() Exemplar(e) vorhanden</a>
+                            <p href="#" class="card-footer-item
+                            #if($book.getExemplare() == 0)
+                                has-text-danger
+                            #else
+                                has-text-success
+                            #end">$book.getExemplare() Exemplar(e) vorhanden</p>
                         </footer>
                     </div>
                 #end
