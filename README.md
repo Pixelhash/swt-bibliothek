@@ -18,6 +18,10 @@
     - Datenbank erstellen: `create database bibliothek;`
     - Dem User Rechte geben: `grant all privileges on bibliothek.* to 'user'@'localhost';`
 
+4. Tabellen erstellen (+ Demo-Daten)
+    - Ohne Demo-Daten: `table-struct.sql`
+    - Mit Demo-Daten: `table-struct-demo.sql`. Das Passwort für alle Benutzer lautet `Test1234`.
+
 #### Passwort für Nutzer erstellen
 
 - In das Verzeichnis der kompilierten JAR-Datei wechseln

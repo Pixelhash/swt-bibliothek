@@ -1,12 +1,12 @@
 <nav class="navbar is-dark">
     <div class="container">
         <div class="navbar-brand">
-            <a class="navbar-item is-size-5" href="$WebPath.getIndexSearch()">
+            <!--<a class="navbar-item is-size-5" href="$WebPath.getIndexSearch()">
                 <span class="icon icon-nav">
                     <i class="fa fa-lg fa-book"></i>
                 </span>
                 <span>Bibliothek</span>
-            </a>
+            </a>-->
             <div class="navbar-burger burger" data-target="#navbar">
                 <span></span>
                 <span></span>
