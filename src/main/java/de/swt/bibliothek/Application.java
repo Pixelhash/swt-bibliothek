@@ -12,14 +12,10 @@ import de.swt.bibliothek.util.ViewUtil;
 import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import spark.ModelAndView;
-import spark.template.velocity.VelocityTemplateEngine;
 
 import java.io.Console;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
 
 import static spark.Spark.*;
 
@@ -96,9 +92,11 @@ public class Application {
 
         before("*", Filters.addTrailingSlashes);
         before("*", Filters.addGzipHeader);
+        before("*", Filters.addBasicCsrfToken);
+        before("*", Filters.addBasicCsrfProtection);
 
-        get(Path.Web.INDEX_SEARCH, SearchController.getBookSearch);
-        post(Path.Web.INDEX_SEARCH, SearchController.postBookSearch);
+        get(Path.Web.INDEX_SEARCH, SearchController.getKundenSearch);
+        post(Path.Web.INDEX_SEARCH, SearchController.postKundenSearch);
 
         get("*", ViewUtil.notFound);
     }

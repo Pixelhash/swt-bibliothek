@@ -18,13 +18,13 @@ import java.util.Map;
 
 public class SearchController {
 
-    public static Route getBookSearch = (Request req, Response res) -> {
+    public static Route getKundenSearch = (Request req, Response res) -> {
         Map<String, Object> model = new HashMap<>();
         model.put("title", "Suche | Bibliothek");
         return ViewUtil.render(req, model, Path.Template.INDEX_SEARCH);
     };
 
-    public static Route postBookSearch = (Request req, Response res) -> {
+    public static Route postKundenSearch = (Request req, Response res) -> {
         Map<String, Object> model = new HashMap<>();
         model.put("title", "Ergebnisse | Bibliothek");
         String searchQuery = RequestUtil.getQuerySearch(req);

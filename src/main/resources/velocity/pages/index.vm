@@ -36,6 +36,7 @@
                             </button>
                         </p>
                     </div>
+                    <input type="hidden" name="csrf_token" value="$session.attribute("csrf_token")">
                 </form>
             </div>
             <div class="column is-3"></div>

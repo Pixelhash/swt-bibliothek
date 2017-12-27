@@ -12,23 +12,24 @@ import java.util.Map;
 
 public class ViewUtil {
 
-    public static String render(Request request, Map<String, Object> model, String templatePath) {
+    public static String render(Request req, Map<String, Object> model, String templatePath) {
         model.put("msg", new MessageBundle());
-        //model.put("currentUser", getSessionCurrentUser(request));
+        model.put("session", req.session());
+        //model.put("currentUser", getSessionCurrentUser(req));
         model.put("WebPath", Path.Web.class); // Access application URLs from templates
         return strictVelocityEngine().render(new ModelAndView(model, templatePath));
     }
 
-    public static Route notAcceptable = (Request request, Response response) -> {
-        response.status(HttpStatus.NOT_ACCEPTABLE_406);
+    public static Route notAcceptable = (Request req, Response res) -> {
+        res.status(HttpStatus.NOT_ACCEPTABLE_406);
         return new MessageBundle().get("ERROR_406_NOT_ACCEPTABLE");
     };
 
-    public static Route notFound = (Request request, Response response) -> {
+    public static Route notFound = (Request req, Response res) -> {
         Map<String, Object> model = new HashMap<>();
         model.put("title", "Fehler | Bibliothek");
-        response.status(HttpStatus.NOT_FOUND_404);
-        return render(request, model, Path.Template.NOT_FOUND);
+        res.status(HttpStatus.NOT_FOUND_404);
+        return render(req, model, Path.Template.NOT_FOUND);
     };
 
     private static VelocityTemplateEngine strictVelocityEngine() {
