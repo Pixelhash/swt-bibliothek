@@ -16,8 +16,8 @@
 
         <div id="navbar" class="navbar-menu">
             <div class="navbar-start">
-                <a class="navbar-item" href="#">
-                    Platzhalter
+                <a class="navbar-item" href="$WebPath.getIndexSearch()">
+                    Suche
                 </a>
                 <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link" href="#">
@@ -47,7 +47,7 @@
                 <div class="navbar-item">
                     <div class="field is-grouped">
                         <p class="control">
-                            <a class="button is-link" href="#">
+                            <a class="button is-link" href="$WebPath.getLogin()">
                           <span class="icon">
                             <i class="fa fa-sign-in"></i>
                           </span>

@@ -25,7 +25,7 @@ public class Filters {
     };
 
     public static Filter addBasicCsrfToken = (Request req, Response res) -> {
-        if (req.session().attribute(CSRF_TOKEN) == null) {
+        if (req.requestMethod().equals("GET") && req.session().attribute(CSRF_TOKEN) == null) {
             req.session().attribute(CSRF_TOKEN, genCsrfToken());
         }
     };

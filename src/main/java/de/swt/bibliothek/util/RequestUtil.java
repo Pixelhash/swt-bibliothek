@@ -12,4 +12,12 @@ public class RequestUtil {
         return req.queryParams(Filters.CSRF_TOKEN);
     }
 
+    public static String getBenutzerId(Request req) {
+        return req.queryParams("user_id");
+    }
+
+    public static String getBenutzerPassword(Request req) {
+        return req.queryParams("password");
+    }
+
 }

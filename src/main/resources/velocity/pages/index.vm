@@ -23,7 +23,7 @@
                         $!errorMsg
                     </div>
                 #end
-                <form action="/" method="post">
+                <form action="$WebPath.getIndexSearch()" method="post">
                     <div class="field">
                         <div class="control">
                             <input class="input is-medium" type="text" name="query" placeholder="$msg.get("INDEX_INPUT_PLACEHOLDER")">

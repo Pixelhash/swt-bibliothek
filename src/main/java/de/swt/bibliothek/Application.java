@@ -3,6 +3,7 @@ package de.swt.bibliothek;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import de.swt.bibliothek.config.ApplicationConfig;
+import de.swt.bibliothek.controller.BenutzerController;
 import de.swt.bibliothek.controller.SearchController;
 import de.swt.bibliothek.dao.*;
 import de.swt.bibliothek.model.*;
@@ -95,8 +96,16 @@ public class Application {
         before("*", Filters.addBasicCsrfToken);
         before("*", Filters.addBasicCsrfProtection);
 
+        // Kunden-Search
         get(Path.Web.INDEX_SEARCH, SearchController.getKundenSearch);
         post(Path.Web.INDEX_SEARCH, SearchController.postKundenSearch);
+
+        // Login
+        get(Path.Web.LOGIN, BenutzerController.getLogin);
+        post(Path.Web.LOGIN, BenutzerController.postLogin);
+
+        // Dashboard
+        get(Path.Web.DASHBOARD, BenutzerController.getUebersicht);
 
         get("*", ViewUtil.notFound);
     }

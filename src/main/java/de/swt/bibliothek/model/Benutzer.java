@@ -115,4 +115,8 @@ public class Benutzer {
     public void setAdresse(Adresse adresse) {
         this.adresse = adresse;
     }
+
+    public String getFullName() {
+        return this.vorname + " " + this.nachname;
+    }
 }

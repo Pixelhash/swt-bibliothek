@@ -1,0 +1,21 @@
+#parse('/velocity/layouts/layout.vm')
+#@mainLayout()
+<section class="hero is-light is-bold">
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <h1 class="title is-3">
+                <span class="icon icon-nav has-text-grey-dark">
+                    <i class="fa fa-sign-in"></i>
+                </span>
+                <span>$msg.get("DASHBOARD_TITLE")</span>
+            </h1>
+        </div>
+    </div>
+</section>
+<section class="section">
+    <div class="container has-text-centered">
+        <h3 class="subtitle is-5">$userMsg</h3>
+        <p>TEMP: Dashboard</p>
+    </div>
+</section>
+#end
