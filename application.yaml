@@ -1,0 +1,19 @@
+# MySQL Database Credentials
+database:
+  user: 'codehat'
+  password: 'codehat1234'
+  host: 'localhost'
+  port: 3306
+  name: 'bibliothekssoftware'
+  createTables: false
+  insertDummyData: false
+
+# Application Settings
+application:
+  host: 'localhost'
+  port: 4567
+
+# Error Reporting (Bugsnag)
+errorReporting:
+  enabled: false
+  apiKey: 'd86df1ce7ada939c2bbf31247b945ab7'

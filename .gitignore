@@ -69,4 +69,4 @@ buildNumber.properties
 !/.mvn/wrapper/maven-wrapper.jar
 
 # -> Custom
-application.properties
+application.yaml

@@ -19,6 +19,7 @@
         <ormlite-jdbc.version>5.0</ormlite-jdbc.version>
         <jbcrypt.version>0.4</jbcrypt.version>
         <mysql-connector-java.version>5.1.44</mysql-connector-java.version>
+        <cfg4j-core.version>4.4.0</cfg4j-core.version>
     </properties>
 
     <dependencies>
@@ -57,10 +58,20 @@
             <artifactId>jbcrypt</artifactId>
             <version>${jbcrypt.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.cfg4j</groupId>
+            <artifactId>cfg4j-core</artifactId>
+            <version>${cfg4j-core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.bugsnag</groupId>
+            <artifactId>bugsnag</artifactId>
+            <version>[3.0,4.0)</version>
+        </dependency>
     </dependencies>
 
     <build>
-        <finalName>${project.name}-no-dependencies</finalName>
+        <finalName>bibliothek</finalName>
         <sourceDirectory>src/main/java</sourceDirectory>
 
         <plugins>
@@ -80,14 +91,13 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>de.swt.bibliothek.Application</mainClass>
+                            <mainClass>de.swt.bibliothek.Main</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
-                    <finalName>${project.name}</finalName>
-                    <appendAssemblyId>false</appendAssemblyId>
+                    <finalName>bibliothek</finalName>
                 </configuration>
                 <executions>
                     <execution>
