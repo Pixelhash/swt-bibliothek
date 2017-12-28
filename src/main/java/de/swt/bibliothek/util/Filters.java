@@ -38,7 +38,7 @@ public class Filters {
             //Application.LOGGER.info(String.format("Request token: %s; Session token: %s", requestToken, sessionToken));
             if (requestToken == null || sessionToken == null || !requestToken.equals(sessionToken)) {
                 Application.LOGGER.warn("Invalid CSRF token!");
-                halt(403, "Invalid token!");
+                halt(403, "Invalid session. Please reload the page!");
             }
         }
     };

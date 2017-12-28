@@ -1,28 +1,39 @@
 version: "3"
 services:
 
-### MariaDB Container #######################################
+### MariaDB Container #######################################################
 
-    mariadb:
-      image: mariadb:10.1
-      expose:
-        - "3306"
-      environment:
-        MYSQL_DATABASE: bibliothekssoftware
-        MYSQL_ROOT_PASSWORD: root1234
-        MYSQL_USER: bibliothek
-        MYSQL_PASSWORD: bibliothek1234
-      volumes:
-        - ./data/mysql:/var/lib/mysql
-        - ./table-struct-demo.sql:/docker-entrypoint-initdb.d/init.sql
+  mariadb:
+    image: mariadb:10.1
+    container_name: mariadb
+    expose:
+      - "3306"
+    environment:
+      MYSQL_DATABASE: bibliothekssoftware
+      MYSQL_ROOT_PASSWORD: root1234
+      MYSQL_USER: bibliothek
+      MYSQL_PASSWORD: bibliothek1234
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+      - ./table-struct-demo.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - backend
 
 ### Bibliothekssoftware Container ##########################################
 
-    bibliothek:
-      image: fhl-swt1/bibliothek
-      volumes:
-        - ./data/bibliothek/application.yaml:/code/application.yaml
-      depends_on:
-        - mariadb
-      ports:
-        - "127.0.0.1:4567:4567"
+  bibliothek:
+    build: ./
+    image: fhl-swt1/bibliothek:1.0.0
+    container_name: bibliothek
+    ports:
+      - "127.0.0.1:4567:4567"
+    volumes:
+      - ./data/bibliothek/application.yaml:/code/application.yaml
+    depends_on:
+      - mariadb
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
