@@ -1,18 +1,11 @@
-FROM openjdk:8 
-
-# Install maven
-RUN apt-get update
-RUN apt-get install -y maven
+FROM maven:3.5.2-jdk-8-alpine
 
 WORKDIR /code
 
-# Add configuration file
-ADD application.yaml /code/application.yaml
-
 # Prepare by downloading dependencies
 ADD pom.xml /code/pom.xml
-#RUN ["mvn", "dependency:resolve"]
-#RUN ["mvn", "verify"]
+RUN ["mvn", "dependency:resolve"]
+RUN ["mvn", "verify"]
 
 # Adding source, compile and package into a fat jar
 ADD src /code/src
