@@ -1,0 +1,19 @@
+# MySQL Database Credentials
+database:
+  user: 'bibliothek'
+  password: 'bibliothek1234'
+  host: 'mariadb'
+  port: 3306
+  name: 'bibliothekssoftware'
+  createTables: false
+  insertDummyData: false
+
+# Application Settings
+application:
+  host: '0.0.0.0'
+  port: 4567
+
+# Error Reporting (Bugsnag)
+errorReporting:
+  enabled: false
+  apiKey: 'S0meApiK3y'

@@ -1,11 +1,23 @@
 # Bibliothekssoftware
 
-#### Systemvoraussetzungen
+Diese Applikation wurde im Studiengang Informatik/Softwaretchnik
+im Fach Softwaretchnik 1 im WS 2017/18 der FH-Lübeck entwickelt.
+
+## Demo
+- URL: https://swt-bibliothek.codehat.de/
+- Nutzername: `swt`
+- Passwort: `bibliothek`
+
+## Systemvoraussetzungen
 
 - Java 8
 - MariaDB 10.1
 
-#### Installation
+## Installation
+
+Die Installation kann entweder manuell oder mit Docker/Docker Compose durchgeführt werden.
+
+### Manuell
 
 1. MySQL/MariaDB installieren:
     - Fedora: `dnf install mysql-community-server`
@@ -22,14 +34,62 @@
     - Ohne Demo-Daten: `table-struct.sql`
     - Mit Demo-Daten: `table-struct-demo.sql`. Das Passwort für alle Benutzer lautet `Test1234`.
 
-#### Passwort für Nutzer erstellen
+5. Applikation vorbereiten und starten:
+    - Konfigurationsdatei kopieren: `cp application-example.yaml application.yaml`
+    - Die kopierte `application.yaml` anpassen
+    - Applikation starten mit `java -jar {datei}.jar`
+
+### Mit Docker/Docker Compose
+
+1. Sicherstellen, dass [Docker](https://www.docker.com/) und [Docker Compose](https://docs.docker.com/compose/) installiert sind:
+    - `docker -v`, `docker-compose -v`
+
+2. Repository klonen:
+    - `cd {repository}`
+    - Folgende Instruktionen gehen davon aus, dass man sich im Verzeichnis
+des geklonten Repos befindet!
+
+3. Benötigte Verzeichnisse erstellen:
+    - `mkdir -p data/bibliothek/`
+
+4. Konfigurationsdatei für Docker kopieren:
+    - `cp application-docker.yaml data/bibliothek/application.yaml`
+
+5. Einstellungen abgleichen:
+    - Die Einstellungen von der Applikation und MariaDB müssen in der
+    `data/bibliothek/application.yaml` und der `docker-compose.yml` übereinstimmen!
+
+6. Docker Image erstellen:
+    - `docker build -t fhl-swt1/bibliothek .`
+    - Dieser Befehl dauert eine Weile!
+    
+7. MariaDB mit (Standard) oder ohne Demo-Daten:
+    - Falls die Demo-Daten eingefügt werden sollen, kann
+    dieser Schritt übersprungen werden!
+    - In der `docker-compose.yml` folgendes finden und ändern:
+    - Mit (Standard): `./table-struct-demo.sql`
+    - Ohne: `./table-struct.sql`
+
+8. Applikation und MariaDB starten:
+    - `docker-compose up -d`
+    
+9. Prüfen, ob alles funktioniert:
+    - `docker-compose logs` sollte ungefähr folgende Zeile beinhalten:
+    - `bibliothek_1  | [Thread-1] INFO org.eclipse.jetty.server.Server - Started @684ms`
+    - Browser öffnen unter `localhost:4567`
+    
+10. (Optional) Applikation und MariaDB stoppen:
+    - Ins Verzeichnis des Repos wechseln
+    - `docker-compose down` ausführen
+
+## Passwort für Nutzer erstellen
 
 - In das Verzeichnis der kompilierten JAR-Datei wechseln
 - Ausführen mit folgendem Befehl: `java -jar {datei}.jar -p`
 - Das Passwort eingeben (ist in der Konsole nicht sichtbar) und ENTER drücken
 - Der generierte Hash zum Passwort wird angezeigt
 
-#### Verwendete Tools und Libraries
+## Verwendete Tools und Libraries
 
 - [Spark Web Framework](http://sparkjava.com/), Java
 - [Velocity Template Engine](http://velocity.apache.org/engine/1.7/), Java

@@ -70,4 +70,4 @@ buildNumber.properties
 
 # -> Custom
 application.yaml
-data/mysql/
+data/
