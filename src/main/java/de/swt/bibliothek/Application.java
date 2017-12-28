@@ -29,7 +29,7 @@ import static spark.Spark.*;
 public class Application {
 
     // Order: host -> port -> name -> user -> password
-    private static final String DATABASE_URL = "jdbc:mysql://%s:%s/%s?user=%s&password=%s&useSSL=false";
+    private static final String DATABASE_URL = "jdbc:mysql://%s:%s/%s?user=%s&password=%s&useSSL=false&autoReconnect=true";
 
     // Logging instance
     public static Logger LOGGER = LoggerFactory.getLogger(Application.class);
