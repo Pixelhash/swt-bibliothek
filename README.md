@@ -57,7 +57,7 @@ des geklonten Repos befindet!
 
 5. Einstellungen abgleichen:
     - Die Einstellungen von der Applikation und MariaDB müssen in der
-    `data/bibliothek/application.yaml` und der `docker-compose.yml` übereinstimmen!
+    `data/bibliothek/application.yaml` und in der `docker-compose.yml` übereinstimmen!
 
 6. Docker Image erstellen:
     - `docker build -t fhl-swt1/bibliothek .`
