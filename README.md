@@ -58,27 +58,25 @@ des geklonten Repos befindet!
 5. Einstellungen abgleichen:
     - Die Einstellungen von der Applikation und MariaDB müssen in der
     `data/bibliothek/application.yaml` und in der `docker-compose.yml` übereinstimmen!
-
-6. Docker Image erstellen:
-    - `docker build -t fhl-swt1/bibliothek .`
-    - Dieser Befehl dauert eine Weile!
     
-7. MariaDB mit (Standard) oder ohne Demo-Daten:
+6. MariaDB mit (Standard) oder ohne Demo-Daten:
     - Falls die Demo-Daten eingefügt werden sollen, kann
     dieser Schritt übersprungen werden!
     - In der `docker-compose.yml` folgendes finden und ändern:
     - Mit (Standard): `./table-struct-demo.sql`
     - Ohne: `./table-struct.sql`
 
-8. Applikation und MariaDB starten:
+7. Applikation und MariaDB starten:
     - `docker-compose up -d`
+    - Dauert beim ersten Start länger, weil das Image der Applikation
+    erstellt wird.
     
-9. Prüfen, ob alles funktioniert:
+8. Prüfen, ob alles funktioniert:
     - `docker-compose logs` sollte ungefähr folgende Zeile beinhalten:
     - `bibliothek_1  | [Thread-1] INFO org.eclipse.jetty.server.Server - Started @684ms`
     - Browser öffnen unter `localhost:4567`
     
-10. (Optional) Applikation und MariaDB stoppen:
+9. (Optional) Applikation und MariaDB stoppen:
     - Ins Verzeichnis des Repos wechseln
     - `docker-compose down` ausführen
 
