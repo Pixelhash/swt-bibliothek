@@ -1,6 +1,6 @@
 # Bibliothekssoftware
 
-Diese Applikation wurde im Studiengang Informatik/Softwaretchnik
+Diese Applikation wurde im Studiengang Informatik/Softwaretechnik
 im Fach Softwaretchnik 1 im WS 2017/18 der FH-Lübeck entwickelt.
 
 ## Demo
