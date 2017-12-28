@@ -43,6 +43,20 @@ public class Filters {
         }
     };
 
+    public static Filter addLoginCheck = (Request req, Response res) -> {
+        if (req.session().attribute("user") == null) {
+            res.redirect(Path.Web.LOGIN);
+            halt();
+        }
+    };
+
+    public static Filter redirectIfLoggedIn = (Request req, Response res) -> {
+        if (req.session().attribute("user") != null) {
+            res.redirect(Path.Web.DASHBOARD);
+            halt();
+        }
+    };
+
     private static String genCsrfToken() {
         return UUID.randomUUID().toString().replace("-", "");
     }

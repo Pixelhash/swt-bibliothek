@@ -61,5 +61,13 @@ public class BenutzerController {
         return ViewUtil.render(req, model, Path.Template.CUSTOMER_DASHBOARD);
     };
 
+    public static Route postLogout = (Request req, Response res) -> {
+        if (req.session().attribute("user") != null) {
+            req.session().removeAttribute("user");
+        }
+        res.redirect(Path.Web.LOGIN);
+        return null;
+    };
+
 
 }

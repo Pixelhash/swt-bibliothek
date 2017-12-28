@@ -32,6 +32,13 @@ public class ViewUtil {
         return render(req, model, Path.Template.NOT_FOUND);
     };
 
+    public static Route internalServerError = (Request req, Response res) -> {
+        Map<String, Object> model = new HashMap<>();
+        model.put("title", "Fehler | Bibliothek");
+        res.status(HttpStatus.INTERNAL_SERVER_ERROR_500);
+        return render(req, model, Path.Template.INTERNAL_SERVER_ERROR);
+    };
+
     private static VelocityTemplateEngine strictVelocityEngine() {
         VelocityEngine configuredEngine = new VelocityEngine();
         configuredEngine.setProperty("runtime.references.strict", true);

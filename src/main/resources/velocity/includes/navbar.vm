@@ -47,12 +47,24 @@
                 <div class="navbar-item">
                     <div class="field is-grouped">
                         <p class="control">
-                            <a class="button is-link" href="$WebPath.getLogin()">
-                          <span class="icon">
-                            <i class="fa fa-sign-in"></i>
-                          </span>
-                                <span>Login</span>
-                            </a>
+                            #if(!$session.attribute("user"))
+                                <a class="button is-link" href="$WebPath.getLogin()">
+                                <span class="icon">
+                                <i class="fa fa-sign-in"></i>
+                                </span>
+                                    <span>Login</span>
+                                </a>
+                            #else
+                                <form action="$WebPath.getLogout()" method="post">
+                                    <button type="submit" class="button is-link">
+                                    <span class="icon">
+                                    <i class="fa fa-sign-out"></i>
+                                    </span>
+                                        <span>Logout</span>
+                                    </button>
+                                    <input type="hidden" name="csrf_token" value="$session.attribute("csrf_token")">
+                                </form>
+                            #end
                         </p>
                     </div>
                 </div>

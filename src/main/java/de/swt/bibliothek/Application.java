@@ -93,6 +93,8 @@ public class Application {
         before("*", Filters.addGzipHeader);
         before("*", Filters.addBasicCsrfToken);
         before("*", Filters.addBasicCsrfProtection);
+        before(Path.Web.DASHBOARD, Filters.addLoginCheck); // Protect dashboard from logged out users
+        before(Path.Web.LOGIN, Filters.redirectIfLoggedIn); // Redirect to dashboard if already logged in
 
         // Kunden-Search
         get(Path.Web.INDEX_SEARCH, SearchController.getKundenSearch);
@@ -102,10 +104,15 @@ public class Application {
         get(Path.Web.LOGIN, BenutzerController.getLogin);
         post(Path.Web.LOGIN, BenutzerController.postLogin);
 
+        // Logout
+        post(Path.Web.LOGOUT, BenutzerController.postLogout);
+
         // Dashboard
         get(Path.Web.DASHBOARD, BenutzerController.getUebersicht);
 
         get("*", ViewUtil.notFound);
+        //notFound(ViewUtil.notFound); <- Possible, but does too much logging... :(
+        internalServerError(ViewUtil.internalServerError);
     }
 
     private void addShutdownHook() {

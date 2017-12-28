@@ -73,7 +73,7 @@ des geklonten Repos befindet!
     
 8. Prüfen, ob alles funktioniert:
     - `docker-compose logs` sollte ungefähr folgende Zeile beinhalten:
-    - `bibliothek_1  | [Thread-1] INFO org.eclipse.jetty.server.Server - Started @684ms`
+    - `bibliothek  | [Thread-1] INFO org.eclipse.jetty.server.Server - Started @684ms`
     - Browser öffnen unter `localhost:4567`
     
 9. (Optional) Applikation und MariaDB stoppen:
