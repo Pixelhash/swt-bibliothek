@@ -95,8 +95,8 @@ des geklonten Repos befindet!
 - [Velocity Template Engine](http://velocity.apache.org/engine/1.7/), Java
 - [OrmLite](http://ormlite.com/), Java
 - [jBCrypt](https://www.mindrot.org/projects/jBCrypt/), Java
-- [cfg4j](http://www.cfg4j.org/)
-- [Bugsnag](https://www.bugsnag.com/)
+- [cfg4j](http://www.cfg4j.org/), Java
+- [Bugsnag](https://www.bugsnag.com/), Java
 - [Maven](https://maven.apache.org/), Java
 - [MySQL](https://www.mysql.com/de/), SQL
 - [Bulma](https://bulma.io/), CSS
