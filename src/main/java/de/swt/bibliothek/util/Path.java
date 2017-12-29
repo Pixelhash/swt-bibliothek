@@ -8,6 +8,7 @@ public class Path {
         public static final String LOGOUT = "/logout/";
         public static final String DASHBOARD = "/dashboard/";
         public static final String LEND = "/employee/borrow/";
+        public static final String RETURN = "/employee/return/";
 
         public static String getIndexSearch() {
             return INDEX_SEARCH;
@@ -24,6 +25,9 @@ public class Path {
         public static String getLend() {
             return LEND;
         }
+        public static String getReturn() {
+            return RETURN;
+        }
     }
 
     public static class Template {
@@ -34,6 +38,7 @@ public class Path {
         public static final String LOGIN = "/velocity/pages/login.vm";
         public static final String CUSTOMER_DASHBOARD = "/velocity/pages/dashboard.vm";
         public static final String LEND = "/velocity/pages/borrow.vm";
+        public static final String RETURN = "/velocity/pages/return.vm";
     }
 
 }

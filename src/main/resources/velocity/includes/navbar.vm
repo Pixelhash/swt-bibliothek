@@ -28,8 +28,12 @@
                         </a>
                         <div class="navbar-dropdown is-boxed">
                             <a class="navbar-item" href="#">
-                                <span class="icon"><i class="fa fa-book"></i></span>
+                                <span class="icon"><i class="fa fa-clipboard"></i></span>
                                 <span>Buch</span>
+                            </a>
+                            <a class="navbar-item" href="#">
+                                <span class="icon"><i class="fa fa-book"></i></span>
+                                <span>BuchExemplar</span>
                             </a>
                             <a class="navbar-item" href="#">
                                 <span class="icon"><i class="fa fa-user"></i></span>
@@ -55,8 +59,12 @@
                         </a>
                         <div class="navbar-dropdown is-boxed">
                             <a class="navbar-item" href="#">
-                                <span class="icon"><i class="fa fa-book"></i></span>
+                                <span class="icon"><i class="fa fa-clipboard"></i></span>
                                 <span>Buch</span>
+                            </a>
+                            <a class="navbar-item" href="#">
+                                <span class="icon"><i class="fa fa-book"></i></span>
+                                <span>BuchExemplar</span>
                             </a>
                             <a class="navbar-item" href="#">
                                 <span class="icon"><i class="fa fa-user"></i></span>
@@ -80,7 +88,7 @@
                         <span class="icon"><i class="fa fa-book"></i></span>
                         <span>Ausleihen</span>
                     </a>
-                    <a class="navbar-item" href="#">
+                    <a class="navbar-item" href="$WebPath.getReturn()">
                         <span class="icon"><i class="fa fa-reply"></i></span>
                         <span>Rückgabe</span>
                     </a>

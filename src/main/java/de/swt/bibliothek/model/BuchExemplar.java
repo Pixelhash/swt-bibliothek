@@ -2,6 +2,7 @@ package de.swt.bibliothek.model;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import de.swt.bibliothek.util.TimeUtil;
 import de.swt.bibliothek.util.ViewUtil;
 
 import java.util.Date;
@@ -74,5 +75,9 @@ public class BuchExemplar {
 
     public String getFormattedAusleihdatum() {
         return ViewUtil.dateFormatter.format(this.getAusleihdatum());
+    }
+
+    public long getDaysLeft() {
+        return TimeUtil.getDaysBetween(new Date(), this.getRueckgabedatum());
     }
 }

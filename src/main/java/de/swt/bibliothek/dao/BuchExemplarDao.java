@@ -79,4 +79,26 @@ public class BuchExemplarDao extends AbstractDao<BuchExemplar, Integer> {
         }
         return true;
     }
+
+    /**
+     * Returns a book exemplar from a given user.
+     *
+     * @param benutzer the user.
+     * @param buchExemplar the book exemplar to return.
+     * @return true if successfully returned, false if not borrowed or on error.
+     */
+    public boolean returnBook(Benutzer benutzer, BuchExemplar buchExemplar) {
+        if (buchExemplar.getBenutzer() == null) return false;
+
+        buchExemplar.setBenutzer(null);
+        buchExemplar.setAusleihdatum(null);
+        buchExemplar.setRueckgabedatum(null);
+        try {
+            Application.buchExemplarDao.getRawDao().update(buchExemplar);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
 }

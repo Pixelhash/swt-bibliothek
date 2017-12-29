@@ -23,6 +23,7 @@ public class ViewUtil {
         model.put("session", req.session());
         model.put("Application", Application.class); // Access to Dao objects
         model.put("WebPath", Path.Web.class); // Access application URLs from templates
+        model.put("Math", Math.class); // To be able to calculate in view
         return strictVelocityEngine().render(new ModelAndView(model, templatePath));
     }
 

@@ -6,6 +6,8 @@ import de.swt.bibliothek.Application;
 import de.swt.bibliothek.util.ViewUtil;
 
 import java.sql.SQLException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -141,7 +143,14 @@ public class Benutzer {
      */
     public List<BuchExemplar> getAusgelieheneBuecher() {
         try {
-            return Application.buchExemplarDao.getAusgelieheneBuecher(this);
+            List<BuchExemplar> buchExemplarList = Application.buchExemplarDao.getAusgelieheneBuecher(this);
+            buchExemplarList.sort((o1, o2) -> {
+                if (o1.getAusleihdatum() == null || o2.getAusleihdatum() == null) {
+                    return 0;
+                }
+                return o2.getAusleihdatum().compareTo(o1.getAusleihdatum());
+            });
+            return buchExemplarList;
         } catch (SQLException e) {
             e.printStackTrace();
         }

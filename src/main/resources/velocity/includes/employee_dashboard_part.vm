@@ -3,10 +3,10 @@
 <div style="overflow-x: auto;">
     <table class="table is-fullwidth is-hoverable">
         <thead>
-        <tr>
-            <th>Typ</th>
-            <th>Anzahl</th>
-        </tr>
+            <tr>
+                <th>Typ</th>
+                <th>Anzahl</th>
+            </tr>
         </thead>
         <tbody>
             <tr>

@@ -26,7 +26,7 @@ public class SearchController {
 
     public static Route postKundenSearch = (Request req, Response res) -> {
         Map<String, Object> model = new HashMap<>();
-        model.put("title", "Ergebnisse | Bibliothek");
+        model.put("title", "Suchergebnisse | Bibliothek");
         String searchQuery = RequestUtil.getQuerySearch(req);
 
         if (searchQuery.isEmpty()) {

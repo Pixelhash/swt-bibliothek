@@ -14,40 +14,76 @@
 </section>
 <section class="section">
     <div class="container has-text-centered">
-        <h3 class="subtitle is-5">$amount $msg.get("INDEX_RESULTS_SUBTITLE") <b>$query</b></h3>
+        #set($subtitle = $msg.get("INDEX_RESULTS_SUBTITLE_PL"))
+        #if($amount == 1)
+            #set($subtitle = $msg.get("INDEX_RESULTS_SUBTITLE_SG"))
+        #end
+        <h3 class="subtitle is-5">$amount $subtitle <b>$query</b></h3>
         <div class="columns">
-            <div class="column is-4"></div>
-            <div class="column is-4">
+            <div class="column is-1"></div>
+            <div class="column is-10">
                 #foreach($book in $books)
                     <div class="card">
                         <header class="card-header">
-                            <p class="card-header-title">
+                            <i class="card-header-title is-centered">
                                 $book.getTitel()
-                            </p>
+                            </i>
                         </header>
                         <div class="card-content">
-                            <div class="content">
-                                <b>Autoren: </b>
-                                #set ($authors = "")
-                                #foreach($author in $book.getAutoren())
-                                    #set ($authors = $authors + ${author.getName()} + ", ")
-                                #end
-                                #set ($authorLength = $authors.length() - 2)
-                                #set ($authors = $authors.substring(0, $authorLength))
-                                $authors
-                                <br><b>Verlag: </b> $book.getVerlag().getName()
-                                <br><b>Kategorie:</b> $book.getKategorie().getName()
-                                <br><b>Erscheinungsjahr: </b> $book.getYearFormatted()
-                                <br><b>ISBN: </b> $book.getIsbn()
+                            <div class="columns is-gapless">
+                                <div class="column is-1"></div>
+                                <div class="column is-10">
+                                    <div style="overflow-x: auto;">
+                                        <table class="table is-fullwidth is-narrow">
+                                            <tbody>
+                                                <tr class="no-border">
+                                                    #set ($authors = "")
+                                                    #foreach($author in $book.getAutoren())
+                                                        #set ($authors = $authors + ${author.getName()} + ", ")
+                                                    #end
+                                                    #set ($authorLength = $authors.length() - 2)
+                                                    #set ($authors = $authors.substring(0, $authorLength))
+                                                    <th>Autoren:</th>
+                                                    <td class="is-pulled-right">$authors</td>
+                                                </tr>
+                                                <tr class="no-border">
+                                                    <th>Verlag:</th>
+                                                    <td class="is-pulled-right">$book.getVerlag().getName()</td>
+                                                </tr>
+                                                <tr class="no-border">
+                                                    <th>Kategorie:</th>
+                                                    <td class="is-pulled-right">$book.getKategorie().getName()</td>
+                                                </tr>
+                                                <tr class="no-border">
+                                                    <th>Erscheinungsjahr:</th>
+                                                    <td class="is-pulled-right">$book.getYearFormatted()</td>
+                                                </tr>
+                                                <tr class="no-border">
+                                                    <th>ISBN:</th>
+                                                    <td class="is-pulled-right">$book.getIsbn()</td>
+                                                </tr>
+                                                <tr class="no-border">
+                                                    <th>Standort:</th>
+                                                    <td class="is-pulled-right">$book.getStandort()</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="column is-1"></div>
                             </div>
                         </div>
                         <footer class="card-footer">
+                            #set($exemplare = "Exemplare")
+                            #if($book.getExemplare() == 1)
+                                #set($exemplare = "Exemplar")
+                            #end
                             <p href="#" class="card-footer-item
                             #if($book.getExemplare() == 0)
                                 has-text-danger
                             #else
                                 has-text-success
-                            #end">$book.getExemplare() Exemplar(e) vorhanden</p>
+                            #end">$book.getExemplare() $exemplare vorhanden</p>
                         </footer>
                     </div>
                 #end
@@ -55,7 +91,7 @@
                     <a href="$WebPath.getIndexSearch()">$msg.get("INDEX_RESULTS_BACK")</a>
                 </div>
             </div>
-            <div class="column is-4"></div>
+            <div class="column is-1"></div>
         </div>
     </div>
 </section>

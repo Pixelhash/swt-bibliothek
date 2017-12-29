@@ -2,6 +2,7 @@ package de.swt.bibliothek;
 
 import com.bugsnag.Bugsnag;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
+import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import de.swt.bibliothek.config.ApplicationConfig;
 import de.swt.bibliothek.config.ConfigProvider;
@@ -97,12 +98,12 @@ public class Application {
         before("*", Filters.addTrailingSlashes);
         before("*", Filters.addGzipHeader);
         before(Path.Web.DASHBOARD, Filters.addLoginCheck); // Protect dashboard from logged out users
+        before(Path.Web.DASHBOARD, Filters.refreshSessionUser); // Refresh the 'user' session object
         before("/employee/*", Filters.addLoginCheck); // Protect employee actions from logged out users
         before("/employee/*", Filters.addEmployeeCheck); // Protect employee actions from customers
-        before(Path.Web.DASHBOARD, Filters.refreshSessionUser); // Refresh the 'user' session object
         before(Path.Web.LOGIN, Filters.redirectIfLoggedIn); // Redirect to dashboard if already logged in
-        before("*", Filters.addBasicCsrfToken);
         before("*", Filters.addBasicCsrfProtection);
+        before("*", Filters.addBasicCsrfToken);
 
         // Kunden-Search
         get(Path.Web.INDEX_SEARCH, SearchController.getKundenSearch);
@@ -121,6 +122,10 @@ public class Application {
         // Borrow book
         get(Path.Web.LEND, BuchExemplarController.getAusleihen);
         post(Path.Web.LEND, BuchExemplarController.postAusleihen);
+
+        // Return book
+        get(Path.Web.RETURN, BuchExemplarController.getRueckgabe);
+        post(Path.Web.RETURN, BuchExemplarController.postRueckgabe);
 
         //get("*", ViewUtil.notFound);
         notFound(ViewUtil.notFound);
@@ -152,7 +157,7 @@ public class Application {
     }
 
     private void setupDatabaseConnection() throws SQLException {
-        connectionSource = new JdbcConnectionSource(String.format(DATABASE_URL,
+        connectionSource = new JdbcPooledConnectionSource(String.format(DATABASE_URL,
                 databaseConfig.host(),
                 databaseConfig.port(),
                 databaseConfig.name(),

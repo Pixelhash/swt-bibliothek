@@ -14,14 +14,12 @@ import java.util.Map;
 public class BenutzerController {
 
     public static Route getLogin = (Request req, Response res) -> {
-        //TODO: Check if already logged in!
         Map<String, Object> model = new HashMap<>();
         model.put("title", "Login | Bibliothek");
         return ViewUtil.render(req, model, Path.Template.LOGIN);
     };
 
     public static Route postLogin = (Request req, Response res) -> {
-        //TODO: Check if already logged in!
         Map<String, Object> model = new HashMap<>();
         String userId = RequestUtil.getBenutzerId(req);
         String password = RequestUtil.getBenutzerPassword(req);
@@ -56,8 +54,6 @@ public class BenutzerController {
 
         model.put("title", "Übersicht | Bibliothek");
         model.put("userMsg", userMessage);
-        //TODO: Do login and role check!
-
         return ViewUtil.render(req, model, Path.Template.CUSTOMER_DASHBOARD);
     };
 
