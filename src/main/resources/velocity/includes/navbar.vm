@@ -27,7 +27,7 @@
                             Suche
                         </a>
                         <div class="navbar-dropdown is-boxed">
-                            <a class="navbar-item" href="#">
+                            <a class="navbar-item" href="$WebPath.getBookSearch()">
                                 <span class="icon"><i class="fa fa-clipboard"></i></span>
                                 <span>Buch</span>
                             </a>

@@ -4,6 +4,8 @@ public class Path {
 
     public static class Web {
         public static final String INDEX_SEARCH = "/";
+        public static final String BOOK_SEARCH = "/employee/search/book/";
+
         public static final String LOGIN = "/login/";
         public static final String LOGOUT = "/logout/";
         public static final String DASHBOARD = "/dashboard/";
@@ -12,6 +14,9 @@ public class Path {
 
         public static String getIndexSearch() {
             return INDEX_SEARCH;
+        }
+        public static String getBookSearch() {
+            return BOOK_SEARCH;
         }
         public static String getLogin() {
             return LOGIN;
@@ -33,6 +38,8 @@ public class Path {
     public static class Template {
         public static final String INDEX_SEARCH = "/velocity/pages/index.vm";
         public static final String INDEX_RESULTS = "/velocity/pages/search_results.vm";
+        public static final String BOOK_SEARCH = "/velocity/pages/advanced_search/book_search.vm";
+        public static final String BOOK_RESULTS = "/velocity/pages/advanced_search/book_results.vm";
         public static final String NOT_FOUND = "/velocity/error/404.vm";
         public static final String INTERNAL_SERVER_ERROR = "/velocity/error/500.vm";
         public static final String LOGIN = "/velocity/pages/login.vm";

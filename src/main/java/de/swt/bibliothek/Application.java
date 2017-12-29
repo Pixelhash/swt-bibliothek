@@ -127,6 +127,10 @@ public class Application {
         get(Path.Web.RETURN, BuchExemplarController.getRueckgabe);
         post(Path.Web.RETURN, BuchExemplarController.postRueckgabe);
 
+        // Book search
+        get(Path.Web.BOOK_SEARCH, SearchController.getBookSearch);
+        post(Path.Web.BOOK_SEARCH, SearchController.postBookSearch);
+
         //get("*", ViewUtil.notFound);
         notFound(ViewUtil.notFound);
         internalServerError(ViewUtil.internalServerError);

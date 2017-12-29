@@ -53,4 +53,39 @@ public class SearchController {
         return ViewUtil.render(req, model, Path.Template.INDEX_RESULTS);
     };
 
+    public static Route getBookSearch = (Request req, Response res) -> {
+        Map<String, Object> model = new HashMap<>();
+        model.put("title", "Buchsuche | Bibliothek");
+        return ViewUtil.render(req, model, Path.Template.BOOK_SEARCH);
+    };
+
+    public static Route postBookSearch = (Request req, Response res) -> {
+        Map<String, Object> model = new HashMap<>();
+        model.put("title", "Suchergebnisse | Bibliothek");
+        String searchQuery = RequestUtil.getQuerySearch(req);
+
+        if (searchQuery.isEmpty()) {
+            model.put("error", true);
+            model.put("errorMsg", new MessageBundle().get("ERROR_MISSING_FIELDS"));
+            return ViewUtil.render(req, model, Path.Template.BOOK_SEARCH);
+        } else if (searchQuery.length() < 3) {
+            model.put("error", true);
+            model.put("errorMsg", new MessageBundle().get("ERROR_SHORT_QUERY"));
+            return ViewUtil.render(req, model, Path.Template.BOOK_SEARCH);
+        }
+
+        model.put("query", searchQuery);
+        List<Buch> results = Application.buchDao.getSearchedBooks(searchQuery);
+
+        if (results.isEmpty()) {
+            model.put("error", true);
+            model.put("errorMsg", new MessageBundle().get("ERROR_NO_RESULTS"));
+            return ViewUtil.render(req, model, Path.Template.BOOK_SEARCH);
+        }
+
+        model.put("amount", results.size());
+        model.put("books", results);
+        return ViewUtil.render(req, model, Path.Template.BOOK_RESULTS);
+    };
+
 }

@@ -1,5 +1,6 @@
 package de.swt.bibliothek.util;
 
+import com.fasterxml.jackson.core.JsonParser;
 import de.swt.bibliothek.Application;
 import de.swt.bibliothek.model.Benutzer;
 import org.eclipse.jetty.http.HttpStatus;
@@ -35,8 +36,13 @@ public class Filters {
     public static Filter addBasicCsrfProtection = (Request req, Response res) -> {
         List<String> safeMethods = Arrays.asList("GET", "OPTIONS", "HEAD");
         if (!safeMethods.contains(req.requestMethod())) {
-            String requestToken = RequestUtil.getCsrfToken(req);
+            String requestToken = null;
             String sessionToken = req.session().attribute(CSRF_TOKEN);
+            if (!req.contentType().equalsIgnoreCase("application/json")) {
+                requestToken = RequestUtil.getCsrfToken(req);
+            } else {
+                requestToken = new JsonParser().
+            }
             //Application.LOGGER.info(String.format("Request token: %s; Session token: %s", requestToken, sessionToken));
             if (requestToken == null || sessionToken == null || !requestToken.equals(sessionToken)) {
                 Application.LOGGER.warn("Invalid CSRF token!");
