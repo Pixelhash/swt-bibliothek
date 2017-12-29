@@ -8,6 +8,7 @@ import de.swt.bibliothek.config.ConfigProvider;
 import de.swt.bibliothek.config.DatabaseConfig;
 import de.swt.bibliothek.config.ErrorReportingConfig;
 import de.swt.bibliothek.controller.BenutzerController;
+import de.swt.bibliothek.controller.BuchExemplarController;
 import de.swt.bibliothek.controller.SearchController;
 import de.swt.bibliothek.dao.*;
 import de.swt.bibliothek.model.*;
@@ -89,13 +90,19 @@ public class Application {
 
         staticFileLocation("/public");
 
+        /*
+            The order of the following filters is important!
+            - CSRF token things have to be the last ones!
+         */
         before("*", Filters.addTrailingSlashes);
         before("*", Filters.addGzipHeader);
-        before("*", Filters.addBasicCsrfToken);
-        before("*", Filters.addBasicCsrfProtection);
         before(Path.Web.DASHBOARD, Filters.addLoginCheck); // Protect dashboard from logged out users
+        before("/employee/*", Filters.addLoginCheck); // Protect employee actions from logged out users
+        before("/employee/*", Filters.addEmployeeCheck); // Protect employee actions from customers
         before(Path.Web.DASHBOARD, Filters.refreshSessionUser); // Refresh the 'user' session object
         before(Path.Web.LOGIN, Filters.redirectIfLoggedIn); // Redirect to dashboard if already logged in
+        before("*", Filters.addBasicCsrfToken);
+        before("*", Filters.addBasicCsrfProtection);
 
         // Kunden-Search
         get(Path.Web.INDEX_SEARCH, SearchController.getKundenSearch);
@@ -111,8 +118,12 @@ public class Application {
         // Dashboard
         get(Path.Web.DASHBOARD, BenutzerController.getUebersicht);
 
-        get("*", ViewUtil.notFound);
-        //notFound(ViewUtil.notFound); <- Possible, but does too much logging... :(
+        // Borrow book
+        get(Path.Web.LEND, BuchExemplarController.getAusleihen);
+        post(Path.Web.LEND, BuchExemplarController.postAusleihen);
+
+        //get("*", ViewUtil.notFound);
+        notFound(ViewUtil.notFound);
         internalServerError(ViewUtil.internalServerError);
     }
 

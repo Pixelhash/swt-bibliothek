@@ -20,4 +20,8 @@ public class RequestUtil {
         return req.queryParams("password");
     }
 
+    public static String getBuchExemplarId(Request req) {
+        return req.queryParams("bookexemplar_id");
+    }
+
 }

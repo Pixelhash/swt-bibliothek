@@ -26,6 +26,20 @@ public class ViewUtil {
         return strictVelocityEngine().render(new ModelAndView(model, templatePath));
     }
 
+    public static String returnError(Request req, Map<String, Object> model, String templatePath, String title, String errorMsg) {
+        model.put("title", title);
+        model.put("error", true);
+        model.put("errorMsg", errorMsg);
+        return ViewUtil.render(req, model, templatePath);
+    }
+
+    public static String returnSuccess(Request req, Map<String, Object> model, String templatePath, String title, String successMsg) {
+        model.put("title", title);
+        model.put("success", true);
+        model.put("successMsg", successMsg);
+        return ViewUtil.render(req, model, templatePath);
+    }
+
     public static Route notAcceptable = (Request req, Response res) -> {
         res.status(HttpStatus.NOT_ACCEPTABLE_406);
         return new MessageBundle().get("ERROR_406_NOT_ACCEPTABLE");

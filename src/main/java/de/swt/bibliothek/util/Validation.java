@@ -2,10 +2,10 @@ package de.swt.bibliothek.util;
 
 public class Validation {
 
-    public static boolean isValidBenutzerId(String userId) {
-        if (userId == null || userId.isEmpty()) return false;
+    public static boolean isValidId(String id) {
+        if (id == null || id.isEmpty()) return false;
         try {
-            Integer.parseInt(userId);
+            Integer.parseInt(id);
         } catch (NumberFormatException e) {
             return false;
         }

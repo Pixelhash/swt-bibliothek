@@ -7,7 +7,8 @@
         <tr>
             <th>ID</th>
             <th>Titel</th>
-            <th>Ausgeliehen Bis</th>
+            <th>Ausgeliehen am</th>
+            <th>Ausgeliehen bis</th>
         </tr>
         </thead>
         <tbody>
@@ -17,12 +18,14 @@
                     <th>-</th>
                     <td>-</td>
                     <td>-</td>
+                    <td>-</td>
                 </tr>
             #else
                 #foreach($book in $lendBooks)
                     <tr>
                         <th>$book.getId()</th>
                         <td>$book.getBuch().getTitel()</td>
+                        <td>$book.getFormattedAusleihdatum()</td>
                         <td>$book.getFormattedRueckgabedatum()</td>
                     </tr>
                 #end

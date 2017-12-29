@@ -26,7 +26,7 @@ public class BenutzerController {
         String userId = RequestUtil.getBenutzerId(req);
         String password = RequestUtil.getBenutzerPassword(req);
 
-        if (Validation.isValidBenutzerId(userId) && Validation.isValidPassword(password)) {
+        if (Validation.isValidId(userId) && Validation.isValidPassword(password)) {
             // Input fields are valid
             model.put("title", "Übersicht | Bibliothek");
             Benutzer benutzer = Application.benutzerDao.getBenutzer(Integer.parseInt(userId));

@@ -1,6 +1,8 @@
 package de.swt.bibliothek.util;
 
 import de.swt.bibliothek.Application;
+import de.swt.bibliothek.model.Benutzer;
+import org.eclipse.jetty.http.HttpStatus;
 import spark.Filter;
 import spark.Request;
 import spark.Response;
@@ -60,6 +62,13 @@ public class Filters {
     public static Filter refreshSessionUser = (Request req, Response res) -> {
         if (req.session().attribute("user") != null) {
             Application.benutzerDao.getRawDao().refresh(req.session().attribute("user"));
+        }
+    };
+
+    public static Filter addEmployeeCheck = (Request req, Response res) -> {
+        Benutzer benutzer = req.session().attribute("user");
+        if (benutzer != null && benutzer.getRolle() == Benutzer.Rolle.KUNDE) {
+            halt(HttpStatus.FORBIDDEN_403, "You are not allowed to browse this page!");
         }
     };
 

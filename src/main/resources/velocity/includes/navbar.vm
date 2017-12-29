@@ -76,7 +76,7 @@
                             </a>
                         </div>
                     </div>
-                    <a class="navbar-item" href="#">
+                    <a class="navbar-item" href="$WebPath.getLend()">
                         <span class="icon"><i class="fa fa-book"></i></span>
                         <span>Ausleihen</span>
                     </a>

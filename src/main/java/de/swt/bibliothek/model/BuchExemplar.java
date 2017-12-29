@@ -71,4 +71,8 @@ public class BuchExemplar {
     public String getFormattedRueckgabedatum() {
         return ViewUtil.dateFormatter.format(this.getRueckgabedatum());
     }
+
+    public String getFormattedAusleihdatum() {
+        return ViewUtil.dateFormatter.format(this.getAusleihdatum());
+    }
 }

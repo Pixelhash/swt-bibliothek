@@ -1,0 +1,52 @@
+#parse('/velocity/layouts/layout.vm')
+#@mainLayout()
+<section class="hero is-light is-bold">
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <h1 class="title is-3">
+                <span class="icon icon-nav has-text-grey-dark">
+                    <i class="fa fa-sign-in"></i>
+                </span>
+                <span>$msg.get("BORROW_TITLE")</span>
+            </h1>
+        </div>
+    </div>
+</section>
+<section class="section">
+    <div class="container has-text-centered">
+        <h3 class="subtitle is-5">$msg.get("BORROW_SUBTITLE")</h3>
+        <div class="column is-4 is-offset-4">
+            #if($!{error})
+                <div class="notification is-danger">
+                    $!errorMsg
+                </div>
+            #end
+            #if($!{success})
+                <div class="notification is-success">
+                    $!successMsg
+                </div>
+            #end
+            <div class="box">
+                <form action="$WebPath.getLend()" method="post">
+                    <div class="field">
+                        <div class="control">
+                            <input class="input is-medium" type="text" name="user_id" placeholder="$msg.get("INPUT_USER_ID")" autofocus="">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <input class="input is-medium" type="text" name="bookexemplar_id" placeholder="$msg.get("INPUT_BOOKEXEMPLAR_ID")">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control text-center">
+                            <button class="button is-info is-medium">$msg.get("INPUT_BTN_BORROW")</button>
+                        </div>
+                    </div>
+                    <input type="hidden" name="csrf_token" value="$session.attribute("csrf_token")">
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+#end
