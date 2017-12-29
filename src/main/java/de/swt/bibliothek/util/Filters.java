@@ -1,5 +1,6 @@
 package de.swt.bibliothek.util;
 
+import com.eclipsesource.json.Json;
 import com.fasterxml.jackson.core.JsonParser;
 import de.swt.bibliothek.Application;
 import de.swt.bibliothek.model.Benutzer;
@@ -41,7 +42,7 @@ public class Filters {
             if (!req.contentType().equalsIgnoreCase("application/json")) {
                 requestToken = RequestUtil.getCsrfToken(req);
             } else {
-                requestToken = new JsonParser().
+                requestToken = Json.parse(req.body()).asObject().get("csrf_token").asString();
             }
             //Application.LOGGER.info(String.format("Request token: %s; Session token: %s", requestToken, sessionToken));
             if (requestToken == null || sessionToken == null || !requestToken.equals(sessionToken)) {

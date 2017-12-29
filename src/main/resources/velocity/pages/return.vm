@@ -5,7 +5,7 @@
         <div class="container has-text-centered">
             <h1 class="title is-3">
                 <span class="icon icon-nav has-text-grey-dark">
-                    <i class="fa fa-bookmark-o"></i>
+                    <i class="fa fa-reply"></i>
                 </span>
                 <span>$msg.get("RETURN_TITLE")</span>
             </h1>
