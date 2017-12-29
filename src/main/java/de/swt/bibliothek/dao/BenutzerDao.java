@@ -33,4 +33,5 @@ public class BenutzerDao extends AbstractDao<Benutzer, Integer> {
         }
         return benutzer;
     }
+
 }

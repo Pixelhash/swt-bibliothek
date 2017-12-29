@@ -64,4 +64,12 @@ public class Adresse {
     public void setPlz(String plz) {
         this.plz = plz;
     }
+
+    public String getStrasseUndHausnummer() {
+        return this.getStrasse() + " " + this.getHausnummer();
+    }
+
+    public String getOrtUndPlz() {
+        return this.getPlz() + " " + this.getOrt();
+    }
 }

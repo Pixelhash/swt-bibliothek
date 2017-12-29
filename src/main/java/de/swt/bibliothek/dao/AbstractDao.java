@@ -37,4 +37,13 @@ public abstract class AbstractDao<T, ID> {
         return null;
     }
 
+    public long amount() {
+        try {
+            return this.getRawDao().countOf();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1L;
+    }
+
 }

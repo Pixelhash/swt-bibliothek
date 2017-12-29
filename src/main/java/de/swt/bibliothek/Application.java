@@ -94,6 +94,7 @@ public class Application {
         before("*", Filters.addBasicCsrfToken);
         before("*", Filters.addBasicCsrfProtection);
         before(Path.Web.DASHBOARD, Filters.addLoginCheck); // Protect dashboard from logged out users
+        before(Path.Web.DASHBOARD, Filters.refreshSessionUser); // Refresh the 'user' session object
         before(Path.Web.LOGIN, Filters.redirectIfLoggedIn); // Redirect to dashboard if already logged in
 
         // Kunden-Search
@@ -121,7 +122,7 @@ public class Application {
                 LOGGER.info("Closing database connection...");
                 connectionSource.close();
                 LOGGER.info("Database successfully closed.");
-            } catch(IOException e) {
+            } catch (IOException e) {
                 LOGGER.error("Unable to close database!");
                 e.printStackTrace();
             }
@@ -166,5 +167,37 @@ public class Application {
     private void startErrorReporting() {
         LOGGER.info("Starting error reporting via 'Bugsnag'...");
         new Bugsnag(this.errorReportingConfig.apiKey());
+    }
+
+    public static BenutzerDao getBenutzerDao() {
+        return benutzerDao;
+    }
+
+    public static KategorieDao getKategorieDao() {
+        return kategorieDao;
+    }
+
+    public static BuchDao getBuchDao() {
+        return buchDao;
+    }
+
+    public static BuchAutorDao getBuchAutorDao() {
+        return buchAutorDao;
+    }
+
+    public static BuchExemplarDao getBuchExemplarDao() {
+        return buchExemplarDao;
+    }
+
+    public static AdresseDao getAdresseDao() {
+        return adresseDao;
+    }
+
+    public static VerlagDao getVerlagDao() {
+        return verlagDao;
+    }
+
+    public static AutorDao getAutorDao() {
+        return autorDao;
     }
 }

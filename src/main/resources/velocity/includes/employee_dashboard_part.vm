@@ -1,0 +1,38 @@
+<p class="title is-5">Statistiken</p>
+<hr>
+<div style="overflow-x: auto;">
+    <table class="table is-fullwidth is-hoverable">
+        <thead>
+        <tr>
+            <th>Typ</th>
+            <th>Anzahl</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>Benutzer</th>
+                <td>$Application.getBenutzerDao().amount()</td>
+            </tr>
+            <tr>
+                <th>Bücher</th>
+                <td>$Application.getBuchDao().amount()</td>
+            </tr>
+            <tr>
+                <th>BuchExemplare</th>
+                <td>$Application.getBuchExemplarDao().amount()</td>
+            </tr>
+            <tr>
+                <th>Autoren</th>
+                <td>$Application.getAutorDao().amount()</td>
+            </tr>
+            <tr>
+                <th>Kategorien</th>
+                <td>$Application.getKategorieDao().amount()</td>
+            </tr>
+            <tr>
+                <th>Verläge</th>
+                <td>$Application.getVerlagDao().amount()</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -48,7 +48,7 @@
 </section>
 <section class="section">
     <div class="container has-text-centered">
-        <h3 class="subtitle is-5">Anscheinend gibt es ein Problem mit der Datenbank. Bitte den Systemadministrator kontaktieren!</h3>
+        <h3 class="subtitle is-5">Anscheinend gibt es ein Problem mit der Datenbank. Bitte die Seite neuladen, anderenfalls den Systemadministrator kontaktieren!</h3>
     </div>
 </section>
 <footer class="footer">

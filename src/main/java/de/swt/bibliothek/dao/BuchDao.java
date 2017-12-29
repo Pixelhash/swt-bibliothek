@@ -53,4 +53,5 @@ public class BuchDao extends AbstractDao<Buch, Integer> {
         });
         return buecher;
     }
+
 }

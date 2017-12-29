@@ -1,5 +1,6 @@
 package de.swt.bibliothek.util;
 
+import de.swt.bibliothek.Application;
 import org.apache.velocity.app.VelocityEngine;
 import org.eclipse.jetty.http.HttpStatus;
 import spark.ModelAndView;
@@ -7,15 +8,20 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 import spark.template.velocity.VelocityTemplateEngine;
+
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class ViewUtil {
 
+    public static final SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMAN);
+
     public static String render(Request req, Map<String, Object> model, String templatePath) {
         model.put("msg", new MessageBundle());
         model.put("session", req.session());
-        //model.put("currentUser", getSessionCurrentUser(req));
+        model.put("Application", Application.class); // Access to Dao objects
         model.put("WebPath", Path.Web.class); // Access application URLs from templates
         return strictVelocityEngine().render(new ModelAndView(model, templatePath));
     }

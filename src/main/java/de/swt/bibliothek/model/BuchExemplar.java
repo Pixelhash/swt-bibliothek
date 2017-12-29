@@ -2,6 +2,7 @@ package de.swt.bibliothek.model;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import de.swt.bibliothek.util.ViewUtil;
 
 import java.util.Date;
 
@@ -65,5 +66,9 @@ public class BuchExemplar {
 
     public void setBenutzer(Benutzer benutzer) {
         this.benutzer = benutzer;
+    }
+
+    public String getFormattedRueckgabedatum() {
+        return ViewUtil.dateFormatter.format(this.getRueckgabedatum());
     }
 }

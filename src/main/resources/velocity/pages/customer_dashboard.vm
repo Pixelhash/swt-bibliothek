@@ -3,19 +3,62 @@
 <section class="hero is-light is-bold">
     <div class="hero-body">
         <div class="container has-text-centered">
-            <h1 class="title is-3">
+            <h1 class="title is-3 is-spaced">
                 <span class="icon icon-nav has-text-grey-dark">
-                    <i class="fa fa-sign-in"></i>
+                    <i class="fa fa-list"></i>
                 </span>
                 <span>$msg.get("DASHBOARD_TITLE")</span>
             </h1>
+            <h3 class="subtitle is-5">$userMsg</h3>
         </div>
     </div>
 </section>
 <section class="section">
     <div class="container has-text-centered">
-        <h3 class="subtitle is-5">$userMsg</h3>
-        <p>TEMP: Dashboard</p>
+        <div class="columns">
+            <div class="column is-half">
+                <div class="box">
+                    <p class="title is-5">Nutzerdaten</p>
+                    <hr>
+                    <div class="columns">
+                        <div class="column is-half">
+                            <p class="title is-6">Allgemein</p>
+                            <ul>
+                                <li><strong>Rolle:</strong> <span class="tag is-info">$session.attribute("user").getRolle().toString()</span></li>
+                                <li><strong>Name:</strong> $session.attribute("user").getFullName()</li>
+                                <li><strong>E-Mail:</strong> $session.attribute("user").getEmail()</li>
+                                <li>
+                                    <strong>Tel. Nr.:</strong>
+                                    #if (!$session.attribute("user").getTelefonnummer())
+                                        -
+                                    #else
+                                        $session.attribute("user").getTelefonnummer()
+                                    #end
+                                </li>
+                                <li><strong>Geburtsdatum:</strong> $session.attribute("user").getFormattedGeburtsdatum()</li>
+                            </ul>
+                        </div>
+                        <hr class="is-hidden-desktop">
+                        <div class="column is-half">
+                            <p class="title is-6">Adresse</p>
+                            <ul>
+                                <li><strong>Straße:</strong> $session.attribute("user").getAdresse().getStrasseUndHausnummer()</li>
+                                <li><strong>Ort:</strong> $session.attribute("user").getAdresse().getOrtUndPlz()</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-half">
+                <div class="box">
+                    #if($session.attribute("user").getRolle().name().equals("KUNDE"))
+                        #parse('/velocity/includes/customer_dashboard_part.vm')
+                    #else
+                        #parse('/velocity/includes/employee_dashboard_part.vm')
+                    #end
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 #end

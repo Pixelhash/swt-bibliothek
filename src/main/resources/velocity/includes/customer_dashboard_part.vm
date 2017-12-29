@@ -1,0 +1,32 @@
+<p class="title is-5">Ausgeliehene Bücher</p>
+<p class="is-hidden-desktop">Tipp: Die Tabelle ist horizontal scrollbar.</p>
+<hr>
+<div style="overflow-x: auto;">
+    <table class="table is-fullwidth is-hoverable">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Titel</th>
+            <th>Ausgeliehen Bis</th>
+        </tr>
+        </thead>
+        <tbody>
+            #set($lendBooks = $session.attribute("user").getAusgelieheneBuecher())
+            #if(!$lendBooks ||  $lendBooks.size() == 0)
+                <tr>
+                    <th>-</th>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+            #else
+                #foreach($book in $lendBooks)
+                    <tr>
+                        <th>$book.getId()</th>
+                        <td>$book.getBuch().getTitel()</td>
+                        <td>$book.getFormattedRueckgabedatum()</td>
+                    </tr>
+                #end
+            #end
+        </tbody>
+    </table>
+</div>

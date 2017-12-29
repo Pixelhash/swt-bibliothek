@@ -2,8 +2,12 @@ package de.swt.bibliothek.model;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import de.swt.bibliothek.Application;
+import de.swt.bibliothek.util.ViewUtil;
 
+import java.sql.SQLException;
 import java.util.Date;
+import java.util.List;
 
 @DatabaseTable
 public class Benutzer {
@@ -11,6 +15,12 @@ public class Benutzer {
     public enum Rolle {
         KUNDE,
         MITARBEITER;
+
+        @Override
+        public String toString() {
+            String name = this.name().toLowerCase();
+            return name.substring(0, 1).toUpperCase() + name.substring(1);
+        }
     }
 
     @DatabaseField(generatedId = true, canBeNull = false)
@@ -118,5 +128,23 @@ public class Benutzer {
 
     public String getFullName() {
         return this.vorname + " " + this.nachname;
+    }
+
+    public String getFormattedGeburtsdatum() {
+        return ViewUtil.dateFormatter.format(this.geburtsdatum);
+    }
+
+    /**
+     * Returns a list of books the user has lent.
+     *
+     * @return a list of lent books or null on error.
+     */
+    public List<BuchExemplar> getAusgelieheneBuecher() {
+        try {
+            return Application.buchExemplarDao.getAusgelieheneBuecher(this);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
