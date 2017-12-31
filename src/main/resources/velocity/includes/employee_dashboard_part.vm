@@ -1,7 +1,7 @@
 <p class="title is-5">Statistiken</p>
 <hr>
 <div style="overflow-x: auto;">
-    <table class="table is-fullwidth is-hoverable">
+    <table class="table is-fullwidth is-hoverable is-narrow">
         <thead>
             <tr>
                 <th>Typ</th>

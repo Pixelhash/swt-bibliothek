@@ -63,7 +63,6 @@ public class BuchDao extends AbstractDao<Buch, Integer> {
         // No exemplars exists, so delete the book and book author relations
         int changedRows = -1;
         try {
-            //Application.buchAutorDao.delete(id);
             changedRows = this.getRawDao().deleteById(id);
         } catch (SQLException e) {
             e.printStackTrace();

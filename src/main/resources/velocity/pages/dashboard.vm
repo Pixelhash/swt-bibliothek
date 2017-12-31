@@ -20,33 +20,50 @@
                 <div class="box">
                     <p class="title is-5">Nutzerdaten</p>
                     <hr>
-                    <div class="columns">
-                        <div class="column is-half">
-                            <p class="title is-6">Allgemein</p>
-                            <ul>
-                                <li><strong>Rolle:</strong> <span class="tag is-info">$session.attribute("user").getRolle().toString()</span></li>
-                                <li><strong>Name:</strong> $session.attribute("user").getFullName()</li>
-                                <li><strong>E-Mail:</strong> $session.attribute("user").getEmail()</li>
-                                <li>
-                                    <strong>Tel. Nr.:</strong>
-                                    #if (!$session.attribute("user").getTelefonnummer())
-                                        -
-                                    #else
-                                        $session.attribute("user").getTelefonnummer()
-                                    #end
-                                </li>
-                                <li><strong>Geburtsdatum:</strong> $session.attribute("user").getFormattedGeburtsdatum()</li>
-                            </ul>
-                        </div>
-                        <hr class="is-hidden-desktop">
-                        <div class="column is-half">
-                            <p class="title is-6">Adresse</p>
-                            <ul>
-                                <li><strong>Straße:</strong> $session.attribute("user").getAdresse().getStrasseUndHausnummer()</li>
-                                <li><strong>Ort:</strong> $session.attribute("user").getAdresse().getOrtUndPlz()</li>
-                            </ul>
-                        </div>
-                    </div>
+                    <table class="table is-fullwidth is-narrow">
+                        <tbody>
+                        <tr class="no-border">
+                            <th>Rolle:</th>
+                            <td class="is-pulled-right">
+                                #set($color = "is-primary")
+                                #if($session.attribute("user").getRolle().name() == "MITARBEITER")
+                                    #set($color = "is-danger")
+                                #end
+                                <span class="tag $color">$session.attribute("user").getRolle().toString()</span>
+                            </td>
+                        </tr>
+                        <tr class="no-border">
+                            <th>Name:</th>
+                            <td class="is-pulled-right">$session.attribute("user").getFullName()</td>
+                        </tr>
+                        <tr class="no-border">
+                            <th>E-Mail:</th>
+                            <td class="is-pulled-right">$session.attribute("user").getEmail()</td>
+                        </tr>
+                        <tr class="no-border">
+                            <th>Tel. Nr.:</th>
+                            <td class="is-pulled-right">
+                                #if (!$session.attribute("user").getTelefonnummer())
+                                    -
+                                #else
+                                    $session.attribute("user").getTelefonnummer()
+                                #end
+                            </td>
+                        </tr>
+                        <tr class="no-border">
+                            <th>Geburtsdatum:</th>
+                            <td class="is-pulled-right">$session.attribute("user").getFormattedGeburtsdatum()</td>
+                        </tr>
+                        <tr class="no-border">
+                            <th>Straße:</th>
+                            <td class="is-pulled-right">$session.attribute("user").getAdresse().getStrasseUndHausnummer()</td>
+                        </tr>
+                        <tr class="no-border">
+                            <th>Ort:</th>
+                            <td class="is-pulled-right">$session.attribute("user").getAdresse().getOrtUndPlz()</td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
             <div class="column is-7">

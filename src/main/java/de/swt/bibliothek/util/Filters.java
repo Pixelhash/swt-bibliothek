@@ -1,16 +1,16 @@
 package de.swt.bibliothek.util;
 
-import com.eclipsesource.json.Json;
-import com.fasterxml.jackson.core.JsonParser;
 import de.swt.bibliothek.Application;
 import de.swt.bibliothek.model.Benutzer;
 import org.eclipse.jetty.http.HttpStatus;
 import spark.Filter;
 import spark.Request;
 import spark.Response;
-import spark.Session;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import static spark.Spark.halt;
 

@@ -37,7 +37,7 @@
                             #end
                             #if($left > 7)
                                 <span class="has-text-success">${left} $days</span>
-                            #elseif($left >= 0 && $left < 7)
+                            #elseif($left >= 0 && $left <= 7)
                                 <span class="has-text-warning">${left} $days</span>
                             #else
                                 <span class="has-text-danger">$Math.abs($left) $days überzogen</span>
