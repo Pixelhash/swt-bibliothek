@@ -101,4 +101,16 @@ public class BuchExemplarDao extends AbstractDao<BuchExemplar, Integer> {
         }
         return true;
     }
+
+    public List<BuchExemplar> getOfBook(int bookId) {
+        QueryBuilder<BuchExemplar, Integer> queryBuilder = this.getQueryBuilder();
+        List<BuchExemplar> ret = null;
+        try {
+            queryBuilder.where().eq("buch_id", bookId);
+            ret = this.getRawDao().query(queryBuilder.prepare());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ret;
+    }
 }

@@ -5,6 +5,7 @@ public class Path {
     public static class Web {
         public static final String INDEX_SEARCH = "/";
         public static final String BOOK_SEARCH = "/employee/search/book/";
+        public static final String BOOK_DELETE = "/employee/book/:id/";
 
         public static final String LOGIN = "/login/";
         public static final String LOGOUT = "/logout/";

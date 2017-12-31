@@ -42,7 +42,7 @@ public class Filters {
             if (!req.contentType().equalsIgnoreCase("application/json")) {
                 requestToken = RequestUtil.getCsrfToken(req);
             } else {
-                requestToken = Json.parse(req.body()).asObject().get("csrf_token").asString();
+                requestToken = Optional.of(req.headers("X-CSRF-TOKEN")).orElse("");
             }
             //Application.LOGGER.info(String.format("Request token: %s; Session token: %s", requestToken, sessionToken));
             if (requestToken == null || sessionToken == null || !requestToken.equals(sessionToken)) {

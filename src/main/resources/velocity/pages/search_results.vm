@@ -24,7 +24,7 @@
             <div class="column is-10">
                 #foreach($book in $books)
                     <div class="card">
-                        <header class="card-header">
+                        <header class="card-header" style="background-color: #efefef;">
                             <i class="card-header-title is-centered">
                                 $book.getTitel()
                             </i>

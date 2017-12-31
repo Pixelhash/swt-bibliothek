@@ -150,8 +150,8 @@ CREATE TABLE IF NOT EXISTS `bibliothekssoftware`.`buch_hat_autor` (
   CONSTRAINT `fk_autor_has_buch_buch`
     FOREIGN KEY (`buch_id`)
     REFERENCES `bibliothekssoftware`.`buch` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 

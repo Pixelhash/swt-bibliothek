@@ -1,5 +1,6 @@
 package de.swt.bibliothek.util;
 
+import com.eclipsesource.json.JsonObject;
 import de.swt.bibliothek.Application;
 import org.apache.velocity.app.VelocityEngine;
 import org.eclipse.jetty.http.HttpStatus;
@@ -39,6 +40,14 @@ public class ViewUtil {
         model.put("success", true);
         model.put("successMsg", successMsg);
         return ViewUtil.render(req, model, templatePath);
+    }
+
+    public static String returnJsonError(String errorMsg) {
+        return new JsonObject().add("error", true).add("msg", errorMsg).toString();
+    }
+
+    public static String returnJsonError(String errorMsg, int errorCode) {
+        return new JsonObject().add("error", true).add("code", errorCode).toString();
     }
 
     public static Route notAcceptable = (Request req, Response res) -> {

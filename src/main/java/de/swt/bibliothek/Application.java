@@ -9,6 +9,7 @@ import de.swt.bibliothek.config.ConfigProvider;
 import de.swt.bibliothek.config.DatabaseConfig;
 import de.swt.bibliothek.config.ErrorReportingConfig;
 import de.swt.bibliothek.controller.BenutzerController;
+import de.swt.bibliothek.controller.BuchController;
 import de.swt.bibliothek.controller.BuchExemplarController;
 import de.swt.bibliothek.controller.SearchController;
 import de.swt.bibliothek.dao.*;
@@ -130,6 +131,7 @@ public class Application {
         // Book search
         get(Path.Web.BOOK_SEARCH, SearchController.getBookSearch);
         post(Path.Web.BOOK_SEARCH, SearchController.postBookSearch);
+        delete(Path.Web.BOOK_DELETE, BuchController.postLoeschen);
 
         //get("*", ViewUtil.notFound);
         notFound(ViewUtil.notFound);

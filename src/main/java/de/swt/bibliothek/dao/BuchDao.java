@@ -6,6 +6,7 @@ import de.swt.bibliothek.Application;
 import de.swt.bibliothek.model.Autor;
 import de.swt.bibliothek.model.Buch;
 import de.swt.bibliothek.model.BuchAutor;
+import de.swt.bibliothek.model.BuchExemplar;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -52,6 +53,22 @@ public class BuchDao extends AbstractDao<Buch, Integer> {
             }
         });
         return buecher;
+    }
+
+    public boolean delete(int id) {
+        // Check if book exemplar are existing
+        List<BuchExemplar> exemplars = Application.buchExemplarDao.getOfBook(id);
+        if (exemplars == null || !exemplars.isEmpty()) return false;
+
+        // No exemplars exists, so delete the book and book author relations
+        int changedRows = -1;
+        try {
+            //Application.buchAutorDao.delete(id);
+            changedRows = this.getRawDao().deleteById(id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return changedRows == 1;
     }
 
 }

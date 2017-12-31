@@ -23,12 +23,12 @@
             <div class="column is-1"></div>
             <div class="column is-10">
                 #foreach($book in $books)
-                    <div class="card">
-                        <header class="card-header">
+                    <div class="card" data-lang="Buch" data-type="book" data-id="$book.getId()">
+                        <header class="card-header" style="background-color: #efefef;">
                             <i class="card-header-title is-centered">
                                 $book.getTitel()
                             </i>
-                            <a href="#" class="card-header-icon has-text-danger" aria-label="more options">
+                            <a class="btn-delete card-header-icon has-text-danger" aria-label="more options">
                               <span class="icon is-medium">
                                 <i class="fa fa-trash fa-lg" aria-hidden="true"></i>
                               </span>
