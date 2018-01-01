@@ -71,3 +71,9 @@ buildNumber.properties
 # -> Custom
 application.yaml
 data/
+
+# -> CSS/JS compiled filed
+src/main/resources/public/css/style.css
+src/main/resources/public/css/style.min.css
+src/main/resources/public/js/script.js
+src/main/resources/public/js/script.min.js

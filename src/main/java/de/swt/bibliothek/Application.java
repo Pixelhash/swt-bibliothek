@@ -180,8 +180,8 @@ public class Application {
             applicationConfig = configurationProvider.bind("application", ApplicationConfig.class);
             errorReportingConfig = configurationProvider.bind("errorReporting", ErrorReportingConfig.class);
         } catch (IllegalStateException e) {
-            LOGGER.error("Config is missing or invalid. Exiting...");
-            System.exit(1);
+            LOGGER.error("Unable to load config.");
+            throw new RuntimeException("Config is missing or invalid.");
         }
         LOGGER.info("Config successfully loaded!");
     }
