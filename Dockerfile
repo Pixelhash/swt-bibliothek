@@ -7,9 +7,10 @@ ADD pom.xml /code/pom.xml
 RUN ["mvn", "dependency:resolve"]
 RUN ["mvn", "verify"]
 
-# Adding source, compile and package into a fat jar
+# Adding source and assets then compile and package into a fat jar
 ADD src /code/src
+ADD assets /code/assets
 RUN ["mvn", "package"]
 
 EXPOSE 4567
-CMD ["java", "-jar", "target/bibliothek-jar-with-dependencies.jar"]
+CMD ["java", "-jar", "target/bibliothek.jar"]

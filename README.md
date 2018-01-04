@@ -104,6 +104,7 @@ des geklonten Repos befindet!
 - [jBCrypt](https://www.mindrot.org/projects/jBCrypt/), Java
 - [cfg4j](http://www.cfg4j.org/), Java
 - [minimal-json](https://github.com/ralfstx/minimal-json), Java
+- [jcabi-manifests](http://manifests.jcabi.com/)
 - [Bugsnag](https://www.bugsnag.com/), Java
 - [Maven](https://maven.apache.org/), Java
 - [MySQL](https://www.mysql.com/de/), SQL
