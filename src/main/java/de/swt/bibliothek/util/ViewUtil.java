@@ -20,6 +20,8 @@ public class ViewUtil {
     public static final SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMAN);
 
     public static String render(Request req, Map<String, Object> model, String templatePath) {
+        model.put("versionString", Application.getVersionString());
+        model.put("gitCommitHash", Application.getGitCommitHash());
         model.put("msg", new MessageBundle());
         model.put("session", req.session());
         model.put("Application", Application.class); // Access to Dao objects

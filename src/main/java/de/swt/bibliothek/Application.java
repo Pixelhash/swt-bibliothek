@@ -4,6 +4,7 @@ import com.bugsnag.Bugsnag;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
 import com.j256.ormlite.table.TableUtils;
+import com.jcabi.manifests.Manifests;
 import de.swt.bibliothek.config.ApplicationConfig;
 import de.swt.bibliothek.config.ConfigProvider;
 import de.swt.bibliothek.config.DatabaseConfig;
@@ -55,6 +56,12 @@ public class Application {
     private ApplicationConfig applicationConfig;
     private ErrorReportingConfig errorReportingConfig;
 
+    // Git commit hash
+    private static String gitCommitHash;
+
+    // Current version
+    private static String versionString;
+
     public Application() throws SQLException {
         LOGGER.info("Starting application...");
         this.loadConfig();
@@ -62,6 +69,9 @@ public class Application {
         if (errorReportingConfig.enabled()) {
             this.startErrorReporting();
         }
+
+        this.setGitCommitHash();
+        this.setVersionString();
 
         this.setupDatabaseConnection();
         this.createDaos(connectionSource);
@@ -189,6 +199,24 @@ public class Application {
     private void startErrorReporting() {
         LOGGER.info("Starting error reporting via 'Bugsnag'...");
         new Bugsnag(this.errorReportingConfig.apiKey());
+    }
+
+    private void setGitCommitHash() {
+        if (!Manifests.exists("Git-Commit-Hash")) return;
+        gitCommitHash = Manifests.read("Git-Commit-Hash");
+    }
+
+    private void setVersionString() {
+        if (!Manifests.exists("App-Version")) return;
+        versionString = Manifests.read("App-Version");
+    }
+
+    public static String getGitCommitHash() {
+        return gitCommitHash != null ? gitCommitHash.substring(0 ,7) : null;
+    }
+
+    public static String getVersionString() {
+        return versionString;
     }
 
     public static BenutzerDao getBenutzerDao() {

@@ -6,7 +6,7 @@
 
     <groupId>de.swt</groupId>
     <artifactId>bibliothek</artifactId>
-    <version>1.0.0</version>
+    <version>1.0-SNAPSHOT</version>
     <name>${project.name}</name>
 
     <properties>
@@ -21,6 +21,8 @@
         <mysql-connector-java.version>5.1.44</mysql-connector-java.version>
         <cfg4j-core.version>4.4.0</cfg4j-core.version>
         <minimal-json.version>0.9.5</minimal-json.version>
+        <bugsnag.version>[3.0,4.0)</bugsnag.version>
+        <jcabi-manifests.version>1.1</jcabi-manifests.version>
     </properties>
 
     <dependencies>
@@ -72,7 +74,12 @@
         <dependency>
             <groupId>com.bugsnag</groupId>
             <artifactId>bugsnag</artifactId>
-            <version>[3.0,4.0)</version>
+            <version>${bugsnag.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jcabi</groupId>
+            <artifactId>jcabi-manifests</artifactId>
+            <version>${jcabi-manifests.version}</version>
         </dependency>
     </dependencies>
 
@@ -92,26 +99,24 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.0.0</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <mainClass>de.swt.bibliothek.Main</mainClass>
-                        </manifest>
-                    </archive>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                    <finalName>bibliothek</finalName>
-                </configuration>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.1.0</version>
                 <executions>
                     <execution>
-                        <id>assemble-all</id>
-                        <phase>package</phase>
                         <goals>
-                            <goal>single</goal>
+                            <goal>shade</goal>
                         </goals>
+                        <configuration>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <manifestEntries>
+                                        <Main-Class>de.swt.bibliothek.Main</Main-Class>
+                                        <App-Version>${project.version}</App-Version>
+                                        <Git-Commit-Hash>${git.commit.id}</Git-Commit-Hash>
+                                    </manifestEntries>
+                                </transformer>
+                            </transformers>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -122,28 +127,48 @@
                 <executions>
                     <execution>
                         <id>default-minify</id>
-                        <!--<phase>package</phase>-->
                         <configuration>
+                            <nosuffix>true</nosuffix>
                             <charset>UTF-8</charset>
                             <webappSourceDir>${project.basedir}</webappSourceDir>
                             <webappTargetDir>${project.basedir}</webappTargetDir>
-                            <cssSourceDir>src/main/resources/public/css</cssSourceDir>
+                            <cssSourceDir>assets/css</cssSourceDir>
+                            <cssTargetDir>src/main/resources/public/css</cssTargetDir>
                             <cssSourceFiles>
                                 <cssSourceFile>app.css</cssSourceFile>
                             </cssSourceFiles>
-                            <cssFinalFile>style.css</cssFinalFile>
-                            <jsSourceDir>src/main/resources/public/js</jsSourceDir>
+                            <cssFinalFile>app.css</cssFinalFile>
+                            <jsSourceDir>assets/js</jsSourceDir>
+                            <jsTargetDir>src/main/resources/public/js</jsTargetDir>
                             <jsSourceFiles>
                                 <jsSourceFile>app.js</jsSourceFile>
                             </jsSourceFiles>
-                            <jsFinalFile>script.js</jsFinalFile>
+                            <jsFinalFile>app.js</jsFinalFile>
                             <jsEngine>CLOSURE</jsEngine>
                         </configuration>
                         <goals>
                             <goal>minify</goal>
                         </goals>
+                        <phase>validate</phase>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>pl.project13.maven</groupId>
+                <artifactId>git-commit-id-plugin</artifactId>
+                <version>2.2.4</version>
+                <executions>
+                    <execution>
+                        <id>get-the-git-infos</id>
+                        <goals>
+                            <goal>revision</goal>
+                        </goals>
+                        <phase>validate</phase>
+                    </execution>
+                </executions>
+                <configuration>
+                    <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
+                </configuration>
             </plugin>
         </plugins>
     </build>
