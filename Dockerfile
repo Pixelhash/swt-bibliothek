@@ -2,10 +2,11 @@ FROM maven:3.5.2-jdk-8-alpine
 
 WORKDIR /code
 
-# Adding pom, source and assets
+# Adding pom, git directory, source and assets
 ADD pom.xml /code/pom.xml
 ADD src /code/src
 ADD assets /code/assets
+ADD .git /code/.git
 
 # Prepare by downloading dependencies
 RUN ["mvn", "dependency:resolve"]
