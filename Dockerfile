@@ -2,14 +2,16 @@ FROM maven:3.5.2-jdk-8-alpine
 
 WORKDIR /code
 
-# Prepare by downloading dependencies
+# Adding pom, source and assets
 ADD pom.xml /code/pom.xml
+ADD src /code/src
+ADD assets /code/assets
+
+# Prepare by downloading dependencies
 RUN ["mvn", "dependency:resolve"]
 RUN ["mvn", "verify"]
 
-# Adding source and assets then compile and package into a fat jar
-ADD src /code/src
-ADD assets /code/assets
+# Compile and package into a fat jar
 RUN ["mvn", "package"]
 
 EXPOSE 4567
