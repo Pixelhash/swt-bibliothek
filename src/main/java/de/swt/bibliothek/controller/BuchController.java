@@ -28,7 +28,7 @@ public class BuchController {
             return ViewUtil.returnJsonError("ID is not valid!", ID_INVALID);
         }
         int id = Integer.parseInt(idString);
-        boolean success = Application.buchDao.delete(id);
+        boolean success = Application.getBuchDao().delete(id);
         if (!success) {
             return ViewUtil.returnJsonError("Could not delete book!", BOOK_CANT_DELETE);
         } else {

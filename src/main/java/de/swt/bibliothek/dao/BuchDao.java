@@ -24,18 +24,18 @@ public class BuchDao extends AbstractDao<Buch, Integer> {
     }
 
     public List<Buch> getSearchedBooks(String query) throws SQLException {
-        QueryBuilder<Buch, Integer> queryBuilder = Application.buchDao.getQueryBuilder();
+        QueryBuilder<Buch, Integer> queryBuilder = Application.getBuchDao().getQueryBuilder();
         queryBuilder.where().like("titel", "%" + query + "%");
-        List<Buch> results = Application.buchDao.getRawDao().query(queryBuilder.prepare());
+        List<Buch> results = Application.getBuchDao().getRawDao().query(queryBuilder.prepare());
         return this.addExemplare(this.addAuthors(results));
     }
 
     private List<Buch> addAuthors(List<Buch> buecher) {
         buecher.forEach(b -> {
-            QueryBuilder<BuchAutor, Void> queryBuilder = Application.buchAutorDao.getQueryBuilder();
+            QueryBuilder<BuchAutor, Void> queryBuilder = Application.getBuchAutorDao().getQueryBuilder();
             try {
                 queryBuilder.where().eq("buch_id", b.getId());
-                List<BuchAutor> buchAutoren = Application.buchAutorDao.getRawDao().query(queryBuilder.prepare());
+                List<BuchAutor> buchAutoren = Application.getBuchAutorDao().getRawDao().query(queryBuilder.prepare());
                 b.setAutoren(buchAutoren.stream().map(BuchAutor::getAutor).collect(Collectors.toList()));
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -47,7 +47,7 @@ public class BuchDao extends AbstractDao<Buch, Integer> {
     private List<Buch> addExemplare(List<Buch> buecher) {
         buecher.forEach(b -> {
             try {
-                b.setExemplare(Application.buchExemplarDao.getAvailableBookAmount(b));
+                b.setExemplare(Application.getBuchExemplarDao().getAvailableBookAmount(b));
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -57,7 +57,7 @@ public class BuchDao extends AbstractDao<Buch, Integer> {
 
     public boolean delete(int id) {
         // Check if book exemplar are existing
-        List<BuchExemplar> exemplars = Application.buchExemplarDao.getOfBook(id);
+        List<BuchExemplar> exemplars = Application.getBuchExemplarDao().getOfBook(id);
         if (exemplars == null || !exemplars.isEmpty()) return false;
 
         // No exemplars exists, so delete the book and book author relations

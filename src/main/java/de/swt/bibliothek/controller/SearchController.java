@@ -40,7 +40,7 @@ public class SearchController {
         }
 
         model.put("query", searchQuery);
-        List<Buch> results = Application.buchDao.getSearchedBooks(searchQuery);
+        List<Buch> results = Application.getBuchDao().getSearchedBooks(searchQuery);
 
         if (results.isEmpty()) {
             model.put("error", true);
@@ -75,7 +75,7 @@ public class SearchController {
         }
 
         model.put("query", searchQuery);
-        List<Buch> results = Application.buchDao.getSearchedBooks(searchQuery);
+        List<Buch> results = Application.getBuchDao().getSearchedBooks(searchQuery);
 
         if (results.isEmpty()) {
             model.put("error", true);

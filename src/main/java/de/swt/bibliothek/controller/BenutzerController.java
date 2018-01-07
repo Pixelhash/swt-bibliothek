@@ -27,7 +27,7 @@ public class BenutzerController {
         if (Validation.isValidId(userId) && Validation.isValidPassword(password)) {
             // Input fields are valid
             model.put("title", "Übersicht | Bibliothek");
-            Benutzer benutzer = Application.benutzerDao.getBenutzer(Integer.parseInt(userId));
+            Benutzer benutzer = Application.getBenutzerDao().getBenutzer(Integer.parseInt(userId));
             if (benutzer != null) {
                 // User exists
                 if (BCrypt.checkpw(password, benutzer.getPasswort())) {

@@ -30,23 +30,27 @@ import java.sql.SQLException;
 
 import static spark.Spark.*;
 
+/**
+ * Entry point for the application.
+ * Connects to the database, sets all Daos and registers all available HTTP routes.
+ */
 public class Application {
 
     // Order: host -> port -> name -> user -> password
     private static final String DATABASE_URL = "jdbc:mysql://%s:%s/%s?user=%s&password=%s&useSSL=false&autoReconnect=true";
 
     // Logging instance
-    public static Logger LOGGER = LoggerFactory.getLogger(Application.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
 
     // Dao instances
-    public static KategorieDao kategorieDao;
-    public static BuchDao buchDao;
-    public static BuchAutorDao buchAutorDao;
-    public static BuchExemplarDao buchExemplarDao;
-    public static AdresseDao adresseDao;
-    public static BenutzerDao benutzerDao;
-    public static VerlagDao verlagDao;
-    public static AutorDao autorDao;
+    private static KategorieDao kategorieDao;
+    private static BuchDao buchDao;
+    private static BuchAutorDao buchAutorDao;
+    private static BuchExemplarDao buchExemplarDao;
+    private static AdresseDao adresseDao;
+    private static BenutzerDao benutzerDao;
+    private static VerlagDao verlagDao;
+    private static AutorDao autorDao;
 
     // Database source
     private JdbcConnectionSource connectionSource;
@@ -62,6 +66,11 @@ public class Application {
     // Current version
     private static String versionString;
 
+    /**
+     * Starts the application. See {@link Application}.
+     *
+     * @throws SQLException see {@link Main#main(String[])}.
+     */
     public Application() throws SQLException {
         LOGGER.info("Starting application...");
         this.loadConfig();
@@ -96,7 +105,12 @@ public class Application {
         // TODO
     }
 
+    /**
+     * Sets IP and port of the application, registers all HTTP routes
+     * and starts the server.
+     */
     private void setupSpark() {
+        LOGGER.info("Setting routes and filters...");
         ipAddress(applicationConfig.host());
         port(applicationConfig.port());
 
@@ -104,7 +118,7 @@ public class Application {
 
         /*
             The order of the following filters is important!
-            - CSRF token things have to be the last ones!
+            CSRF token things have to be the last ones!
          */
         before("*", Filters.addTrailingSlashes);
         before("*", Filters.addGzipHeader);
@@ -143,12 +157,16 @@ public class Application {
         post(Path.Web.BOOK_SEARCH, SearchController.postBookSearch);
         delete(Path.Web.BOOK_DELETE, BuchController.postLoeschen);
 
-        //get("*", ViewUtil.notFound);
+        //get("*", ViewUtil.notFound); Using this version shows no logging message
         notFound(ViewUtil.notFound);
         internalServerError(ViewUtil.internalServerError);
     }
 
+    /**
+     * Adds a shutdown hook, which closes the database connection on shutdown.
+     */
     private void addShutdownHook() {
+        LOGGER.info("Adding shutdown hook...");
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             try {
                 LOGGER.info("Closing database connection...");
@@ -161,7 +179,13 @@ public class Application {
         }));
     }
 
+    /**
+     * Initialises all Dao-objects.
+     *
+     * @param connectionSource here a MySQL JDBC connection source.
+     */
     private void createDaos(JdbcConnectionSource connectionSource) {
+        LOGGER.info("Initialising Dao-objects...");
         kategorieDao = new KategorieDao(connectionSource, Kategorie.class);
         buchDao = new BuchDao(connectionSource, Buch.class);
         buchAutorDao = new BuchAutorDao(connectionSource, BuchAutor.class);
@@ -172,7 +196,13 @@ public class Application {
         autorDao = new AutorDao(connectionSource, Autor.class);
     }
 
+    /**
+     * Initialises the connection source and connects to the database.
+     *
+     * @throws SQLException thrown, if database connection couldn't be established.
+     */
     private void setupDatabaseConnection() throws SQLException {
+        LOGGER.info("Connecting to database...");
         connectionSource = new JdbcPooledConnectionSource(String.format(DATABASE_URL,
                 databaseConfig.host(),
                 databaseConfig.port(),
@@ -190,10 +220,8 @@ public class Application {
             applicationConfig = configurationProvider.bind("application", ApplicationConfig.class);
             errorReportingConfig = configurationProvider.bind("errorReporting", ErrorReportingConfig.class);
         } catch (IllegalStateException e) {
-            LOGGER.error("Unable to load config.");
             throw new RuntimeException("Config is missing or invalid.");
         }
-        LOGGER.info("Config successfully loaded!");
     }
 
     private void startErrorReporting() {

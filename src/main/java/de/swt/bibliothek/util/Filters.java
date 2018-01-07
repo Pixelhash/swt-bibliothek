@@ -68,7 +68,7 @@ public class Filters {
 
     public static Filter refreshSessionUser = (Request req, Response res) -> {
         if (req.session().attribute("user") != null) {
-            Application.benutzerDao.getRawDao().refresh(req.session().attribute("user"));
+            Application.getBenutzerDao().getRawDao().refresh(req.session().attribute("user"));
         }
     };
 

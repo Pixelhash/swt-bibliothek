@@ -143,7 +143,7 @@ public class Benutzer {
      */
     public List<BuchExemplar> getAusgelieheneBuecher() {
         try {
-            List<BuchExemplar> buchExemplarList = Application.buchExemplarDao.getAusgelieheneBuecher(this);
+            List<BuchExemplar> buchExemplarList = Application.getBuchExemplarDao().getAusgelieheneBuecher(this);
             buchExemplarList.sort((o1, o2) -> {
                 if (o1.getAusleihdatum() == null || o2.getAusleihdatum() == null) {
                     return 0;

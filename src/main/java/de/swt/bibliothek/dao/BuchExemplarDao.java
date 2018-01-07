@@ -72,7 +72,7 @@ public class BuchExemplarDao extends AbstractDao<BuchExemplar, Integer> {
         calendar.add(Calendar.DATE, 30);
         buchExemplar.setRueckgabedatum(calendar.getTime());
         try {
-            Application.buchExemplarDao.getRawDao().update(buchExemplar);
+            Application.getBuchExemplarDao().getRawDao().update(buchExemplar);
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -94,7 +94,7 @@ public class BuchExemplarDao extends AbstractDao<BuchExemplar, Integer> {
         buchExemplar.setAusleihdatum(null);
         buchExemplar.setRueckgabedatum(null);
         try {
-            Application.buchExemplarDao.getRawDao().update(buchExemplar);
+            Application.getBuchExemplarDao().getRawDao().update(buchExemplar);
         } catch (SQLException e) {
             e.printStackTrace();
             return false;

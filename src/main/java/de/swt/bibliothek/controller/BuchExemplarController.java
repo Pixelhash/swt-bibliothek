@@ -26,8 +26,8 @@ public class BuchExemplarController {
 
         if (Validation.isValidId(userId) && Validation.isValidId(bookExemplarId)) {
             // Input fields are valid
-            Benutzer benutzer = Application.benutzerDao.getBenutzer(Integer.parseInt(userId));
-            BuchExemplar buchExemplar = Application.buchExemplarDao.getBuchExemplar(Integer.parseInt(bookExemplarId));
+            Benutzer benutzer = Application.getBenutzerDao().getBenutzer(Integer.parseInt(userId));
+            BuchExemplar buchExemplar = Application.getBuchExemplarDao().getBuchExemplar(Integer.parseInt(bookExemplarId));
 
             if (benutzer == null) {
                 return ViewUtil.returnError(
@@ -48,7 +48,7 @@ public class BuchExemplarController {
             }
             // User and book exemplar exist
 
-            boolean success = Application.buchExemplarDao.borrow(benutzer, buchExemplar);
+            boolean success = Application.getBuchExemplarDao().borrow(benutzer, buchExemplar);
             if (!success) { // Book already borrowed
                 return ViewUtil.returnError(
                         req,
@@ -92,8 +92,8 @@ public class BuchExemplarController {
 
         if (Validation.isValidId(userId) && Validation.isValidId(bookExemplarId)) {
             // Input fields are valid
-            Benutzer benutzer = Application.benutzerDao.getBenutzer(Integer.parseInt(userId));
-            BuchExemplar buchExemplar = Application.buchExemplarDao.getBuchExemplar(Integer.parseInt(bookExemplarId));
+            Benutzer benutzer = Application.getBenutzerDao().getBenutzer(Integer.parseInt(userId));
+            BuchExemplar buchExemplar = Application.getBuchExemplarDao().getBuchExemplar(Integer.parseInt(bookExemplarId));
 
             if (benutzer == null) {
                 return ViewUtil.returnError(
@@ -114,7 +114,7 @@ public class BuchExemplarController {
             }
             // User and book exemplar exist
 
-            boolean success = Application.buchExemplarDao.returnBook(benutzer, buchExemplar);
+            boolean success = Application.getBuchExemplarDao().returnBook(benutzer, buchExemplar);
             if (!success) { // Book not borrowed yet
                 return ViewUtil.returnError(
                         req,
