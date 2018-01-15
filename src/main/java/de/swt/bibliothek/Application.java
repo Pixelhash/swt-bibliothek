@@ -1,6 +1,5 @@
 package de.swt.bibliothek;
 
-import com.bugsnag.Bugsnag;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
 import com.j256.ormlite.table.TableUtils;
@@ -18,13 +17,12 @@ import de.swt.bibliothek.model.*;
 import de.swt.bibliothek.util.Filters;
 import de.swt.bibliothek.util.Path;
 import de.swt.bibliothek.util.ViewUtil;
+import io.sentry.Sentry;
+import io.sentry.SentryClientFactory;
 import org.cfg4j.provider.ConfigurationProvider;
-import org.cfg4j.source.ConfigurationSource;
-import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.Console;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -86,23 +84,6 @@ public class Application {
         this.createDaos(connectionSource);
         this.addShutdownHook();
         this.setupSpark();
-    }
-
-    @Deprecated
-    private void setupSchema(JdbcConnectionSource connectionSource) throws SQLException {
-        TableUtils.createTableIfNotExists(connectionSource, Kategorie.class);
-        TableUtils.createTableIfNotExists(connectionSource, Buch.class);
-        TableUtils.createTableIfNotExists(connectionSource, BuchAutor.class);
-        TableUtils.createTableIfNotExists(connectionSource, BuchExemplar.class);
-        TableUtils.createTableIfNotExists(connectionSource, Adresse.class);
-        TableUtils.createTableIfNotExists(connectionSource, Benutzer.class);
-        TableUtils.createTableIfNotExists(connectionSource, Verlag.class);
-        TableUtils.createTableIfNotExists(connectionSource, Autor.class);
-    }
-
-    @Deprecated
-    private void setupDummyEnities() throws SQLException {
-        // TODO
     }
 
     /**
@@ -225,8 +206,8 @@ public class Application {
     }
 
     private void startErrorReporting() {
-        LOGGER.info("Starting error reporting via 'Bugsnag'...");
-        new Bugsnag(this.errorReportingConfig.apiKey());
+        LOGGER.info("Starting error reporting via 'Sentry'...");
+        Sentry.init(errorReportingConfig.apiKey());
     }
 
     private void setGitCommitHash() {

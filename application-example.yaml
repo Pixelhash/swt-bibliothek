@@ -13,7 +13,7 @@ application:
   host: 'localhost'
   port: 4567
 
-# Error Reporting (Bugsnag)
+# Error Reporting (Sentry)
 errorReporting:
   enabled: false
   apiKey: 'S0meApiK3y'
