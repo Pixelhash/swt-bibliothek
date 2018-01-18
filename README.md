@@ -13,7 +13,8 @@ Diese Applikation wurde im Studiengang Informatik/Softwaretechnik
 im Fach Softwaretchnik 1 im WS 2017/18 der FH-Lübeck entwickelt.
 
 ## Demo
-- URL: https://swt-bibliothek.codehat.de/
+
+- URL: <https://swt-bibliothek.codehat.de/>
 - Nutzername: `swt`
 - Passwort: `bibliothek`
 
@@ -29,21 +30,36 @@ Die Installation kann entweder manuell oder mit Docker/Docker Compose durchgefü
 ### Manuell
 
 1. MySQL/MariaDB installieren:
+
     - Fedora: `dnf install mysql-community-server`
     - Ubuntu: `sudo apt install mariadb-server-10.1`
 
-2. MySQL/MariaDB Server starten: `systemctl start mariadb`
+1. MySQL/MariaDB Server starten:
 
-3. MySQL/MariaDB vorbereiten:
-    - User erstellen: `create user 'user'@'localhost' identified by 'password';`
-    - Datenbank erstellen: `create database bibliothek;`
-    - Dem User Rechte geben: `grant all privileges on bibliothek.* to 'user'@'localhost';`
+    - `systemctl start mariadb`
 
-4. Tabellen erstellen (+ Demo-Daten)
+1. MySQL/MariaDB vorbereiten:
+
+    - User erstellen:
+        ```sql
+        CREATE USER 'user'@'localhost' IDENTIFIED BY 'password';
+        ```
+    - Datenbank erstellen:
+        ```sql
+        CREATE database bibliothek;
+        ```
+    - Dem User Rechte geben:
+        ```sql
+        GRANT all PRIVILEGES ON bibliothek.* TO 'user'@'localhost';
+        ```
+
+1. Tabellen erstellen (+ Demo-Daten):
+
     - Ohne Demo-Daten: `table-struct.sql`
     - Mit Demo-Daten: `table-struct-demo.sql`. Das Passwort für alle Benutzer lautet `Test1234`.
 
-5. Applikation vorbereiten und starten:
+1. Applikation vorbereiten und starten:
+
     - Konfigurationsdatei kopieren: `cp application-example.yaml application.yaml`
     - Die kopierte `application.yaml` anpassen
     - Applikation starten mit `java -jar {datei}.jar`
@@ -51,41 +67,46 @@ Die Installation kann entweder manuell oder mit Docker/Docker Compose durchgefü
 ### Mit Docker/Docker Compose
 
 1. Sicherstellen, dass [Docker](https://www.docker.com/) und [Docker Compose](https://docs.docker.com/compose/) installiert sind:
+
     - `docker -v`, `docker-compose -v`
 
-2. Repository klonen:
-    - `cd {repository}`
-    - Folgende Instruktionen gehen davon aus, dass man sich im Verzeichnis
-des geklonten Repos befindet!
+1. Repository klonen:
 
-3. Benötigte Verzeichnisse erstellen:
+    - `cd {repository}`
+    - Folgende Instruktionen gehen davon aus, dass man sich im Verzeichnis des geklonten Repos befindet!
+
+1. Benötigte Verzeichnisse erstellen:
+
     - `mkdir -p data/bibliothek/`
 
-4. Konfigurationsdatei für Docker kopieren:
+1. Konfigurationsdatei für Docker kopieren:
+
     - `cp application-docker.yaml data/bibliothek/application.yaml`
 
-5. Einstellungen abgleichen:
-    - Die Einstellungen von der Applikation und MariaDB müssen in der
-    `data/bibliothek/application.yaml` und in der `docker-compose.yml` übereinstimmen!
-    
-6. MariaDB mit (Standard) oder ohne Demo-Daten:
-    - Falls die Demo-Daten eingefügt werden sollen, kann
-    dieser Schritt übersprungen werden!
+1. Einstellungen abgleichen:
+
+    - Die Einstellungen von der Applikation und MariaDB müssen in der `data/bibliothek/application.yaml` und in der `docker-compose.yml` übereinstimmen!
+
+1. MariaDB mit (Standard) oder ohne Demo-Daten:
+
+    - Falls die Demo-Daten eingefügt werden sollen, kann dieser Schritt übersprungen werden!
     - In der `docker-compose.yml` folgendes finden und ändern:
     - Mit (Standard): `./table-struct-demo.sql`
     - Ohne: `./table-struct.sql`
 
-7. Applikation und MariaDB starten:
+1. Applikation und MariaDB starten:
+
     - `docker-compose up -d`
-    - Dauert beim ersten Start länger, weil das Image der Applikation
-    erstellt wird.
-    
-8. Prüfen, ob alles funktioniert:
+    - Dauert beim ersten Start länger, weil das Image der Applikation erstellt wird.
+
+1. Prüfen, ob alles funktioniert:
+
     - `docker-compose logs` sollte ungefähr folgende Zeile beinhalten:
     - `bibliothek  | [Thread-1] INFO org.eclipse.jetty.server.Server - Started @684ms`
     - Browser öffnen unter `localhost:4567`
-    
-9. (Optional) Applikation und MariaDB stoppen:
+
+1. (Optional) Applikation und MariaDB stoppen:
+
     - Ins Verzeichnis des Repos wechseln
     - `docker-compose down` ausführen
 
