@@ -41,14 +41,19 @@ Die Installation kann entweder manuell oder mit Docker/Docker Compose durchgefü
 1. MySQL/MariaDB vorbereiten:
 
     - User erstellen:
+
         ```sql
         CREATE USER 'user'@'localhost' IDENTIFIED BY 'password';
         ```
+
     - Datenbank erstellen:
+
         ```sql
-        CREATE database bibliothek;
+        CREATE DATABASE bibliothek;
         ```
+
     - Dem User Rechte geben:
+
         ```sql
         GRANT all PRIVILEGES ON bibliothek.* TO 'user'@'localhost';
         ```
