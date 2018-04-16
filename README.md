@@ -138,3 +138,15 @@ Die Installation kann entweder manuell oder mit Docker/Docker Compose durchgefü
 - [Bulma](https://bulma.io/), CSS
 - [jQuery](https://jquery.com/), JavaScript
 - [SweetAlert](https://sweetalert.js.org/), JavaScript
+
+## Zukünftige Features
+
+- Anlegen von Kunden
+- Anlegen von Büchern
+- Filter für die Buchsuche
+- Anlegen eines Bereichs zum Stöbern in Kategorien
+- Automatische Erinnerung von Kunden bei nahendem Abgabedatum
+- Funktion um das Passwort zurückzusetzen
+- Möglichkeit für den Kunden seine Daten zu ändern
+- Reservierung von Büchern ermöglichen
+- Automatisierte Registrierung von Kunden
