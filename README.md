@@ -6,6 +6,7 @@
 - [Installation](#installation)
 - [Passwort für einen Nutzer erstellen](#passwort-für-nutzer-erstellen)
 - [Verwendete Tools und Libraries](#verwendete-tools-und-libraries)
+- [Zukünftige Features](#zukünftige-features)
 
 ## Beschreibung
 
