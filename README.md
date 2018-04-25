@@ -6,7 +6,7 @@
 - [Installation](#installation)
 - [Passwort für einen Nutzer erstellen](#passwort-für-nutzer-erstellen)
 - [Verwendete Tools und Libraries](#verwendete-tools-und-libraries)
-- [Testkonzept] (#Testkonzept)
+- [Testkonzept](#Testkonzept)
 - [Zukünftige Features](#zukünftige-features)
 
 ## Beschreibung
