@@ -17,6 +17,7 @@
         <ormlite-jdbc.version>5.0</ormlite-jdbc.version>
         <jbcrypt.version>0.4</jbcrypt.version>
         <mysql-connector-java.version>5.1.44</mysql-connector-java.version>
+        <sqlite-jdbc>3.21.0.1</sqlite-jdbc>
         <cfg4j-core.version>4.4.0</cfg4j-core.version>
         <minimal-json.version>0.9.5</minimal-json.version>
     </properties>
@@ -51,6 +52,11 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>${mysql-connector-java.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.xerial</groupId>
+            <artifactId>sqlite-jdbc</artifactId>
+            <version>${sqlite-jdbc}</version>
         </dependency>
         <dependency>
             <groupId>org.mindrot</groupId>

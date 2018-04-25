@@ -70,4 +70,5 @@ buildNumber.properties
 
 # -> Custom
 application.yaml
+bibliothek.db
 data/

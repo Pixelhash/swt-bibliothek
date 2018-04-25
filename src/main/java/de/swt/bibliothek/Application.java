@@ -2,6 +2,7 @@ package de.swt.bibliothek;
 
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
+import com.j256.ormlite.table.TableUtils;
 import de.swt.bibliothek.config.ApplicationConfig;
 import de.swt.bibliothek.config.ConfigProvider;
 import de.swt.bibliothek.config.DatabaseConfig;
@@ -10,6 +11,9 @@ import de.swt.bibliothek.controller.BuchController;
 import de.swt.bibliothek.controller.BuchExemplarController;
 import de.swt.bibliothek.controller.SearchController;
 import de.swt.bibliothek.dao.*;
+import de.swt.bibliothek.database.AbstractDatabase;
+import de.swt.bibliothek.database.MysqlDatabase;
+import de.swt.bibliothek.database.SqliteDatabase;
 import de.swt.bibliothek.model.*;
 import de.swt.bibliothek.util.Filters;
 import de.swt.bibliothek.util.Path;
@@ -29,8 +33,8 @@ import static spark.Spark.*;
  */
 public class Application {
 
-    // Order: host -> port -> name -> user -> password
-    private static final String DATABASE_URL = "jdbc:mysql://%s:%s/%s?user=%s&password=%s&useSSL=false&autoReconnect=true";
+    private static final String MYSQL_DATABASE_TYPE = "mysql";
+    private static final String SQLITE_DATABASE_TYPE = "sqlite";
 
     // Logging instance
     public static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
@@ -45,8 +49,8 @@ public class Application {
     private static VerlagDao verlagDao;
     private static AutorDao autorDao;
 
-    // Database source
-    private JdbcConnectionSource connectionSource;
+    // Database
+    private AbstractDatabase database;
 
     // Config instances
     private DatabaseConfig databaseConfig;
@@ -61,7 +65,7 @@ public class Application {
         LOGGER.info("Starting application...");
         this.loadConfig();
         this.setupDatabaseConnection();
-        this.createDaos(connectionSource);
+        this.createDaos(database.getConnectionSource());
         this.addShutdownHook();
         this.setupSpark();
     }
@@ -131,7 +135,7 @@ public class Application {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             try {
                 LOGGER.info("Closing database connection...");
-                connectionSource.close();
+                database.getConnectionSource().close();
                 LOGGER.info("Database successfully closed.");
             } catch (IOException e) {
                 LOGGER.error("Unable to close database!");
@@ -157,20 +161,44 @@ public class Application {
         autorDao = new AutorDao(connectionSource, Autor.class);
     }
 
+    private static void setupSchema(JdbcConnectionSource connectionSource) throws SQLException {
+        TableUtils.createTableIfNotExists(connectionSource, Kategorie.class);
+        TableUtils.createTableIfNotExists(connectionSource, Kategorie.class);
+        TableUtils.createTableIfNotExists(connectionSource, Buch.class);
+        TableUtils.createTableIfNotExists(connectionSource, Buch.class);
+        TableUtils.createTableIfNotExists(connectionSource, BuchAutor.class);
+        TableUtils.createTableIfNotExists(connectionSource, BuchExemplar.class);
+        TableUtils.createTableIfNotExists(connectionSource, Adresse.class);
+        TableUtils.createTableIfNotExists(connectionSource, Benutzer.class);
+        TableUtils.createTableIfNotExists(connectionSource, Verlag.class);
+        TableUtils.createTableIfNotExists(connectionSource, Autor.class);
+    }
+
     /**
      * Initialises the connection source and connects to the database.
      *
      * @throws SQLException thrown, if database connection couldn't be established.
      */
     private void setupDatabaseConnection() throws SQLException {
-        LOGGER.info("Connecting to database...");
-        connectionSource = new JdbcPooledConnectionSource(String.format(DATABASE_URL,
-            databaseConfig.host(),
-            databaseConfig.port(),
-            databaseConfig.name(),
-            databaseConfig.user(),
-            databaseConfig.password()
-        ));
+        String databaseType = databaseConfig.type();
+
+        if (databaseType == null || (!databaseType.equals(MYSQL_DATABASE_TYPE) && !databaseType.equals(SQLITE_DATABASE_TYPE))) {
+            throw new RuntimeException(String.format("Unknown database type '%s'!", databaseType));
+        }
+        LOGGER.info(String.format("Connecting to %s database...", databaseType));
+
+        if (databaseType.equals(SQLITE_DATABASE_TYPE)) {
+            database = new SqliteDatabase(SqliteDatabase.createConnectionString(databaseConfig.dbPath()));
+            setupSchema(database.getConnectionSource());
+        } else if (databaseType.equals(MYSQL_DATABASE_TYPE)) {
+            database = new MysqlDatabase(MysqlDatabase.createConnectionString(
+                databaseConfig.host(),
+                databaseConfig.port(),
+                databaseConfig.name(),
+                databaseConfig.user(),
+                databaseConfig.password()
+            ));
+        }
     }
 
     private void loadConfig() {

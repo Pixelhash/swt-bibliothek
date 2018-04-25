@@ -15,7 +15,7 @@ services:
       MYSQL_PASSWORD: bibliothek1234
     volumes:
       - ./data/mysql:/var/lib/mysql
-      - ./table-struct-demo.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./config/table-struct-demo.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - backend
 
@@ -23,7 +23,7 @@ services:
 
   bibliothek:
     build: ./
-    image: fhl-swt1/bibliothek:1.0.0
+    image: fhl/swt2-bibliothek:1.0.0
     container_name: bibliothek
     ports:
       - "127.0.0.1:4567:4567"

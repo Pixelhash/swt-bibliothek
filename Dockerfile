@@ -6,7 +6,6 @@ WORKDIR /code
 ADD pom.xml /code/pom.xml
 ADD src /code/src
 ADD assets /code/assets
-ADD .git /code/.git
 
 # Prepare by downloading dependencies
 RUN ["mvn", "dependency:resolve"]

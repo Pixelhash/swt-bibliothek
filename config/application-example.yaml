@@ -1,0 +1,14 @@
+# Application Settings
+application:
+  host: 'localhost'
+  port: 4567
+
+# Database Settings
+database:
+  type: 'mysql'
+  user: 'user'
+  password: 'S3curePassw0rd'
+  host: 'localhost'
+  port: 3306
+  name: 'bibliothek'
+  dbPath: '/path/to/bibliothek.db'

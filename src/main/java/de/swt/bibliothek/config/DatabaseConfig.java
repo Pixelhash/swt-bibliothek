@@ -1,6 +1,10 @@
 package de.swt.bibliothek.config;
 
+import java.io.File;
+
 public interface DatabaseConfig {
+
+    String type();
 
     String user();
 
@@ -11,4 +15,6 @@ public interface DatabaseConfig {
     int port();
 
     String name();
+
+    String dbPath();
 }

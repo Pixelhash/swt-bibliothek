@@ -1,0 +1,14 @@
+# Application Settings
+application:
+  host: '0.0.0.0'
+  port: 4567
+
+# Database Settings
+database:
+  type: 'mysql'
+  user: 'bibliothek'
+  password: 'bibliothek1234'
+  host: 'mariadb'
+  port: 3306
+  name: 'bibliothekssoftware'
+  dbPath: '/path/to/bibliothek.db'
