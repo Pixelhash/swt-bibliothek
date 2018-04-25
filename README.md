@@ -126,7 +126,7 @@ Die Installation kann entweder manuell oder mit Docker/Docker Compose durchgefü
 
 ## Verwendete Tools und Libraries
 
-####Java:
+#### Java:
 
 - [Maven](https://maven.apache.org/)
 - [Spark Web Framework](http://sparkjava.com/)
@@ -136,16 +136,16 @@ Die Installation kann entweder manuell oder mit Docker/Docker Compose durchgefü
 - [cfg4j](http://www.cfg4j.org/)
 - [minimal-json](https://github.com/ralfstx/minimal-json)
 
-####SQL:
+#### SQL:
 
 - [MySQL](https://www.mysql.com/de/) / [MariaDB](https://mariadb.org/)
 
-####JavaScript:
+#### JavaScript:
 
 - [jQuery](https://jquery.com/)
 - [SweetAlert](https://sweetalert.js.org/)
 
-####CSS:
+#### CSS:
 
 - [Bulma](https://bulma.io/)
 
