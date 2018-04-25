@@ -6,6 +6,7 @@
 - [Installation](#installation)
 - [Passwort für einen Nutzer erstellen](#passwort-für-nutzer-erstellen)
 - [Verwendete Tools und Libraries](#verwendete-tools-und-libraries)
+- [Testkonzept] (#Testkonzept)
 - [Zukünftige Features](#zukünftige-features)
 
 ## Beschreibung
@@ -138,6 +139,12 @@ Die Installation kann entweder manuell oder mit Docker/Docker Compose durchgefü
 - [Bulma](https://bulma.io/), CSS
 - [jQuery](https://jquery.com/), JavaScript
 - [SweetAlert](https://sweetalert.js.org/), JavaScript
+
+## Testkonzept
+
+- Unit Testing: jUnit 5
+- Integration Testing: Selenium (bzw. eines der Derivate, z.B. [Katalon Studio](https://github.com/Pixelhash/swt-bibliothek.git))
+- Geplante Testabdeckung: Mindestens 85%
 
 ## Zukünftige Features
 
