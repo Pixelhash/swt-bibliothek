@@ -12,9 +12,9 @@
 ## Beschreibung
 
 Diese Applikation wurde im Studiengang Informatik/Softwaretechnik
-im Fach Softwaretchnik 1 im WS 2017/18 der FH-Lübeck entwickelt.
+im Fach Softwaretchnik 2 im SS 2018 der FH-Lübeck entwickelt.
 
-## Demo
+## Demo (inaktiv)
 
 - URL: <https://swt-bibliothek.codehat.de/>
 - Nutzername: `swt`
@@ -33,7 +33,7 @@ Die Installation kann entweder manuell oder mit Docker/Docker Compose durchgefü
 
 1. MySQL/MariaDB installieren:
 
-    - Fedora: `dnf install mysql-community-server`
+    - Fedora: `dnf install mariadb-server`
     - Ubuntu: `sudo apt install mariadb-server-10.1`
 
 1. MySQL/MariaDB Server starten:
@@ -69,7 +69,7 @@ Die Installation kann entweder manuell oder mit Docker/Docker Compose durchgefü
 
     - Konfigurationsdatei kopieren: `cp application-example.yaml application.yaml`
     - Die kopierte `application.yaml` anpassen
-    - Applikation starten mit `java -jar {datei}.jar`
+    - Applikation starten mit `java -jar target/dist/Bibliothek.jar`
 
 ### Mit Docker/Docker Compose
 
@@ -126,19 +126,28 @@ Die Installation kann entweder manuell oder mit Docker/Docker Compose durchgefü
 
 ## Verwendete Tools und Libraries
 
-- [Spark Web Framework](http://sparkjava.com/), Java
-- [Velocity Template Engine](http://velocity.apache.org/engine/1.7/), Java
-- [OrmLite](http://ormlite.com/), Java
-- [jBCrypt](https://www.mindrot.org/projects/jBCrypt/), Java
-- [cfg4j](http://www.cfg4j.org/), Java
-- [minimal-json](https://github.com/ralfstx/minimal-json), Java
-- [jcabi-manifests](http://manifests.jcabi.com/), Java
-- [Bugsnag](https://www.bugsnag.com/), Java
-- [Maven](https://maven.apache.org/), Java
-- [MySQL](https://www.mysql.com/de/), SQL
-- [Bulma](https://bulma.io/), CSS
-- [jQuery](https://jquery.com/), JavaScript
-- [SweetAlert](https://sweetalert.js.org/), JavaScript
+####Java:
+
+- [Maven](https://maven.apache.org/)
+- [Spark Web Framework](http://sparkjava.com/)
+- [Velocity Template Engine](http://velocity.apache.org/engine/1.7/)
+- [OrmLite](http://ormlite.com/)
+- [jBCrypt](https://www.mindrot.org/projects/jBCrypt/)
+- [cfg4j](http://www.cfg4j.org/)
+- [minimal-json](https://github.com/ralfstx/minimal-json)
+
+####SQL:
+
+- [MySQL](https://www.mysql.com/de/) / [MariaDB](https://mariadb.org/)
+
+####JavaScript:
+
+- [jQuery](https://jquery.com/)
+- [SweetAlert](https://sweetalert.js.org/)
+
+####CSS:
+
+- [Bulma](https://bulma.io/)
 
 ## Testkonzept
 

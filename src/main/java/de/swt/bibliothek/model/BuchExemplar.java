@@ -4,10 +4,12 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import de.swt.bibliothek.util.TimeUtil;
 import de.swt.bibliothek.util.ViewUtil;
+import lombok.Data;
 
 import java.util.Date;
 
 @DatabaseTable
+@Data
 public class BuchExemplar {
 
     @DatabaseField(generatedId = true, canBeNull = false)
@@ -26,47 +28,7 @@ public class BuchExemplar {
     Benutzer benutzer;
 
     public BuchExemplar() {
-
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Date getAusleihdatum() {
-        return ausleihdatum;
-    }
-
-    public void setAusleihdatum(Date ausleihdatum) {
-        this.ausleihdatum = ausleihdatum;
-    }
-
-    public Date getRueckgabedatum() {
-        return rueckgabedatum;
-    }
-
-    public void setRueckgabedatum(Date rueckgabedatum) {
-        this.rueckgabedatum = rueckgabedatum;
-    }
-
-    public Buch getBuch() {
-        return buch;
-    }
-
-    public void setBuch(Buch buch) {
-        this.buch = buch;
-    }
-
-    public Benutzer getBenutzer() {
-        return benutzer;
-    }
-
-    public void setBenutzer(Benutzer benutzer) {
-        this.benutzer = benutzer;
+        // Required by ORMLite
     }
 
     public String getFormattedRueckgabedatum() {

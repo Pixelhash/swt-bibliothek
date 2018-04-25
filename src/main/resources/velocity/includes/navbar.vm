@@ -1,135 +1,135 @@
-<nav class="navbar is-dark">
-    <div class="container">
-        <div class="navbar-brand">
-            <!--<a class="navbar-item is-size-5" href="$WebPath.getIndexSearch()">
+<nav class="navbar is-dark is-spaced">
+  <div class="container">
+    <div class="navbar-brand">
+      <a class="navbar-item is-size-5" href="$WebPath.getIndexSearch()">
                 <span class="icon icon-nav">
                     <i class="fa fa-lg fa-book"></i>
                 </span>
                 <span>Bibliothek</span>
-            </a>-->
-            <div class="navbar-burger burger" data-target="#navbar">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
+            </a>
+      <div class="navbar-burger burger" data-target="#navbar">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
 
-        <div id="navbar" class="navbar-menu">
-            <div class="navbar-start">
-                #if(!$session.attribute("user") || $session.attribute("user").getRolle().name().equals("KUNDE"))
-                    <a class="navbar-item" href="$WebPath.getIndexSearch()">
-                        <span class="icon"><i class="fa fa-search"></i></span>
-                        <span>Suche</span>
-                    </a>
-                #else
-                    <div class="navbar-item has-dropdown is-hoverable">
-                        <a class="navbar-link">
-                            Suche
-                        </a>
-                        <div class="navbar-dropdown is-boxed">
-                            <a class="navbar-item" href="$WebPath.getBookSearch()">
-                                <span class="icon"><i class="fa fa-clipboard"></i></span>
-                                <span>Buch</span>
-                            </a>
-                            <a class="navbar-item" href="#">
-                                <span class="icon"><i class="fa fa-book"></i></span>
-                                <span>BuchExemplar</span>
-                            </a>
-                            <a class="navbar-item" href="#">
-                                <span class="icon"><i class="fa fa-user"></i></span>
-                                <span>Kunde</span>
-                            </a>
-                            <a class="navbar-item" href="#">
-                                <span class="icon"><i class="fa fa-tag"></i></span>
-                                <span>Kategorie</span>
-                            </a>
-                            <a class="navbar-item" href="#">
-                                <span class="icon"><i class="fa fa-pencil"></i></span>
-                                <span>Autor</span>
-                            </a>
-                            <a class="navbar-item" href="#">
-                                <span class="icon"><i class="fa fa-print"></i></span>
-                                <span>Verlag</span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="navbar-item has-dropdown is-hoverable">
-                        <a class="navbar-link">
-                            Anlegen
-                        </a>
-                        <div class="navbar-dropdown is-boxed">
-                            <a class="navbar-item" href="#">
-                                <span class="icon"><i class="fa fa-clipboard"></i></span>
-                                <span>Buch</span>
-                            </a>
-                            <a class="navbar-item" href="#">
-                                <span class="icon"><i class="fa fa-book"></i></span>
-                                <span>BuchExemplar</span>
-                            </a>
-                            <a class="navbar-item" href="#">
-                                <span class="icon"><i class="fa fa-user"></i></span>
-                                <span>Kunde</span>
-                            </a>
-                            <a class="navbar-item" href="#">
-                                <span class="icon"><i class="fa fa-tag"></i></span>
-                                <span>Kategorie</span>
-                            </a>
-                            <a class="navbar-item" href="#">
-                                <span class="icon"><i class="fa fa-pencil"></i></span>
-                                <span>Autor</span>
-                            </a>
-                            <a class="navbar-item" href="#">
-                                <span class="icon"><i class="fa fa-print"></i></span>
-                                <span>Verlag</span>
-                            </a>
-                        </div>
-                    </div>
-                    <a class="navbar-item" href="$WebPath.getLend()">
-                        <span class="icon"><i class="fa fa-book"></i></span>
-                        <span>Ausleihen</span>
-                    </a>
-                    <a class="navbar-item" href="$WebPath.getReturn()">
-                        <span class="icon"><i class="fa fa-reply"></i></span>
-                        <span>Rückgabe</span>
-                    </a>
-                #end
+    <div id="navbar" class="navbar-menu">
+      <div class="navbar-start">
+        #if(!$session.attribute("user") || $session.attribute("user").getRolle().name().equals("KUNDE"))
+          <a class="navbar-item" href="$WebPath.getIndexSearch()">
+            <span class="icon"><i class="fa fa-search"></i></span>
+            <span>Suche</span>
+          </a>
+        #else
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link">
+              Suche
+            </a>
+            <div class="navbar-dropdown is-boxed">
+              <a class="navbar-item" href="$WebPath.getBookSearch()">
+                <span class="icon"><i class="fa fa-clipboard"></i></span>
+                <span>Buch</span>
+              </a>
+              <a class="navbar-item" href="#">
+                <span class="icon"><i class="fa fa-book"></i></span>
+                <span>BuchExemplar</span>
+              </a>
+              <a class="navbar-item" href="#">
+                <span class="icon"><i class="fa fa-user"></i></span>
+                <span>Kunde</span>
+              </a>
+              <a class="navbar-item" href="#">
+                <span class="icon"><i class="fa fa-tag"></i></span>
+                <span>Kategorie</span>
+              </a>
+              <a class="navbar-item" href="#">
+                <span class="icon"><i class="fa fa-pencil"></i></span>
+                <span>Autor</span>
+              </a>
+              <a class="navbar-item" href="#">
+                <span class="icon"><i class="fa fa-print"></i></span>
+                <span>Verlag</span>
+              </a>
             </div>
-            <div class="navbar-end">
-                <div class="navbar-item">
-                    <div class="field is-grouped">
-                        #if(!$session.attribute("user"))
-                            <p class="control">
-                                <a class="button is-link" href="$WebPath.getLogin()">
+          </div>
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link">
+              Anlegen
+            </a>
+            <div class="navbar-dropdown is-boxed">
+              <a class="navbar-item" href="#">
+                <span class="icon"><i class="fa fa-clipboard"></i></span>
+                <span>Buch</span>
+              </a>
+              <a class="navbar-item" href="#">
+                <span class="icon"><i class="fa fa-book"></i></span>
+                <span>BuchExemplar</span>
+              </a>
+              <a class="navbar-item" href="#">
+                <span class="icon"><i class="fa fa-user"></i></span>
+                <span>Kunde</span>
+              </a>
+              <a class="navbar-item" href="#">
+                <span class="icon"><i class="fa fa-tag"></i></span>
+                <span>Kategorie</span>
+              </a>
+              <a class="navbar-item" href="#">
+                <span class="icon"><i class="fa fa-pencil"></i></span>
+                <span>Autor</span>
+              </a>
+              <a class="navbar-item" href="#">
+                <span class="icon"><i class="fa fa-print"></i></span>
+                <span>Verlag</span>
+              </a>
+            </div>
+          </div>
+          <a class="navbar-item" href="$WebPath.getLend()">
+            <span class="icon"><i class="fa fa-book"></i></span>
+            <span>Ausleihen</span>
+          </a>
+          <a class="navbar-item" href="$WebPath.getReturn()">
+            <span class="icon"><i class="fa fa-reply"></i></span>
+            <span>Rückgabe</span>
+          </a>
+        #end
+      </div>
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="field is-grouped">
+            #if(!$session.attribute("user"))
+              <p class="control">
+                <a class="button is-link" href="$WebPath.getLogin()">
                                     <span class="icon">
                                         <i class="fa fa-sign-in"></i>
                                     </span>
-                                    <span>Login</span>
-                                </a>
-                            </p>
-                        #else
-                            <p class="control">
-                                <a class="button is-primary" href="$WebPath.getDashboard()">
+                  <span>Login</span>
+                </a>
+              </p>
+            #else
+              <p class="control">
+                <a class="button is-primary" href="$WebPath.getDashboard()">
                                     <span class="icon">
                                         <i class="fa fa-list"></i>
                                     </span>
-                                    <span>Übersicht</span>
-                                </a>
-                            </p>
-                            <form action="$WebPath.getLogout()" method="post">
-                                <p class="control">
-                                    <button type="submit" class="button is-link">
+                  <span>Übersicht</span>
+                </a>
+              </p>
+              <form action="$WebPath.getLogout()" method="post">
+                <p class="control">
+                  <button type="submit" class="button is-link">
                                     <span class="icon">
                                         <i class="fa fa-sign-out"></i>
                                     </span>
-                                        <span>Logout</span>
-                                    </button>
-                                </p>
-                                <input type="hidden" name="csrf_token" value="$session.attribute("csrf_token")">
-                            </form>
-                        #end
-                    </div>
-                </div>
-            </div>
+                    <span>Logout</span>
+                  </button>
+                </p>
+                <input type="hidden" name="csrf_token" value="$session.attribute("csrf_token")">
+              </form>
+            #end
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </nav>

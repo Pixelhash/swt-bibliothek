@@ -5,15 +5,8 @@ database:
   host: 'localhost'
   port: 3306
   name: 'bibliothek'
-  createTables: false
-  insertDummyData: false
 
 # Application Settings
 application:
   host: 'localhost'
   port: 4567
-
-# Error Reporting (Sentry)
-errorReporting:
-  enabled: false
-  apiKey: 'S0meApiK3y'

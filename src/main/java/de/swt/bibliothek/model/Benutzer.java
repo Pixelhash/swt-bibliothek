@@ -4,6 +4,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import de.swt.bibliothek.Application;
 import de.swt.bibliothek.util.ViewUtil;
+import lombok.Data;
 
 import java.sql.SQLException;
 import java.util.Collections;
@@ -12,6 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 @DatabaseTable
+@Data
 public class Benutzer {
 
     public enum Rolle {
@@ -53,79 +55,7 @@ public class Benutzer {
     Adresse adresse;
 
     public Benutzer() {
-
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getVorname() {
-        return vorname;
-    }
-
-    public void setVorname(String vorname) {
-        this.vorname = vorname;
-    }
-
-    public String getNachname() {
-        return nachname;
-    }
-
-    public void setNachname(String nachname) {
-        this.nachname = nachname;
-    }
-
-    public Rolle getRolle() {
-        return rolle;
-    }
-
-    public void setRolle(Rolle rolle) {
-        this.rolle = rolle;
-    }
-
-    public String getTelefonnummer() {
-        return telefonnummer;
-    }
-
-    public void setTelefonnummer(String telefonnummer) {
-        this.telefonnummer = telefonnummer;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Date getGeburtsdatum() {
-        return geburtsdatum;
-    }
-
-    public void setGeburtsdatum(Date geburtsdatum) {
-        this.geburtsdatum = geburtsdatum;
-    }
-
-    public String getPasswort() {
-        return passwort;
-    }
-
-    public void setPasswort(String passwort) {
-        this.passwort = passwort;
-    }
-
-    public Adresse getAdresse() {
-        return adresse;
-    }
-
-    public void setAdresse(Adresse adresse) {
-        this.adresse = adresse;
+        // Required by ORMLite
     }
 
     public String getFullName() {

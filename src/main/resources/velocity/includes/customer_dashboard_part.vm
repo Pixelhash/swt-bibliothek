@@ -2,50 +2,50 @@
 <p class="is-hidden-desktop">Tipp: Die Tabelle ist horizontal scrollbar.</p>
 <hr>
 <div style="overflow-x: auto;">
-    <table class="table is-fullwidth is-hoverable">
-        <thead>
+  <table class="table is-fullwidth is-hoverable">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Titel</th>
+      <th>Von</th>
+      <th>Bis</th>
+      <th>Verbleibend</th>
+    </tr>
+    </thead>
+    <tbody>
+      #set($lendBooks = $session.attribute("user").getAusgelieheneBuecher())
+      #if(!$lendBooks ||  $lendBooks.size() == 0)
+      <tr>
+        <th>-</th>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+      </tr>
+      #else
+        #foreach($book in $lendBooks)
         <tr>
-            <th>ID</th>
-            <th>Titel</th>
-            <th>Von</th>
-            <th>Bis</th>
-            <th>Verbleibend</th>
-        </tr>
-        </thead>
-        <tbody>
-            #set($lendBooks = $session.attribute("user").getAusgelieheneBuecher())
-            #if(!$lendBooks ||  $lendBooks.size() == 0)
-                <tr>
-                    <th>-</th>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                </tr>
-            #else
-                #foreach($book in $lendBooks)
-                    <tr>
-                        <th>$book.getId()</th>
-                        <td>$book.getBuch().getTitel()</td>
-                        <td>$book.getFormattedAusleihdatum()</td>
-                        <td>$book.getFormattedRueckgabedatum()</td>
-                        <td>
-                            #set($left = $book.getDaysLeft())
-                            #set($days = "Tage")
-                            #if($left == 1 || $left == -1)
-                                #set($days = "Tag")
-                            #end
-                            #if($left > 7)
-                                <span class="has-text-success">${left} $days</span>
-                            #elseif($left >= 0 && $left <= 7)
-                                <span class="has-text-warning">${left} $days</span>
-                            #else
-                                <span class="has-text-danger">$Math.abs($left) $days überzogen</span>
-                            #end
-                        </td>
-                    </tr>
-                #end
+          <th>$book.getId()</th>
+          <td>$book.getBuch().getTitel()</td>
+          <td>$book.getFormattedAusleihdatum()</td>
+          <td>$book.getFormattedRueckgabedatum()</td>
+          <td>
+            #set($left = $book.getDaysLeft())
+            #set($days = "Tage")
+            #if($left == 1 || $left == -1)
+              #set($days = "Tag")
             #end
-        </tbody>
-    </table>
+            #if($left > 7)
+              <span class="has-text-success">${left} $days</span>
+            #elseif($left >= 0 && $left <= 7)
+              <span class="has-text-warning">${left} $days</span>
+            #else
+              <span class="has-text-danger">$Math.abs($left) $days überzogen</span>
+            #end
+          </td>
+        </tr>
+        #end
+      #end
+    </tbody>
+  </table>
 </div>

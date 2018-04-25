@@ -58,7 +58,7 @@ public class BuchExemplarDao extends AbstractDao<BuchExemplar, Integer> {
     /**
      * Borrows a book exemplar for a given user.
      *
-     * @param benutzer the user.
+     * @param benutzer     the user.
      * @param buchExemplar the book exemplar to borrow.
      * @return true if successfully borrowed, false if already borrowed or on error.
      */
@@ -83,7 +83,7 @@ public class BuchExemplarDao extends AbstractDao<BuchExemplar, Integer> {
     /**
      * Returns a book exemplar from a given user.
      *
-     * @param benutzer the user.
+     * @param benutzer     the user.
      * @param buchExemplar the book exemplar to return.
      * @return true if successfully returned, false if not borrowed or on error.
      */

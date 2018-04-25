@@ -2,12 +2,9 @@ package de.swt.bibliothek;
 
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
-import com.j256.ormlite.table.TableUtils;
-import com.jcabi.manifests.Manifests;
 import de.swt.bibliothek.config.ApplicationConfig;
 import de.swt.bibliothek.config.ConfigProvider;
 import de.swt.bibliothek.config.DatabaseConfig;
-import de.swt.bibliothek.config.ErrorReportingConfig;
 import de.swt.bibliothek.controller.BenutzerController;
 import de.swt.bibliothek.controller.BuchController;
 import de.swt.bibliothek.controller.BuchExemplarController;
@@ -17,8 +14,6 @@ import de.swt.bibliothek.model.*;
 import de.swt.bibliothek.util.Filters;
 import de.swt.bibliothek.util.Path;
 import de.swt.bibliothek.util.ViewUtil;
-import io.sentry.Sentry;
-import io.sentry.SentryClientFactory;
 import org.cfg4j.provider.ConfigurationProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,13 +51,6 @@ public class Application {
     // Config instances
     private DatabaseConfig databaseConfig;
     private ApplicationConfig applicationConfig;
-    private ErrorReportingConfig errorReportingConfig;
-
-    // Git commit hash
-    private static String gitCommitHash;
-
-    // Current version
-    private static String versionString;
 
     /**
      * Starts the application. See {@link Application}.
@@ -72,14 +60,6 @@ public class Application {
     public Application() throws SQLException {
         LOGGER.info("Starting application...");
         this.loadConfig();
-
-        if (errorReportingConfig.enabled()) {
-            this.startErrorReporting();
-        }
-
-        this.setGitCommitHash();
-        this.setVersionString();
-
         this.setupDatabaseConnection();
         this.createDaos(connectionSource);
         this.addShutdownHook();
@@ -185,11 +165,11 @@ public class Application {
     private void setupDatabaseConnection() throws SQLException {
         LOGGER.info("Connecting to database...");
         connectionSource = new JdbcPooledConnectionSource(String.format(DATABASE_URL,
-                databaseConfig.host(),
-                databaseConfig.port(),
-                databaseConfig.name(),
-                databaseConfig.user(),
-                databaseConfig.password()
+            databaseConfig.host(),
+            databaseConfig.port(),
+            databaseConfig.name(),
+            databaseConfig.user(),
+            databaseConfig.password()
         ));
     }
 
@@ -199,33 +179,9 @@ public class Application {
         try {
             databaseConfig = configurationProvider.bind("database", DatabaseConfig.class);
             applicationConfig = configurationProvider.bind("application", ApplicationConfig.class);
-            errorReportingConfig = configurationProvider.bind("errorReporting", ErrorReportingConfig.class);
         } catch (IllegalStateException e) {
             throw new RuntimeException("Config is missing or invalid.");
         }
-    }
-
-    private void startErrorReporting() {
-        LOGGER.info("Starting error reporting via 'Sentry'...");
-        Sentry.init(errorReportingConfig.apiKey());
-    }
-
-    private void setGitCommitHash() {
-        if (!Manifests.exists("Git-Commit-Hash")) return;
-        gitCommitHash = Manifests.read("Git-Commit-Hash");
-    }
-
-    private void setVersionString() {
-        if (!Manifests.exists("App-Version")) return;
-        versionString = Manifests.read("App-Version");
-    }
-
-    public static String getGitCommitHash() {
-        return gitCommitHash != null ? gitCommitHash.substring(0 ,7) : null;
-    }
-
-    public static String getVersionString() {
-        return versionString;
     }
 
     public static BenutzerDao getBenutzerDao() {

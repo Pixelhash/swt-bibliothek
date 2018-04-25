@@ -50,7 +50,7 @@ public class BenutzerController {
         Map<String, Object> model = new HashMap<>();
         Benutzer benutzer = req.session().attribute("user");
         String userMessage = String.format(new MessageBundle().get("DASHBOARD_SUBTITLE"),
-                benutzer.getFullName());
+            benutzer.getFullName());
 
         model.put("title", "Übersicht | Bibliothek");
         model.put("userMsg", userMessage);

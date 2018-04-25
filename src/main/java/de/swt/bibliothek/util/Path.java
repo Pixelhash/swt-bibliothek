@@ -16,21 +16,27 @@ public class Path {
         public static String getIndexSearch() {
             return INDEX_SEARCH;
         }
+
         public static String getBookSearch() {
             return BOOK_SEARCH;
         }
+
         public static String getLogin() {
             return LOGIN;
         }
+
         public static String getLogout() {
             return LOGOUT;
         }
+
         public static String getDashboard() {
             return DASHBOARD;
         }
+
         public static String getLend() {
             return LEND;
         }
+
         public static String getReturn() {
             return RETURN;
         }

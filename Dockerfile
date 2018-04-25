@@ -16,4 +16,4 @@ RUN ["mvn", "verify"]
 RUN ["mvn", "package"]
 
 EXPOSE 4567
-CMD ["java", "-jar", "target/bibliothek.jar"]
+CMD ["java", "-jar", "target/dist/Bibliothek.jar"]

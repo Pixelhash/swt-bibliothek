@@ -14,15 +14,15 @@ public class ConfigProvider {
     public static ConfigurationProvider configurationProvider() {
         // Specify which files to load. Configuration from both files will be merged.
         ConfigFilesProvider configFilesProvider = () -> Arrays.asList(
-                Paths.get(Paths.get(".").toAbsolutePath().normalize().toString(), "application.yaml"));
+            Paths.get(Paths.get(".").toAbsolutePath().normalize().toString(), "application.yaml"));
 
         // Use local files as configuration store
         ConfigurationSource source = new FilesConfigurationSource(configFilesProvider);
 
         // Create provider
         return new ConfigurationProviderBuilder()
-                .withConfigurationSource(source)
-                .build();
+            .withConfigurationSource(source)
+            .build();
     }
 
 }

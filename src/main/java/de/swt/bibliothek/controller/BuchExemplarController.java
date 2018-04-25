@@ -31,19 +31,19 @@ public class BuchExemplarController {
 
             if (benutzer == null) {
                 return ViewUtil.returnError(
-                        req,
-                        model,
-                        Path.Template.LEND,
-                        "Ausleihe | Bibliothek",
-                        new MessageBundle().get("ERROR_USER_NOT_FOUND")
+                    req,
+                    model,
+                    Path.Template.LEND,
+                    "Ausleihe | Bibliothek",
+                    new MessageBundle().get("ERROR_USER_NOT_FOUND")
                 );
             } else if (buchExemplar == null) {
                 return ViewUtil.returnError(
-                        req,
-                        model,
-                        Path.Template.LEND,
-                        "Ausleihe | Bibliothek",
-                        new MessageBundle().get("ERROR_BOOKEXEMPLAR_NOT_FOUND")
+                    req,
+                    model,
+                    Path.Template.LEND,
+                    "Ausleihe | Bibliothek",
+                    new MessageBundle().get("ERROR_BOOKEXEMPLAR_NOT_FOUND")
                 );
             }
             // User and book exemplar exist
@@ -51,31 +51,31 @@ public class BuchExemplarController {
             boolean success = Application.getBuchExemplarDao().borrow(benutzer, buchExemplar);
             if (!success) { // Book already borrowed
                 return ViewUtil.returnError(
-                        req,
-                        model,
-                        Path.Template.LEND,
-                        "Ausleihe | Bibliothek",
-                        new MessageBundle().get("ERROR_BOOKEXEMPLAR_BORROWED")
+                    req,
+                    model,
+                    Path.Template.LEND,
+                    "Ausleihe | Bibliothek",
+                    new MessageBundle().get("ERROR_BOOKEXEMPLAR_BORROWED")
                 );
             }
 
             // Book exemplar is not borrowed yet
             return ViewUtil.returnSuccess(
-                    req,
-                    model,
-                    Path.Template.LEND,
-                    "Ausleihe | Bibliothek",
-                    new MessageBundle().get("SUCCESS_BOOK_BORROWED")
+                req,
+                model,
+                Path.Template.LEND,
+                "Ausleihe | Bibliothek",
+                new MessageBundle().get("SUCCESS_BOOK_BORROWED")
             );
         }
         Application.LOGGER.warn("Invalid borrow data!");
         // Invalid or missing borrow parameters
         return ViewUtil.returnError(
-                req,
-                model,
-                Path.Template.LEND,
-                "Ausleihe | Bibliothek",
-                new MessageBundle().get("ERROR_INVALID_BORROW_DATA")
+            req,
+            model,
+            Path.Template.LEND,
+            "Ausleihe | Bibliothek",
+            new MessageBundle().get("ERROR_INVALID_BORROW_DATA")
         );
     };
 
@@ -97,19 +97,19 @@ public class BuchExemplarController {
 
             if (benutzer == null) {
                 return ViewUtil.returnError(
-                        req,
-                        model,
-                        Path.Template.RETURN,
-                        "R&uuml;ckgabe | Bibliothek",
-                        new MessageBundle().get("ERROR_USER_NOT_FOUND")
+                    req,
+                    model,
+                    Path.Template.RETURN,
+                    "R&uuml;ckgabe | Bibliothek",
+                    new MessageBundle().get("ERROR_USER_NOT_FOUND")
                 );
             } else if (buchExemplar == null) {
                 return ViewUtil.returnError(
-                        req,
-                        model,
-                        Path.Template.RETURN,
-                        "R&uuml;ckgabe | Bibliothek",
-                        new MessageBundle().get("ERROR_BOOKEXEMPLAR_NOT_FOUND")
+                    req,
+                    model,
+                    Path.Template.RETURN,
+                    "R&uuml;ckgabe | Bibliothek",
+                    new MessageBundle().get("ERROR_BOOKEXEMPLAR_NOT_FOUND")
                 );
             }
             // User and book exemplar exist
@@ -117,31 +117,31 @@ public class BuchExemplarController {
             boolean success = Application.getBuchExemplarDao().returnBook(benutzer, buchExemplar);
             if (!success) { // Book not borrowed yet
                 return ViewUtil.returnError(
-                        req,
-                        model,
-                        Path.Template.RETURN,
-                        "R&uuml;ckgabe | Bibliothek",
-                        new MessageBundle().get("ERROR_BOOKEXEMPLAR_NOT_BORROWED")
+                    req,
+                    model,
+                    Path.Template.RETURN,
+                    "R&uuml;ckgabe | Bibliothek",
+                    new MessageBundle().get("ERROR_BOOKEXEMPLAR_NOT_BORROWED")
                 );
             }
 
             // Book exemplar is not borrowed yet
             return ViewUtil.returnSuccess(
-                    req,
-                    model,
-                    Path.Template.RETURN,
-                    "R&uuml;ckgabe | Bibliothek",
-                    new MessageBundle().get("SUCCESS_BOOK_RETURNED")
+                req,
+                model,
+                Path.Template.RETURN,
+                "R&uuml;ckgabe | Bibliothek",
+                new MessageBundle().get("SUCCESS_BOOK_RETURNED")
             );
         }
         Application.LOGGER.warn("Invalid return data!");
         // Invalid or missing return parameters
         return ViewUtil.returnError(
-                req,
-                model,
-                Path.Template.RETURN,
-                "R&uuml;ckgabe | Bibliothek",
-                new MessageBundle().get("ERROR_INVALID_RETURN_DATA")
+            req,
+            model,
+            Path.Template.RETURN,
+            "R&uuml;ckgabe | Bibliothek",
+            new MessageBundle().get("ERROR_INVALID_RETURN_DATA")
         );
     };
 }

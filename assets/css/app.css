@@ -1,16 +1,16 @@
 .icon-nav {
-    padding-right: 0.75rem;
+  margin-right: 0.55rem;
 }
 
 .text-center {
-    text-align: center;
+  text-align: center;
 }
 
 .padding-top {
-    padding-top: 2.75rem;
+  padding-top: 2.75rem;
 }
 
-.table>tbody>tr.no-border>td,
-.table>tbody>tr.no-border>th {
+.table > tbody > tr.no-border > td,
+.table > tbody > tr.no-border > th {
   border: 0 !important;
 }
