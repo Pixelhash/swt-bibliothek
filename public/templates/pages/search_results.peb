@@ -1,0 +1,92 @@
+{% extends 'layouts/master' %}
+{% block content %}
+<section class="hero is-light is-bold">
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <h1 class="title is-3">
+                <span class="icon icon-nav has-text-grey-dark">
+                    <i class="fa fa-check"></i>
+                </span>
+        <span>{{ i18n("messages", "INDEX_RESULTS_TITLE") }}</span>
+      </h1>
+    </div>
+  </div>
+</section>
+<section class="section">
+  <div class="container has-text-centered">
+    {% set subtitle = i18n("messages", "INDEX_RESULTS_SUBTITLE_PL") %}
+    {% if amount == 1 %}
+    {% set subtitle = i18n("messages", "INDEX_RESULTS_SUBTITLE_SG") %}
+    {% endif %}
+    <h3 class="subtitle is-5">{{ amount }} {{ subtitle }} <b>{{ query }}</b></h3>
+    <div class="columns">
+      <div class="column is-1"></div>
+      <div class="column is-10">
+        {% for book in books %}
+        <div class="card">
+          <header class="card-header" style="background-color: #efefef;">
+            <i class="card-header-title is-centered">
+              {{ book.title }}
+            </i>
+          </header>
+          <div class="card-content">
+            <div class="columns is-gapless">
+              <div class="column is-1"></div>
+              <div class="column is-10">
+                <div style="overflow-x: auto;">
+                  <table class="table is-fullwidth is-narrow">
+                    <tbody>
+                    <tr class="no-border">
+                      <th>Autoren:</th>
+                      <td class="is-pulled-right">{{ book.authorsToString() }}</td>
+                    </tr>
+                    <tr class="no-border">
+                      <th>Verlag:</th>
+                      <td class="is-pulled-right">{{ book.publisher.name }}</td>
+                    </tr>
+                    <tr class="no-border">
+                      <th>Kategorie:</th>
+                      <td class="is-pulled-right">{{ book.category.name }}</td>
+                    </tr>
+                    <tr class="no-border">
+                      <th>Erscheinungsjahr:</th>
+                      <td class="is-pulled-right">{{ book.releaseYear | date("YYYY") }}</td>
+                    </tr>
+                    <tr class="no-border">
+                      <th>ISBN:</th>
+                      <td class="is-pulled-right">{{ book.isbn }}</td>
+                    </tr>
+                    <tr class="no-border">
+                      <th>Standort:</th>
+                      <td class="is-pulled-right">{{ book.location }}</td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="column is-1"></div>
+            </div>
+          </div>
+          <footer class="card-footer">
+            {% set exemplare = "Exemplare" %}
+            {% if book.copies.size() == 1 %}
+              {% set exemplare = "Exemplar" %}
+            {% endif %}
+            <p href="#" class="card-footer-item
+                            {% if book.copies.size() == 0 %}
+                                has-text-danger
+                            {% else %}
+                                has-text-success
+                            {% endif %}">{{ book.copies.size() }} {{ exemplare }} vorhanden</p>
+          </footer>
+        </div>
+        {% endfor %}
+        <div class="content padding-top">
+          <a href="/">{{ i18n("messages", "INDEX_RESULTS_BACK") }}</a>
+        </div>
+      </div>
+      <div class="column is-1"></div>
+    </div>
+  </div>
+</section>
+{% endblock %}

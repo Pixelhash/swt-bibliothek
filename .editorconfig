@@ -8,9 +8,9 @@ trim_trailing_whitespace = true
 
 [src/**.java]
 indent_style = space
-indent_size = 4
+indent_size = 2
 
-[src/main/resources/velocity/**.vm]
+[public/templates/**.peb]
 indent_style = space
 indent_size = 2
 
@@ -22,6 +22,6 @@ indent_size = 2
 indent_style = space
 indent_size = 2
 
-[*.{yml,yaml}]
+[*.{yml,yaml,xml}]
 indent_style = space
 indent_size = 2

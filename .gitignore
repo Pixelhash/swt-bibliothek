@@ -69,6 +69,6 @@ buildNumber.properties
 !/.mvn/wrapper/maven-wrapper.jar
 
 # -> Custom
-application.yaml
-bibliothek.db
 data/
+conf/application.conf
+log/*.log
