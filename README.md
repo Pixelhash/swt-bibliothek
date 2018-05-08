@@ -157,7 +157,6 @@ Die Installation kann entweder manuell oder mit Docker/Docker Compose durchgefü
 
 ## Zukünftige Features
 
-- Anlegen von Kunden
 - Anlegen von Büchern
 - Filter für die Buchsuche
 - Anlegen eines Bereichs zum Stöbern in Kategorien
