@@ -10,7 +10,7 @@
                 </span>
         <span>{{ i18n("messages", "DASHBOARD_TITLE") }}</span>
       </h1>
-      <h3 class="subtitle is-5">{{ i18n("messages", "DASHBOARD_SUBTITLE", cache.user.getFullName()) }}</h3>
+      <h3 class="subtitle is-5">{{ i18n("messages", "DASHBOARD_SUBTITLE", user.getFullName()) }}</h3>
     </div>
   </div>
 </section>
@@ -27,41 +27,41 @@
               <th>Rolle:</th>
               <td class="is-pulled-right">
                 {% set color = "is-primary" %}
-                {% if cache.user.role.name() == "MITARBEITER" %}
+                {% if user.isEmployee() %}
                   {% set color = "is-danger" %}
                 {% endif %}
-                <span class="tag {{ color }}">{{ cache.user.role.name() }}</span>
+                <span class="tag {{ color }}">{{ user.role.name() }}</span>
               </td>
             </tr>
             <tr class="no-border">
               <th>Name:</th>
-              <td class="is-pulled-right">{{ cache.user.getFullName() }}</td>
+              <td class="is-pulled-right">{{ user.getFullName() }}</td>
             </tr>
             <tr class="no-border">
               <th>E-Mail:</th>
-              <td class="is-pulled-right">{{ cache.user.email }}</td>
+              <td class="is-pulled-right">{{ user.email }}</td>
             </tr>
             <tr class="no-border">
               <th>Tel. Nr.:</th>
               <td class="is-pulled-right">
-                {% if cache.user.phoneNumber is null %}
+                {% if user.phoneNumber is null %}
                 -
                 {% else %}
-                {{ cache.user.phoneNumber }}
+                {{ user.phoneNumber }}
                 {% endif %}
               </td>
             </tr>
             <tr class="no-border">
               <th>Geburtsdatum:</th>
-              <td class="is-pulled-right">{{ cache.user.dateOfBirth | date("dd.MMM.YYYY") }}</td>
+              <td class="is-pulled-right">{{user.dateOfBirth | date("dd.MMM.YYYY") }}</td>
             </tr>
             <tr class="no-border">
               <th>Straße:</th>
-              <td class="is-pulled-right">{{ cache.user.address.getFullAddress() }}</td>
+              <td class="is-pulled-right">{{ user.address.getFullAddress() }}</td>
             </tr>
             <tr class="no-border">
               <th>Ort:</th>
-              <td class="is-pulled-right">{{ cache.user.address.getFullCity() }}</td>
+              <td class="is-pulled-right">{{ user.address.getFullCity() }}</td>
             </tr>
             </tbody>
           </table>
@@ -69,11 +69,11 @@
       </div>
       <div class="column is-7">
         <div class="box">
-          #if($session.attribute("user").getRolle().name().equals("KUNDE"))
-          #parse('/velocity/includes/customer_dashboard_part.vm')
-          #else
-          #parse('/velocity/includes/employee_dashboard_part.vm')
-          #end
+          {% if user.isCustomer() %}
+            {% include 'includes/customer_dashboard_part' %}
+          {% elseif user.isEmployee() %}
+            {% include 'includes/employee_dashboard_part' %}
+          {% endif %}
         </div>
       </div>
     </div>

@@ -47,4 +47,12 @@ public abstract class AbstractUser {
     return forename + " " + surname;
   }
 
+  public boolean isEmployee() {
+    return role == UserRole.MITARBEITER;
+  }
+
+  public boolean isCustomer() {
+    return role == UserRole.KUNDE;
+  }
+
 }

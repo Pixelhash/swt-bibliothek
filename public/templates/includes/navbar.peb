@@ -16,88 +16,88 @@
 
         <div id="navbar" class="navbar-menu">
             <div class="navbar-start">
-              {# @pebvariable name="cache" type="Cache" #}{% if cache.user is null or cache.user.role == UserRole.KUNDE %}
-                <a class="navbar-item" href="/">
-                    <span class="icon"><i class="fa fa-search"></i></span>
-                    <span>Suche</span>
-                </a>
-                {% else %}
-                <div class="navbar-item has-dropdown is-hoverable">
-                    <a class="navbar-link">
-                        Suche
-                    </a>
-                    <div class="navbar-dropdown is-boxed">
-                        <a class="navbar-item" href="$WebPath.getBookSearch()">
-                            <span class="icon"><i class="fa fa-clipboard"></i></span>
-                            <span>Buch</span>
-                        </a>
-                        <a class="navbar-item" href="#">
-                            <span class="icon"><i class="fa fa-book"></i></span>
-                            <span>BuchExemplar</span>
-                        </a>
-                        <a class="navbar-item" href="#">
-                            <span class="icon"><i class="fa fa-user"></i></span>
-                            <span>Kunde</span>
-                        </a>
-                        <a class="navbar-item" href="#">
-                            <span class="icon"><i class="fa fa-tag"></i></span>
-                            <span>Kategorie</span>
-                        </a>
-                        <a class="navbar-item" href="#">
-                            <span class="icon"><i class="fa fa-pencil"></i></span>
-                            <span>Autor</span>
-                        </a>
-                        <a class="navbar-item" href="#">
-                            <span class="icon"><i class="fa fa-print"></i></span>
-                            <span>Verlag</span>
-                        </a>
-                    </div>
-                </div>
-                <div class="navbar-item has-dropdown is-hoverable">
-                    <a class="navbar-link">
-                        Anlegen
-                    </a>
-                    <div class="navbar-dropdown is-boxed">
-                        <a class="navbar-item" href="#">
-                            <span class="icon"><i class="fa fa-clipboard"></i></span>
-                            <span>Buch</span>
-                        </a>
-                        <a class="navbar-item" href="#">
-                            <span class="icon"><i class="fa fa-book"></i></span>
-                            <span>BuchExemplar</span>
-                        </a>
-                        <a class="navbar-item" href="#">
-                            <span class="icon"><i class="fa fa-user"></i></span>
-                            <span>Kunde</span>
-                        </a>
-                        <a class="navbar-item" href="#">
-                            <span class="icon"><i class="fa fa-tag"></i></span>
-                            <span>Kategorie</span>
-                        </a>
-                        <a class="navbar-item" href="#">
-                            <span class="icon"><i class="fa fa-pencil"></i></span>
-                            <span>Autor</span>
-                        </a>
-                        <a class="navbar-item" href="#">
-                            <span class="icon"><i class="fa fa-print"></i></span>
-                            <span>Verlag</span>
-                        </a>
-                    </div>
-                </div>
-                <a class="navbar-item" href="$WebPath.getLend()">
-                    <span class="icon"><i class="fa fa-book"></i></span>
-                    <span>Ausleihen</span>
-                </a>
-                <a class="navbar-item" href="$WebPath.getReturn()">
-                    <span class="icon"><i class="fa fa-reply"></i></span>
-                    <span>Rückgabe</span>
-                </a>
-                {% endif %}
+              {# @pebvariable name="user" type="User" #}{% if user is null or user.isCustomer() %}
+              <a class="navbar-item" href="/">
+                  <span class="icon"><i class="fa fa-search"></i></span>
+                  <span>Suche</span>
+              </a>
+              {% else %}
+              <div class="navbar-item has-dropdown is-hoverable">
+                  <a class="navbar-link">
+                      Suche
+                  </a>
+                  <div class="navbar-dropdown is-boxed">
+                      <a class="navbar-item" href="#">
+                          <span class="icon"><i class="fa fa-clipboard"></i></span>
+                          <span>Buch</span>
+                      </a>
+                      <a class="navbar-item" href="#">
+                          <span class="icon"><i class="fa fa-book"></i></span>
+                          <span>BuchExemplar</span>
+                      </a>
+                      <a class="navbar-item" href="#">
+                          <span class="icon"><i class="fa fa-user"></i></span>
+                          <span>Kunde</span>
+                      </a>
+                      <a class="navbar-item" href="#">
+                          <span class="icon"><i class="fa fa-tag"></i></span>
+                          <span>Kategorie</span>
+                      </a>
+                      <a class="navbar-item" href="#">
+                          <span class="icon"><i class="fa fa-pencil"></i></span>
+                          <span>Autor</span>
+                      </a>
+                      <a class="navbar-item" href="#">
+                          <span class="icon"><i class="fa fa-print"></i></span>
+                          <span>Verlag</span>
+                      </a>
+                  </div>
+              </div>
+              <div class="navbar-item has-dropdown is-hoverable">
+                  <a class="navbar-link">
+                      Anlegen
+                  </a>
+                  <div class="navbar-dropdown is-boxed">
+                      <a class="navbar-item" href="#">
+                          <span class="icon"><i class="fa fa-clipboard"></i></span>
+                          <span>Buch</span>
+                      </a>
+                      <a class="navbar-item" href="#">
+                          <span class="icon"><i class="fa fa-book"></i></span>
+                          <span>BuchExemplar</span>
+                      </a>
+                      <a class="navbar-item" href="#">
+                          <span class="icon"><i class="fa fa-user"></i></span>
+                          <span>Kunde</span>
+                      </a>
+                      <a class="navbar-item" href="#">
+                          <span class="icon"><i class="fa fa-tag"></i></span>
+                          <span>Kategorie</span>
+                      </a>
+                      <a class="navbar-item" href="#">
+                          <span class="icon"><i class="fa fa-pencil"></i></span>
+                          <span>Autor</span>
+                      </a>
+                      <a class="navbar-item" href="#">
+                          <span class="icon"><i class="fa fa-print"></i></span>
+                          <span>Verlag</span>
+                      </a>
+                  </div>
+              </div>
+              <a class="navbar-item" href="#">
+                  <span class="icon"><i class="fa fa-book"></i></span>
+                  <span>Ausleihen</span>
+              </a>
+              <a class="navbar-item" href="#">
+                  <span class="icon"><i class="fa fa-reply"></i></span>
+                  <span>Rückgabe</span>
+              </a>
+              {% endif %}
             </div>
             <div class="navbar-end">
                 <div class="navbar-item">
                     <div class="field is-grouped">
-                        {% if cache.user is null %}
+                        {% if user is null %}
                         <p class="control">
                             <a class="button is-link" href="/user/session/login">
                                     <span class="icon">

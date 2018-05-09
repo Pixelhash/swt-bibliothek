@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% block title %}Default Title{% endblock %}</title>
+  <title>{% block title %}Bibliothek{% endblock %}</title>
   <meta name="description" content="Bibliothek">
-  <meta name="author" content="SWT-1">
-  <link rel="icon" href="/img/favicon.ico">
+  <meta name="author" content="SWT-2 Gruppe">
+  <link rel="icon" href="/assets/img/favicon.ico">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
   {{ home_styles | raw}}

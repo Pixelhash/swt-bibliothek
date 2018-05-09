@@ -1,15 +1,19 @@
 package de.fhl.swtlibrary;
 
 import com.github.benmanes.caffeine.cache.Cache;
-import de.fhl.swtlibrary.model.AbstractUser;
 import de.fhl.swtlibrary.model.Models;
 import de.fhl.swtlibrary.model.User;
 import de.fhl.swtlibrary.mvc.AuthenticationController;
+import de.fhl.swtlibrary.mvc.BorrowController;
 import de.fhl.swtlibrary.mvc.DashboardController;
 import de.fhl.swtlibrary.mvc.SearchController;
+import de.fhl.swtlibrary.util.AuthenticationChecker;
+import io.requery.EntityStore;
+import io.requery.Persistable;
 import org.jooby.FlashScope;
 import org.jooby.Jooby;
 import org.jooby.RequestLogger;
+import org.jooby.Session;
 import org.jooby.assets.Assets;
 import org.jooby.caffeine.CaffeineCache;
 import org.jooby.handlers.CsrfHandler;
@@ -38,26 +42,38 @@ public class App extends Jooby {
     /* Template Engine: */
     use(new Pebble("templates", ".peb"));
 
-    on("dev", () -> {
-      /* Pretty Error page: */
-      use(new Whoops());
-    });
-
-    use(new CaffeineCache<String, User>() {});
+    use(new CaffeineCache<Session, User>() {});
 
     use(new FlashScope());
 
     use("*", new CsrfHandler());
+
+    on("dev", () -> {
+      /* Pretty Error page: */
+      use(new Whoops());
+    });
 
     on("prod", () -> {
       /* Log all requests to file: */
       use("*", new RequestLogger());
     });
 
-    use("*", (req, res) -> {
-      Cache cache = require(Cache.class);
+    before((req, res) -> {
+      EntityStore<Persistable, User> userStore = require(EntityStore.class);
 
-      req.set("cache", cache.asMap());
+      if (AuthenticationChecker.isLoggedIn(req)) {
+        final User user = AuthenticationChecker.getLoggedInUser(userStore, req);
+        if (user != null) req.set("user", user);
+      }
+
+//      Cache cache = require(Cache.class);
+//      User user = (User) cache.getIfPresent(req.session());
+//      System.out.println(cache.asMap());
+//      System.out.println(user);
+//      if (user != null) {
+//        System.out.println("User in session: " + user.getEmail());
+//        req.set("user", user);
+//      }
       req.set("session", req.session());
     });
 
@@ -69,6 +85,9 @@ public class App extends Jooby {
 
     /* Dashboard Routes: */
     use(DashboardController.class);
+
+    /* Borrow BookCopy Routes: */
+    use(BorrowController.class);
   }
 
   public static void main(final String[] args) {

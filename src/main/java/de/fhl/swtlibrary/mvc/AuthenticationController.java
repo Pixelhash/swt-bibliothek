@@ -3,11 +3,13 @@ package de.fhl.swtlibrary.mvc;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.google.inject.Inject;
 import de.fhl.swtlibrary.model.User;
+import de.fhl.swtlibrary.util.AuthenticationChecker;
 import io.requery.EntityStore;
 import io.requery.Persistable;
 import org.jooby.Request;
 import org.jooby.Result;
 import org.jooby.Results;
+import org.jooby.Session;
 import org.jooby.mvc.GET;
 import org.jooby.mvc.POST;
 import org.jooby.mvc.Path;
@@ -20,11 +22,11 @@ public class AuthenticationController {
 
   private Request req;
   private EntityStore<Persistable, User> userEntityStore;
-  private Cache<String, User> userCache;
+  private Cache<Session, User> userCache;
 
   @Inject
   public AuthenticationController(Request req, EntityStore<Persistable, User> userEntityStore,
-                                  Cache<String, User> userCache) {
+                                  Cache<Session, User> userCache) {
     this.req = req;
     this.userEntityStore = userEntityStore;
     this.userCache = userCache;
@@ -43,15 +45,15 @@ public class AuthenticationController {
     String password = req.param("password").value();
 
     if (userId != -1 || !password.trim().isEmpty()) {
-      List<User> users = userEntityStore.select(User.class)
+      User user = userEntityStore.select(User.class)
         .where(User.ID.eq(userId))
         .get()
-        .toList();
-      if (!users.isEmpty()) {
-        User user = users.get(0);
+        .firstOrNull();
+      if (user != null) {
         if (BCrypt.checkpw(password, user.getPassword())) {
           System.out.println("Correct password!");
-          userCache.put("user", user);
+          req.session().set("userId", user.getId());
+          return Results.redirect("/user/dashboard");
         }
       }
     }
@@ -64,9 +66,8 @@ public class AuthenticationController {
   @POST
   @Path("/logout")
   public Result postUserLogout() {
-    User currentUser = userCache.getIfPresent("user");
-    if (currentUser != null) {
-      userCache.invalidate("user");
+    if (AuthenticationChecker.isLoggedIn(req)) {
+      req.session().unset("userId");
     }
 
     return Results.redirect("/");
