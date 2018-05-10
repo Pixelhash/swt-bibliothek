@@ -3,6 +3,7 @@ package de.fhl.swtlibrary.mvc;
 import com.google.inject.Inject;
 import de.fhl.swtlibrary.model.Author;
 import de.fhl.swtlibrary.model.Book;
+import de.fhl.swtlibrary.util.Paths;
 import io.requery.EntityStore;
 import io.requery.Persistable;
 import org.jooby.Request;
@@ -38,18 +39,26 @@ public class SearchController {
     if (query.trim().isEmpty()) {
       req.flash("error", true)
         .flash("error_message", "ERROR_MISSING_FIELDS");
-      return Results.redirect("/");
+      return Results.redirect(Paths.BOOK_SEARCH);
     } else if (query.trim().length() < 3) {
       req.flash("error", true)
         .flash("error_message", "ERROR_SHORT_QUERY");
-      return Results.redirect("/");
+      return Results.redirect(Paths.BOOK_SEARCH);
     }
 
     List<Book> books = bookEntityStore.select(Book.class)
       .where(Book.TITLE.like("%" + query + "%"))
       .get()
       .toList();
+
+    if (books.isEmpty()) {
+      req.flash("error", true)
+        .flash("error_message", "ERROR_NO_RESULTS");
+      return Results.redirect(Paths.BOOK_SEARCH);
+    }
+
     books.forEach(b -> bookEntityStore.refresh(b, Book.AUTHORS));
+    books.forEach(b -> bookEntityStore.refresh(b, Book.COPIES));
     req.set("query", query);
     req.set("books", books);
     return Results.html("pages/search_results");

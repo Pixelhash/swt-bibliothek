@@ -3,6 +3,7 @@ package de.fhl.swtlibrary.mvc;
 import com.google.inject.Inject;
 import de.fhl.swtlibrary.model.*;
 import de.fhl.swtlibrary.util.AuthenticationChecker;
+import de.fhl.swtlibrary.util.Paths;
 import io.requery.EntityStore;
 import io.requery.Persistable;
 import org.jooby.Request;
@@ -46,13 +47,13 @@ public class DashboardController {
   public Result getUserDashboard() {
     // Check if logged in
     if (!AuthenticationChecker.isLoggedIn(req)) {
-      return Results.redirect("/user/session/login");
+      return Results.redirect(Paths.USER_LOGIN);
     }
 
     User user = AuthenticationChecker.getLoggedInUser(userEntityStore, req);
 
     if (user == null) {
-      return Results.redirect("/user/session/login");
+      return Results.redirect(Paths.USER_LOGIN);
     }
 
     if (user.isCustomer()) {

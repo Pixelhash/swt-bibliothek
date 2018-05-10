@@ -49,4 +49,11 @@ public abstract class AbstractBook {
       .map(a -> ((Author) a).getName())
       .collect(Collectors.joining(", "));
   }
+
+  public List<BookCopy> getAvailableCopies() {
+    return copies.stream()
+      .map(c -> (BookCopy) c)
+      .filter(c -> c.borrower == null)
+      .collect(Collectors.toList());
+  }
 }

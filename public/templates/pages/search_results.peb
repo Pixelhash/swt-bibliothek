@@ -69,20 +69,20 @@
           </div>
           <footer class="card-footer">
             {% set exemplare = "Exemplare" %}
-            {% if book.copies.size() == 1 %}
+            {% if book.getAvailableCopies().size() == 1 %}
               {% set exemplare = "Exemplar" %}
             {% endif %}
             <p href="#" class="card-footer-item
-                            {% if book.copies.size() == 0 %}
+                            {% if book.getAvailableCopies().size() == 0 %}
                                 has-text-danger
                             {% else %}
                                 has-text-success
-                            {% endif %}">{{ book.copies.size() }} {{ exemplare }} vorhanden</p>
+                            {% endif %}">{{ book.getAvailableCopies().size() }} {{ exemplare }} vorhanden</p>
           </footer>
         </div>
         {% endfor %}
         <div class="content padding-top">
-          <a href="/">{{ i18n("messages", "INDEX_RESULTS_BACK") }}</a>
+          <a href="{{ Paths.BOOK_SEARCH }}">{{ i18n("messages", "INDEX_RESULTS_BACK") }}</a>
         </div>
       </div>
       <div class="column is-1"></div>

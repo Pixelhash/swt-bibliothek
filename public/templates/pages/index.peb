@@ -23,7 +23,7 @@
           {{ i18n("messages", flash.error_message) }}
         </div>
         {% endif %}
-        <form action="/" method="post">
+        <form action="{{ Paths.BOOK_SEARCH }}" method="post">
           <div class="field">
             <div class="control">
               <input class="input is-medium" type="text" name="query" placeholder="{{ i18n("messages", "INDEX_INPUT_PLACEHOLDER") }}"

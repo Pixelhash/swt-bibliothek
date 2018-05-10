@@ -1,15 +1,15 @@
 package de.fhl.swtlibrary;
 
-import static io.restassured.RestAssured.get;
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertEquals;
-
-import de.fhl.swtlibrary.App;
 import org.jooby.test.JoobyRule;
 import org.jooby.test.MockRouter;
 import org.junit.ClassRule;
 import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
+
+import static io.restassured.RestAssured.get;
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author jooby generator

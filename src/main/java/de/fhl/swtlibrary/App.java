@@ -3,13 +3,12 @@ package de.fhl.swtlibrary;
 import com.github.benmanes.caffeine.cache.Cache;
 import de.fhl.swtlibrary.model.Models;
 import de.fhl.swtlibrary.model.User;
-import de.fhl.swtlibrary.mvc.AuthenticationController;
-import de.fhl.swtlibrary.mvc.BorrowController;
-import de.fhl.swtlibrary.mvc.DashboardController;
-import de.fhl.swtlibrary.mvc.SearchController;
+import de.fhl.swtlibrary.mvc.*;
 import de.fhl.swtlibrary.util.AuthenticationChecker;
+import de.fhl.swtlibrary.util.Paths;
 import io.requery.EntityStore;
 import io.requery.Persistable;
+import io.requery.sql.TableCreationMode;
 import org.jooby.FlashScope;
 import org.jooby.Jooby;
 import org.jooby.RequestLogger;
@@ -75,6 +74,7 @@ public class App extends Jooby {
 //        req.set("user", user);
 //      }
       req.set("session", req.session());
+      req.set("Paths", new Paths());
     });
 
     /* Search Routes: */
@@ -88,6 +88,9 @@ public class App extends Jooby {
 
     /* Borrow BookCopy Routes: */
     use(BorrowController.class);
+
+    /* Return BookCopy Routes: */
+    use(ReturnController.class);
   }
 
   public static void main(final String[] args) {

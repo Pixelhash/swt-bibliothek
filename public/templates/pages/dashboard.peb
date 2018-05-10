@@ -53,7 +53,7 @@
             </tr>
             <tr class="no-border">
               <th>Geburtsdatum:</th>
-              <td class="is-pulled-right">{{user.dateOfBirth | date("dd.MMM.YYYY") }}</td>
+              <td class="is-pulled-right">{{user.dateOfBirth | date("dd.MM.YYYY") }}</td>
             </tr>
             <tr class="no-border">
               <th>Straße:</th>

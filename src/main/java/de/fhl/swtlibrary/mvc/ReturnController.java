@@ -1,7 +1,6 @@
 package de.fhl.swtlibrary.mvc;
 
 import com.google.inject.Inject;
-import de.fhl.swtlibrary.model.Book;
 import de.fhl.swtlibrary.model.BookCopy;
 import de.fhl.swtlibrary.model.User;
 import de.fhl.swtlibrary.util.AuthenticationChecker;
@@ -15,19 +14,15 @@ import org.jooby.mvc.GET;
 import org.jooby.mvc.POST;
 import org.jooby.mvc.Path;
 
-import java.time.LocalDateTime;
-import java.util.Calendar;
-import java.util.Date;
-
-@Path(Paths.BOOK_BORROW)
-public class BorrowController {
+@Path(Paths.BOOK_RETURN)
+public class ReturnController {
 
   private Request req;
   private EntityStore<Persistable, User> userEntityStore;
   private EntityStore<Persistable, BookCopy> bookCopyEntityStore;
 
   @Inject
-  public BorrowController(Request req,
+  public ReturnController(Request req,
                           EntityStore<Persistable, User> userEntityStore,
                           EntityStore<Persistable, BookCopy> bookCopyEntityStore) {
 
@@ -37,7 +32,7 @@ public class BorrowController {
   }
 
   @GET
-  public Result getBorrowBookCopy() {
+  public Result getReturnBookCopy() {
     // Check if logged in
     if (!AuthenticationChecker.isLoggedIn(req)) {
       return Results.redirect(Paths.USER_LOGIN);
@@ -54,11 +49,11 @@ public class BorrowController {
       return Results.redirect(Paths.USER_DASHBOARD);
     }
 
-    return Results.html("pages/borrow");
+    return Results.html("pages/return");
   }
 
   @POST
-  public Result postBorrowBookCopy() {
+  public Result postReturnBookCopy() {
     // Check if logged in
     if (!AuthenticationChecker.isLoggedIn(req)) {
       return Results.redirect(Paths.USER_LOGIN);
@@ -81,7 +76,7 @@ public class BorrowController {
     if (userId == -1 || bookCopyId == -1) {
       req.flash("error", true)
         .flash("error_message", "ERROR_INVALID_BORROW_DATA");
-      return Results.redirect(Paths.BOOK_BORROW);
+      return Results.redirect(Paths.BOOK_RETURN);
     }
 
     User targetUser = userEntityStore.select(User.class)
@@ -97,32 +92,32 @@ public class BorrowController {
     if (targetUser == null) {
       req.flash("error", true)
         .flash("error_message", "ERROR_USER_NOT_FOUND");
-      return Results.redirect(Paths.BOOK_BORROW);
+      return Results.redirect(Paths.BOOK_RETURN);
     } else if (bookCopy == null) {
       req.flash("error", true)
         .flash("error_message", "ERROR_BOOKCOPY_NOT_FOUND");
-      return Results.redirect(Paths.BOOK_BORROW);
+      return Results.redirect(Paths.BOOK_RETURN);
     }
     // Both objects exist
 
-    // Check if book copy already borrowed
-    if (bookCopy.getBorrower() != null) {
+    // Check if book copy isn't borrowed
+    if (bookCopy.getBorrower() == null) {
       req.flash("error", true)
-        .flash("error_message", "ERROR_BOOKCOPY_BORROWED");
-      return Results.redirect(Paths.BOOK_BORROW);
+        .flash("error_message", "ERROR_BOOKCOPY_NOT_BORROWED");
+      return Results.redirect(Paths.BOOK_RETURN);
     }
 
-    // Borrow book
-    LocalDateTime now = LocalDateTime.now();
+    // Return book
 
-    bookCopy.setBorrower(targetUser);
-    bookCopy.setBorrowedOn(now);
-    bookCopy.setReturnOn(now.plusDays(30));
+    bookCopy.setBorrower(null);
+    bookCopy.setBorrowedOn(null);
+    bookCopy.setReturnOn(null);
 
     bookCopyEntityStore.update(bookCopy);
 
     req.flash("success", true)
-      .flash("success_message", "SUCCESS_BOOK_BORROWED");
-    return Results.redirect(Paths.BOOK_BORROW);
+      .flash("success_message", "SUCCESS_BOOK_RETURNED");
+    return Results.redirect(Paths.BOOK_RETURN);
   }
+
 }

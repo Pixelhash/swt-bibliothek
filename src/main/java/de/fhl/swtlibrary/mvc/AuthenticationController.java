@@ -4,6 +4,7 @@ import com.github.benmanes.caffeine.cache.Cache;
 import com.google.inject.Inject;
 import de.fhl.swtlibrary.model.User;
 import de.fhl.swtlibrary.util.AuthenticationChecker;
+import de.fhl.swtlibrary.util.Paths;
 import io.requery.EntityStore;
 import io.requery.Persistable;
 import org.jooby.Request;
@@ -51,16 +52,15 @@ public class AuthenticationController {
         .firstOrNull();
       if (user != null) {
         if (BCrypt.checkpw(password, user.getPassword())) {
-          System.out.println("Correct password!");
           req.session().set("userId", user.getId());
-          return Results.redirect("/user/dashboard");
+          return Results.redirect(Paths.USER_DASHBOARD);
         }
       }
     }
 
     req.flash("error", true)
       .flash("error_message", "ERROR_INVALID_LOGIN");
-    return Results.redirect("/user/session/login");
+    return Results.redirect(Paths.USER_LOGIN);
   }
 
   @POST
@@ -70,7 +70,7 @@ public class AuthenticationController {
       req.session().unset("userId");
     }
 
-    return Results.redirect("/");
+    return Results.redirect(Paths.USER_LOGIN);
   }
 
 }
