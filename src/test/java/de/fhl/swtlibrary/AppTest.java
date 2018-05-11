@@ -1,12 +1,15 @@
 package de.fhl.swtlibrary;
 
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.*;
+import de.fhl.swtlibrary.util.Paths;
 import org.jooby.test.JoobyRule;
 import org.jooby.test.MockRouter;
-import org.junit.ClassRule;
-import org.junit.Ignore;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 
+import javax.sql.DataSource;
+
+import static io.restassured.RestAssured.form;
 import static io.restassured.RestAssured.get;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertEquals;
@@ -23,24 +26,47 @@ public class AppTest {
   @ClassRule
   public static JoobyRule app = new JoobyRule(new App());
 
-  @Ignore
-  @Test
-  public void integrationTest() {
-    get("/")
-        .then()
-        .assertThat()
-        .body(equalTo("Hello World!"))
-        .statusCode(200)
-        .contentType("text/html;charset=UTF-8");
+  private static final String HOSTNAME = "http://localhost:4567";
+  private static WebClient webClient;
+
+  @BeforeClass
+  public static void setUp() throws Exception {
+    DatabaseUtil.setUpTestDatabase();
+//    DatabaseUtil.insertAuthors();
+//    DatabaseUtil.insertCategories();
+//    DatabaseUtil.insertPublishers();
+//    DatabaseUtil.insertTestBooks();
+//    DatabaseUtil.insertBookAuthors();
+
+    webClient = new WebClient();
+    webClient.getOptions().setCssEnabled(false);
+    webClient.getOptions().setJavaScriptEnabled(false);
+    webClient.getOptions().setThrowExceptionOnScriptError(false);
   }
 
-  @Ignore
   @Test
-  public void unitTest() throws Throwable {
-    String result = new MockRouter(new App())
-        .get("/");
+  public void testBookSearchForm() throws Exception {
+      final HtmlPage page = webClient.getPage(HOSTNAME + Paths.BOOK_SEARCH);
 
-    assertEquals("Hello World!", result);
+      String expected = "Buchsuche | Bibliothek";
+      assertEquals(expected, page.getTitleText());
+  }
+
+  @Test
+  public void testBookSearchInputs() throws Exception {
+    final HtmlPage page = webClient.getPage(HOSTNAME + Paths.BOOK_SEARCH);
+
+    final HtmlForm searchForm = page.getFormByName("book_search_form");
+
+    final HtmlButton button = searchForm.getButtonByName("book_search_btn");
+    final HtmlTextInput queryField = searchForm.getInputByName("query");
+
+    queryField.type("mathe");
+
+    final HtmlPage resultsPage = button.click();
+
+    String expected = "Suchergebnisse | Bibliothek";
+    assertEquals(expected, resultsPage.getTitleText());
   }
 
 }

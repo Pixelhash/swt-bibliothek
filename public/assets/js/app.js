@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  console.log("Ready!")
+  console.log("Ready!");
 
   let errorCodes = {
     1: "Falscher Content-Type!",

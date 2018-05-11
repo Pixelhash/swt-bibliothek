@@ -47,7 +47,7 @@ public class SearchController {
     }
 
     List<Book> books = bookEntityStore.select(Book.class)
-      .where(Book.TITLE.like("%" + query + "%"))
+      .where(Book.TITLE.lower().like("%" + query.toLowerCase() + "%"))
       .get()
       .toList();
 

@@ -1,6 +1,6 @@
 package de.fhl.swtlibrary;
 
-import com.github.benmanes.caffeine.cache.Cache;
+import de.fhl.swtlibrary.model.Book;
 import de.fhl.swtlibrary.model.Models;
 import de.fhl.swtlibrary.model.User;
 import de.fhl.swtlibrary.mvc.*;
@@ -9,12 +9,11 @@ import de.fhl.swtlibrary.util.Paths;
 import io.requery.EntityStore;
 import io.requery.Persistable;
 import io.requery.sql.TableCreationMode;
+import org.h2.tools.RunScript;
 import org.jooby.FlashScope;
 import org.jooby.Jooby;
 import org.jooby.RequestLogger;
-import org.jooby.Session;
 import org.jooby.assets.Assets;
-import org.jooby.caffeine.CaffeineCache;
 import org.jooby.handlers.CsrfHandler;
 import org.jooby.jdbc.Jdbc;
 import org.jooby.json.Jackson;
@@ -25,12 +24,23 @@ import org.jooby.whoops.Whoops;
 @SuppressWarnings("unchecked")
 public class App extends Jooby {
 
+  private static boolean TESTING = false;
+
   {
+    {
+      TESTING = Boolean.valueOf(System.getProperty("application.testing"));
+      if (TESTING) {
+        System.out.println("---------- Application started in TESTING mode! ----------");
+        conf("application-testing.conf");
+      }
+    }
+
     /* Connection pool: */
     use(new Jdbc("db"));
 
     /* Requery: */
-    use(new Requery(Models.DEFAULT));
+    use(new Requery(Models.DEFAULT)
+      .schema(TableCreationMode.CREATE_NOT_EXISTS));
 
     /* JSON: */
     use(new Jackson());
@@ -40,8 +50,6 @@ public class App extends Jooby {
 
     /* Template Engine: */
     use(new Pebble("templates", ".peb"));
-
-    use(new CaffeineCache<Session, User>() {});
 
     use(new FlashScope());
 
@@ -65,14 +73,6 @@ public class App extends Jooby {
         if (user != null) req.set("user", user);
       }
 
-//      Cache cache = require(Cache.class);
-//      User user = (User) cache.getIfPresent(req.session());
-//      System.out.println(cache.asMap());
-//      System.out.println(user);
-//      if (user != null) {
-//        System.out.println("User in session: " + user.getEmail());
-//        req.set("user", user);
-//      }
       req.set("session", req.session());
       req.set("Paths", new Paths());
     });

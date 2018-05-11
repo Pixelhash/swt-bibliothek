@@ -1,4 +1,9 @@
 {% extends 'layouts/master' %}
+
+{% block title %}
+Buchsuche | Bibliothek
+{% endblock %}
+
 {% block content %}
 <section class="hero is-light is-bold">
   <div class="hero-body">
@@ -23,7 +28,7 @@
           {{ i18n("messages", flash.error_message) }}
         </div>
         {% endif %}
-        <form action="{{ Paths.BOOK_SEARCH }}" method="post">
+        <form action="{{ Paths.BOOK_SEARCH }}" method="post" name="book_search_form">
           <div class="field">
             <div class="control">
               <input class="input is-medium" type="text" name="query" placeholder="{{ i18n("messages", "INDEX_INPUT_PLACEHOLDER") }}"
@@ -32,7 +37,7 @@
           </div>
           <div class="field">
             <p class="control text-center">
-              <button class="button is-medium is-info">
+              <button class="button is-medium is-info" name="book_search_btn">
                 {{ i18n("messages", "INDEX_BTN_TEXT") }}
               </button>
             </p>

@@ -13,4 +13,7 @@ public abstract class AbstractPublisher {
   @Column(length = 100, nullable = false)
   String name;
 
+  @Column(name ="ort", nullable = false)
+  String location;
+
 }

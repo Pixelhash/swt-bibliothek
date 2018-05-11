@@ -1,4 +1,9 @@
 {% extends 'layouts/master' %}
+
+{% block title %}
+Suchergebnisse | Bibliothek
+{% endblock %}
+
 {% block content %}
 <section class="hero is-light is-bold">
   <div class="hero-body">
@@ -50,7 +55,7 @@
                     </tr>
                     <tr class="no-border">
                       <th>Erscheinungsjahr:</th>
-                      <td class="is-pulled-right">{{ book.releaseYear | date("YYYY") }}</td>
+                      <td class="is-pulled-right">{{ book.releaseYear }}</td>
                     </tr>
                     <tr class="no-border">
                       <th>ISBN:</th>

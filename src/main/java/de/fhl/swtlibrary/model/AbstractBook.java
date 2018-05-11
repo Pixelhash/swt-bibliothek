@@ -21,7 +21,7 @@ public abstract class AbstractBook {
   String isbn;
 
   @Column(name = "erscheinungsjahr")
-  Date releaseYear;
+  short releaseYear;
 
   @Column(name = "standort", length = 45, nullable = false)
   String location;
