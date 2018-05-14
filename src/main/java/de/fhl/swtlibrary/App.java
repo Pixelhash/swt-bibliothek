@@ -1,6 +1,5 @@
 package de.fhl.swtlibrary;
 
-import de.fhl.swtlibrary.model.Book;
 import de.fhl.swtlibrary.model.Models;
 import de.fhl.swtlibrary.model.User;
 import de.fhl.swtlibrary.mvc.*;
@@ -9,7 +8,6 @@ import de.fhl.swtlibrary.util.Paths;
 import io.requery.EntityStore;
 import io.requery.Persistable;
 import io.requery.sql.TableCreationMode;
-import org.h2.tools.RunScript;
 import org.jooby.FlashScope;
 import org.jooby.Jooby;
 import org.jooby.RequestLogger;

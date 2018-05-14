@@ -28,7 +28,7 @@ public abstract class AbstractBookCopy {
 
   @Column(name = "benutzer_id")
   @ForeignKey
-  @OneToOne
+  @ManyToOne
   @JsonIgnore
   AbstractUser borrower;
 

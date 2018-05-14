@@ -1,7 +1,6 @@
 package de.fhl.swtlibrary.mvc;
 
 import com.google.inject.Inject;
-import de.fhl.swtlibrary.model.Book;
 import de.fhl.swtlibrary.model.BookCopy;
 import de.fhl.swtlibrary.model.User;
 import de.fhl.swtlibrary.util.AuthenticationChecker;
@@ -16,8 +15,7 @@ import org.jooby.mvc.POST;
 import org.jooby.mvc.Path;
 
 import java.time.LocalDateTime;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.Optional;
 
 @Path(Paths.BOOK_BORROW)
 public class BorrowController {
@@ -58,7 +56,8 @@ public class BorrowController {
   }
 
   @POST
-  public Result postBorrowBookCopy() {
+  public Result postBorrowBookCopy(final Optional<Integer> user_id,
+                                   final Optional<Integer> bookcopy_id) {
     // Check if logged in
     if (!AuthenticationChecker.isLoggedIn(req)) {
       return Results.redirect(Paths.USER_LOGIN);
@@ -75,8 +74,14 @@ public class BorrowController {
       return Results.redirect(Paths.USER_DASHBOARD);
     }
 
-    int userId = req.param("user_id").intValue(-1);
-    int bookCopyId = req.param("bookcopy_id").intValue(-1);
+    if (!user_id.isPresent() || !bookcopy_id.isPresent()) {
+      req.flash("error", true)
+        .flash("error_message", "ERROR_INVALID_BORROW_DATA");
+      return Results.redirect(Paths.BOOK_BORROW);
+    }
+
+    int userId = user_id.orElse(-1);
+    int bookCopyId = bookcopy_id.orElse(-1);
 
     if (userId == -1 || bookCopyId == -1) {
       req.flash("error", true)
