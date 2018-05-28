@@ -1,0 +1,15 @@
+<footer class="footer">
+    <div class="container">
+        <div class="columns">
+            <div class="column is-third has-text-centered">
+                <p class="has-text-grey">👨🏼‍💻 Softwaretechnik-II Projekt</p>
+            </div>
+            <div class="column is-third has-text-centered">
+                <p class="has-text-grey">💣 Development Build</p>
+            </div>
+            <div class="column is-third has-text-centered">
+                <p class="has-text-grey">©️ Alle Rechte vorbehalten.</p>
+            </div>
+        </div>
+    </div>
+</footer>

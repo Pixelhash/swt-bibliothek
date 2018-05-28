@@ -1,0 +1,135 @@
+<nav class="navbar is-dark is-spaced">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item is-size-5" href="{{ Paths.BOOK_SEARCH }}">
+                <span class="icon icon-nav">
+                    <i class="fa fa-lg fa-book"></i>
+                </span>
+                <span>Bibliothek</span>
+            </a>
+            <div class="navbar-burger burger" data-target="#navbar">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+
+        <div id="navbar" class="navbar-menu">
+            <div class="navbar-start">
+              {# @pebvariable name="user" type="User" #}{% if user is null or user.isCustomer() %}
+              <a class="navbar-item" href="{{ Paths.BOOK_SEARCH }}">
+                  <span class="icon"><i class="fa fa-search"></i></span>
+                  <span>Suche</span>
+              </a>
+              {% else %}
+              <div class="navbar-item has-dropdown is-hoverable">
+                  <a class="navbar-link">
+                      Suche
+                  </a>
+                  <div class="navbar-dropdown is-boxed">
+                      <a class="navbar-item" href="{{ Paths.ADV_SEARCH_BOOK }}">
+                          <span class="icon"><i class="fa fa-clipboard"></i></span>
+                          <span>Buch</span>
+                      </a>
+                      <a class="navbar-item" href="{{ Paths.ADV_SEARCH_BOOK_COPY }}">
+                          <span class="icon"><i class="fa fa-book"></i></span>
+                          <span>BuchExemplar</span>
+                      </a>
+                      <a class="navbar-item" href="{{ Paths.ADV_SEARCH_CUSTOMER }}">
+                          <span class="icon"><i class="fa fa-user"></i></span>
+                          <span>Kunde</span>
+                      </a>
+                      <a class="navbar-item" href="{{ Paths.ADV_SEARCH_CATEGORY }}">
+                          <span class="icon"><i class="fa fa-tag"></i></span>
+                          <span>Kategorie</span>
+                      </a>
+                      <a class="navbar-item" href="{{ Paths.ADV_SEARCH_AUTHOR }}">
+                          <span class="icon"><i class="fa fa-pencil"></i></span>
+                          <span>Autor</span>
+                      </a>
+                      <a class="navbar-item" href="{{ Paths.ADV_SEARCH_PUBLISHER }}">
+                          <span class="icon"><i class="fa fa-print"></i></span>
+                          <span>Verlag</span>
+                      </a>
+                  </div>
+              </div>
+              <div class="navbar-item has-dropdown is-hoverable">
+                  <a class="navbar-link">
+                      Anlegen
+                  </a>
+                  <div class="navbar-dropdown is-boxed">
+                      <a class="navbar-item" href="#">
+                          <span class="icon"><i class="fa fa-clipboard"></i></span>
+                          <span>Buch</span>
+                      </a>
+                      <a class="navbar-item" href="#">
+                          <span class="icon"><i class="fa fa-book"></i></span>
+                          <span>BuchExemplar</span>
+                      </a>
+                      <a class="navbar-item" href="#">
+                          <span class="icon"><i class="fa fa-user"></i></span>
+                          <span>Kunde</span>
+                      </a>
+                      <a class="navbar-item" href="#">
+                          <span class="icon"><i class="fa fa-tag"></i></span>
+                          <span>Kategorie</span>
+                      </a>
+                      <a class="navbar-item" href="#">
+                          <span class="icon"><i class="fa fa-pencil"></i></span>
+                          <span>Autor</span>
+                      </a>
+                      <a class="navbar-item" href="#">
+                          <span class="icon"><i class="fa fa-print"></i></span>
+                          <span>Verlag</span>
+                      </a>
+                  </div>
+              </div>
+              <a class="navbar-item" href="{{ Paths.BOOK_BORROW }}">
+                  <span class="icon"><i class="fa fa-book"></i></span>
+                  <span>Ausleihen</span>
+              </a>
+              <a class="navbar-item" href="{{ Paths.BOOK_RETURN }}">
+                  <span class="icon"><i class="fa fa-reply"></i></span>
+                  <span>Rückgabe</span>
+              </a>
+              {% endif %}
+            </div>
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="field is-grouped">
+                        {% if user is null %}
+                        <p class="control">
+                            <a class="button is-link" href="{{ Paths.USER_LOGIN }}">
+                                    <span class="icon">
+                                        <i class="fa fa-sign-in"></i>
+                                    </span>
+                                <span>Login</span>
+                            </a>
+                        </p>
+                        {% else %}
+                        <p class="control">
+                            <a class="button is-primary" href="{{ Paths.USER_DASHBOARD }}">
+                                    <span class="icon">
+                                        <i class="fa fa-list"></i>
+                                    </span>
+                                <span>Übersicht</span>
+                            </a>
+                        </p>
+                        <form action="{{ Paths.USER_LOGOUT }}" method="post">
+                            <p class="control">
+                                <button type="submit" class="button is-link">
+                                    <span class="icon">
+                                        <i class="fa fa-sign-out"></i>
+                                    </span>
+                                    <span>Logout</span>
+                                </button>
+                            </p>
+                            <input type="hidden" name="csrf" value="{{ csrf }}">
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>

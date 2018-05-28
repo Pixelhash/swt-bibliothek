@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Bibliothek{% endblock %}</title>
+  <meta name="description" content="Bibliothek">
+  <meta name="author" content="SWT-2 Gruppe">
+  <link rel="icon" href="/assets/img/favicon.ico">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
+  {{ home_styles | raw}}
+</head>
+<body>
+  {% include 'includes/navbar' %}
+  {% block content %}{% endblock %}
+  {% include 'includes/footer' %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  {{ home_scripts | raw }}
+</body>
+</html>

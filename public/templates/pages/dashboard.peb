@@ -1,0 +1,86 @@
+{% extends 'layouts/master' %}
+
+{% block title %}
+Übersicht | Bibliothek
+{% endblock %}
+
+{% block content %}
+<section class="hero is-light is-bold">
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <h1 class="title is-3 is-spaced">
+                <span class="icon icon-nav has-text-grey-dark">
+                    <i class="fa fa-list"></i>
+                </span>
+        <span>{{ i18n("messages", "DASHBOARD_TITLE") }}</span>
+      </h1>
+      <h3 class="subtitle is-5">{{ i18n("messages", "DASHBOARD_SUBTITLE", user.getFullName()) }}</h3>
+    </div>
+  </div>
+</section>
+<section class="section">
+  <div class="container has-text-centered">
+    <div class="columns">
+      <div class="column is-5">
+        <div class="box">
+          <p class="title is-5">Nutzerdaten</p>
+          <hr>
+          <table class="table is-fullwidth is-narrow">
+            <tbody>
+            <tr class="no-border">
+              <th>Rolle:</th>
+              <td class="is-pulled-right">
+                {% set color = "is-primary" %}
+                {% if user.isEmployee() %}
+                  {% set color = "is-danger" %}
+                {% endif %}
+                <span class="tag {{ color }}">{{ user.role.name() }}</span>
+              </td>
+            </tr>
+            <tr class="no-border">
+              <th>Name:</th>
+              <td class="is-pulled-right">{{ user.getFullName() }}</td>
+            </tr>
+            <tr class="no-border">
+              <th>E-Mail:</th>
+              <td class="is-pulled-right">{{ user.email }}</td>
+            </tr>
+            <tr class="no-border">
+              <th>Tel. Nr.:</th>
+              <td class="is-pulled-right">
+                {% if user.phoneNumber is null %}
+                -
+                {% else %}
+                {{ user.phoneNumber }}
+                {% endif %}
+              </td>
+            </tr>
+            <tr class="no-border">
+              <th>Geburtsdatum:</th>
+              <td class="is-pulled-right">{{user.dateOfBirth | date("dd.MM.YYYY") }}</td>
+            </tr>
+            <tr class="no-border">
+              <th>Straße:</th>
+              <td class="is-pulled-right">{{ user.address.getFullAddress() }}</td>
+            </tr>
+            <tr class="no-border">
+              <th>Ort:</th>
+              <td class="is-pulled-right">{{ user.address.getFullCity() }}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="column is-7">
+        <div class="box">
+          {% if user.isCustomer() %}
+            {% include 'includes/customer_dashboard_part' %}
+          {% elseif user.isEmployee() %}
+            {% include 'includes/employee_dashboard_part' %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
