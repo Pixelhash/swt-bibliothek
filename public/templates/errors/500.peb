@@ -1,0 +1,25 @@
+{% extends 'layouts/master' %}
+
+{% block title %}
+Fehler 500 | Bibliothek
+{% endblock %}
+
+{% block content %}
+<section class="hero is-light is-bold">
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <h1 class="title is-3">
+                <span class="icon icon-nav has-text-grey-dark">
+                    <i class="fa fa-exclamation-triangle"></i>
+                </span>
+        <span>{{ i18n("messages", "500_TITLE") }}</span>
+      </h1>
+    </div>
+  </div>
+</section>
+<section class="section">
+  <div class="container has-text-centered">
+    <h3 class="subtitle is-5">{{ i18n("messages", "500_SUBTITLE") }}</h3>
+  </div>
+</section>
+{% endblock %}

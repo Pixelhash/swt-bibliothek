@@ -2,16 +2,17 @@ package de.fhl.swtlibrary;
 
 import de.fhl.swtlibrary.model.Models;
 import de.fhl.swtlibrary.model.User;
+import de.fhl.swtlibrary.model.UserRole;
 import de.fhl.swtlibrary.mvc.*;
-import de.fhl.swtlibrary.util.AuthenticationChecker;
+import de.fhl.swtlibrary.util.AuthenticationManager;
 import de.fhl.swtlibrary.util.Paths;
 import io.requery.EntityStore;
 import io.requery.Persistable;
 import io.requery.sql.TableCreationMode;
-import org.jooby.FlashScope;
-import org.jooby.Jooby;
-import org.jooby.RequestLogger;
+import javassist.NotFoundException;
+import org.jooby.*;
 import org.jooby.assets.Assets;
+import org.jooby.banner.Banner;
 import org.jooby.handlers.CsrfHandler;
 import org.jooby.jdbc.Jdbc;
 import org.jooby.json.Jackson;
@@ -56,39 +57,86 @@ public class App extends Jooby {
     on("dev", () -> {
       /* Pretty Error page: */
       use(new Whoops());
+    }).orElse(() -> {
+
+      err(404, (req, rsp, err) -> {
+        rsp.send(Results.html("errors/404"));
+      });
+
+      // Not really error 500. Could be anything, but 404.
+      err((req, rsp, err) -> {
+        rsp.send(Results.html("errors/500"));
+      });
+
     });
 
     on("prod", () -> {
+      /* ASCII banner: */
+      use(new Banner("SWT-II Library").font("doom"));
+
       /* Log all requests to file: */
       use("*", new RequestLogger());
     });
 
     before((req, res) -> {
-      EntityStore<Persistable, User> userStore = require(EntityStore.class);
-
-      if (AuthenticationChecker.isLoggedIn(req)) {
-        final User user = AuthenticationChecker.getLoggedInUser(userStore, req);
-        if (user != null) req.set("user", user);
-      }
-
       req.set("session", req.session());
       req.set("Paths", new Paths());
+    });
+
+    /* Check if user is authenticated */
+    use("*", "*", (req, res, chain) -> {
+        Boolean needsLogin = (Boolean) req.route().attributes().get("needsLogin"); // Reference boolean used here for null check
+        if (needsLogin == null || !needsLogin) {
+          chain.next(req, res);
+        } else {
+          if (!AuthenticationManager.isLoggedIn(req)) {
+            res.redirect(Paths.USER_LOGIN);
+            return;
+          }
+
+          EntityStore<Persistable, User> userStore = require(EntityStore.class);
+          User user = AuthenticationManager.getLoggedInUser(userStore, req);
+
+          req.set("user", user);
+          chain.next(req, res);
+        }
+    });
+
+    /* Check if user has a specific role */
+    use("*", (req, res, chain) -> {
+      UserRole r = (UserRole) req.route().attributes().get("role");
+      if(r == null || ((User) req.get("user")).getRole() == r) {
+        chain.next(req, res);
+      }
+      res.redirect(Paths.USER_DASHBOARD);
     });
 
     /* Search Routes: */
     use(SearchController.class);
 
-    /* Authentication Routes: */
-    use(AuthenticationController.class);
+    /* Login Routes: */
+    use(LoginController.class);
 
-    /* Dashboard Routes: */
-    use(DashboardController.class);
+    with(() -> {
 
-    /* Borrow BookCopy Routes: */
-    use(BorrowController.class);
+      /* Logout Route: */
+      use(LogoutController.class);
 
-    /* Return BookCopy Routes: */
-    use(ReturnController.class);
+      /* Dashboard Routes: */
+      use(DashboardController.class);
+
+    }).attr("needsLogin", true);
+
+    with(() -> {
+
+      /* Borrow BookCopy Routes: */
+      use(BorrowController.class);
+
+      /* Return BookCopy Routes: */
+      use(ReturnController.class);
+
+    }).attr("role", UserRole.MITARBEITER).attr("needsLogin", true);
+
   }
 
   public static void main(final String[] args) {

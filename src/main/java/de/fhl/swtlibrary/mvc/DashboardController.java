@@ -2,7 +2,7 @@ package de.fhl.swtlibrary.mvc;
 
 import com.google.inject.Inject;
 import de.fhl.swtlibrary.model.*;
-import de.fhl.swtlibrary.util.AuthenticationChecker;
+import de.fhl.swtlibrary.util.AuthenticationManager;
 import de.fhl.swtlibrary.util.Paths;
 import io.requery.EntityStore;
 import io.requery.Persistable;
@@ -10,6 +10,7 @@ import org.jooby.Request;
 import org.jooby.Result;
 import org.jooby.Results;
 import org.jooby.mvc.GET;
+import org.jooby.mvc.Local;
 import org.jooby.mvc.Path;
 
 import java.util.ArrayList;
@@ -44,22 +45,12 @@ public class DashboardController {
   }
 
   @GET
-  public Result getUserDashboard() {
-    // Check if logged in
-    if (!AuthenticationChecker.isLoggedIn(req)) {
-      return Results.redirect(Paths.USER_LOGIN);
-    }
-
-    User user = AuthenticationChecker.getLoggedInUser(userEntityStore, req);
-
-    if (user == null) {
-      return Results.redirect(Paths.USER_LOGIN);
-    }
+  public Result getUserDashboard(@Local User user) {
 
     if (user.isCustomer()) {
       // Get the user's borrowed books
       List<BookCopy> borrowedBooks = bookCopyEntityStore.select(BookCopy.class)
-        .where(BookCopy.BORROWER_ID.eq(req.session().get("userId").intValue(-1)))
+        .where(BookCopy.BORROWER_ID.eq(user.getId()))
         .get()
         .toList();
 
@@ -113,8 +104,6 @@ public class DashboardController {
       req.set("publisherAmount", publisherAmount);
     }
 
-
     return Results.html("pages/dashboard");
   }
-
 }

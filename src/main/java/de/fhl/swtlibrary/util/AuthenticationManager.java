@@ -6,7 +6,15 @@ import io.requery.Persistable;
 import org.jooby.Request;
 import org.jooby.Session;
 
-public final class AuthenticationChecker {
+public final class AuthenticationManager {
+
+  public static void login(final Session session, final User user) {
+    session.set("userId", user.getId());
+  }
+
+  public static void logout(final Session session) {
+    session.unset("userId");
+  }
 
   public static User getLoggedInUser(final EntityStore<Persistable, User> userStore, final Request req) {
     final int userId = getUserIdFromSession(req.session());

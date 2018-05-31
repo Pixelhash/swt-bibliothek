@@ -1,9 +1,10 @@
 package de.fhl.swtlibrary.mvc;
 
 import com.google.inject.Inject;
-import de.fhl.swtlibrary.model.Author;
 import de.fhl.swtlibrary.model.Book;
+import de.fhl.swtlibrary.util.RenderUtil;
 import de.fhl.swtlibrary.util.Paths;
+import de.fhl.swtlibrary.util.Validation;
 import io.requery.EntityStore;
 import io.requery.Persistable;
 import org.jooby.Request;
@@ -36,14 +37,10 @@ public class SearchController {
   public Result postBasicSearch() {
     String query = req.param("query").value();
 
-    if (query.trim().isEmpty()) {
-      req.flash("error", true)
-        .flash("error_message", "ERROR_MISSING_FIELDS");
-      return Results.redirect(Paths.BOOK_SEARCH);
+    if (!Validation.isNonEmptyString(query)) {
+      return RenderUtil.error(req, Paths.BOOK_SEARCH,"ERROR_MISSING_FIELDS");
     } else if (query.trim().length() < 3) {
-      req.flash("error", true)
-        .flash("error_message", "ERROR_SHORT_QUERY");
-      return Results.redirect(Paths.BOOK_SEARCH);
+      return RenderUtil.error(req, Paths.BOOK_SEARCH, "ERROR_SHORT_QUERY");
     }
 
     List<Book> books = bookEntityStore.select(Book.class)
@@ -52,9 +49,7 @@ public class SearchController {
       .toList();
 
     if (books.isEmpty()) {
-      req.flash("error", true)
-        .flash("error_message", "ERROR_NO_RESULTS");
-      return Results.redirect(Paths.BOOK_SEARCH);
+      return RenderUtil.error(req, Paths.BOOK_SEARCH, "ERROR_NO_RESULTS");
     }
 
     books.forEach(b -> bookEntityStore.refresh(b, Book.AUTHORS));

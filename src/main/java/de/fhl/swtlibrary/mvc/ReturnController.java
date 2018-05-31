@@ -3,8 +3,10 @@ package de.fhl.swtlibrary.mvc;
 import com.google.inject.Inject;
 import de.fhl.swtlibrary.model.BookCopy;
 import de.fhl.swtlibrary.model.User;
-import de.fhl.swtlibrary.util.AuthenticationChecker;
+import de.fhl.swtlibrary.util.RenderUtil;
 import de.fhl.swtlibrary.util.Paths;
+import de.fhl.swtlibrary.util.Tuple;
+import de.fhl.swtlibrary.util.Validation;
 import io.requery.EntityStore;
 import io.requery.Persistable;
 import org.jooby.Request;
@@ -33,51 +35,24 @@ public class ReturnController {
 
   @GET
   public Result getReturnBookCopy() {
-    // Check if logged in
-    if (!AuthenticationChecker.isLoggedIn(req)) {
-      return Results.redirect(Paths.USER_LOGIN);
-    }
-
-    User user = AuthenticationChecker.getLoggedInUser(userEntityStore, req);
-
-    if (user == null) {
-      return Results.redirect(Paths.USER_LOGIN);
-    }
-
-    // Check if user is an employee
-    if (!user.isEmployee()) {
-      return Results.redirect(Paths.USER_DASHBOARD);
-    }
-
     return Results.html("pages/return");
   }
 
   @POST
   public Result postReturnBookCopy() {
-    // Check if logged in
-    if (!AuthenticationChecker.isLoggedIn(req)) {
-      return Results.redirect(Paths.USER_LOGIN);
+
+    String userIdStr = req.param("user_id").value();
+    String bookCopyIdStr = req.param("bookcopy_id").value();
+
+    Tuple<Boolean, Integer> validUserId = Validation.isValidInt(userIdStr);
+    Tuple<Boolean, Integer> validBookCopyId = Validation.isValidInt(bookCopyIdStr);
+
+    if (!validUserId.getFirstValue() || !validBookCopyId.getFirstValue()) {
+      return RenderUtil.error(req, Paths.BOOK_RETURN, "ERROR_INVALID_RETURN_DATA");
     }
 
-    User user = AuthenticationChecker.getLoggedInUser(userEntityStore, req);
-
-    if (user == null) {
-      return Results.redirect(Paths.USER_LOGIN);
-    }
-
-    // Check if user is an employee
-    if (!user.isEmployee()) {
-      return Results.redirect(Paths.USER_DASHBOARD);
-    }
-
-    int userId = req.param("user_id").intValue(-1);
-    int bookCopyId = req.param("bookcopy_id").intValue(-1);
-
-    if (userId == -1 || bookCopyId == -1) {
-      req.flash("error", true)
-        .flash("error_message", "ERROR_INVALID_BORROW_DATA");
-      return Results.redirect(Paths.BOOK_RETURN);
-    }
+    int userId = validUserId.getSecondValue();
+    int bookCopyId = validBookCopyId.getSecondValue();
 
     User targetUser = userEntityStore.select(User.class)
       .where(User.ID.eq(userId))
@@ -90,34 +65,25 @@ public class ReturnController {
       .firstOrNull();
 
     if (targetUser == null) {
-      req.flash("error", true)
-        .flash("error_message", "ERROR_USER_NOT_FOUND");
-      return Results.redirect(Paths.BOOK_RETURN);
+      return RenderUtil.error(req, Paths.BOOK_RETURN, "ERROR_USER_NOT_FOUND");
     } else if (bookCopy == null) {
-      req.flash("error", true)
-        .flash("error_message", "ERROR_BOOKCOPY_NOT_FOUND");
-      return Results.redirect(Paths.BOOK_RETURN);
+      return RenderUtil.error(req, Paths.BOOK_RETURN, "ERROR_BOOKCOPY_NOT_FOUND");
     }
     // Both objects exist
 
     // Check if book copy isn't borrowed
     if (bookCopy.getBorrower() == null) {
-      req.flash("error", true)
-        .flash("error_message", "ERROR_BOOKCOPY_NOT_BORROWED");
-      return Results.redirect(Paths.BOOK_RETURN);
+      return RenderUtil.error(req, Paths.BOOK_RETURN, "ERROR_BOOKCOPY_NOT_BORROWED");
     }
 
     // Return book
-
     bookCopy.setBorrower(null);
     bookCopy.setBorrowedOn(null);
     bookCopy.setReturnOn(null);
 
     bookCopyEntityStore.update(bookCopy);
 
-    req.flash("success", true)
-      .flash("success_message", "SUCCESS_BOOK_RETURNED");
-    return Results.redirect(Paths.BOOK_RETURN);
+    return RenderUtil.success(req, Paths.BOOK_RETURN, "SUCCESS_BOOK_RETURNED");
   }
 
 }

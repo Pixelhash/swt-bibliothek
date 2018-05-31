@@ -3,8 +3,10 @@ package de.fhl.swtlibrary.mvc;
 import com.google.inject.Inject;
 import de.fhl.swtlibrary.model.BookCopy;
 import de.fhl.swtlibrary.model.User;
-import de.fhl.swtlibrary.util.AuthenticationChecker;
 import de.fhl.swtlibrary.util.Paths;
+import de.fhl.swtlibrary.util.RenderUtil;
+import de.fhl.swtlibrary.util.Tuple;
+import de.fhl.swtlibrary.util.Validation;
 import io.requery.EntityStore;
 import io.requery.Persistable;
 import org.jooby.Request;
@@ -36,58 +38,24 @@ public class BorrowController {
 
   @GET
   public Result getBorrowBookCopy() {
-    // Check if logged in
-    if (!AuthenticationChecker.isLoggedIn(req)) {
-      return Results.redirect(Paths.USER_LOGIN);
-    }
-
-    User user = AuthenticationChecker.getLoggedInUser(userEntityStore, req);
-
-    if (user == null) {
-      return Results.redirect(Paths.USER_LOGIN);
-    }
-
-    // Check if user is an employee
-    if (!user.isEmployee()) {
-      return Results.redirect(Paths.USER_DASHBOARD);
-    }
-
     return Results.html("pages/borrow");
   }
 
   @POST
-  public Result postBorrowBookCopy(final Optional<Integer> user_id,
-                                   final Optional<Integer> bookcopy_id) {
-    // Check if logged in
-    if (!AuthenticationChecker.isLoggedIn(req)) {
-      return Results.redirect(Paths.USER_LOGIN);
+  public Result postBorrowBookCopy() {
+
+    String userIdStr = req.param("user_id").value();
+    String bookCopyIdStr = req.param("bookcopy_id").value();
+
+    Tuple<Boolean, Integer> validUserId = Validation.isValidInt(userIdStr);
+    Tuple<Boolean, Integer> validBookCopyId = Validation.isValidInt(bookCopyIdStr);
+
+    if (!validUserId.getFirstValue() || !validBookCopyId.getFirstValue()) {
+      return RenderUtil.error(req, Paths.BOOK_BORROW, "ERROR_INVALID_BORROW_DATA");
     }
 
-    User user = AuthenticationChecker.getLoggedInUser(userEntityStore, req);
-
-    if (user == null) {
-      return Results.redirect(Paths.USER_LOGIN);
-    }
-
-    // Check if user is an employee
-    if (!user.isEmployee()) {
-      return Results.redirect(Paths.USER_DASHBOARD);
-    }
-
-    if (!user_id.isPresent() || !bookcopy_id.isPresent()) {
-      req.flash("error", true)
-        .flash("error_message", "ERROR_INVALID_BORROW_DATA");
-      return Results.redirect(Paths.BOOK_BORROW);
-    }
-
-    int userId = user_id.orElse(-1);
-    int bookCopyId = bookcopy_id.orElse(-1);
-
-    if (userId == -1 || bookCopyId == -1) {
-      req.flash("error", true)
-        .flash("error_message", "ERROR_INVALID_BORROW_DATA");
-      return Results.redirect(Paths.BOOK_BORROW);
-    }
+    int userId = validUserId.getSecondValue();
+    int bookCopyId = validBookCopyId.getSecondValue();
 
     User targetUser = userEntityStore.select(User.class)
       .where(User.ID.eq(userId))
@@ -100,21 +68,15 @@ public class BorrowController {
       .firstOrNull();
 
     if (targetUser == null) {
-      req.flash("error", true)
-        .flash("error_message", "ERROR_USER_NOT_FOUND");
-      return Results.redirect(Paths.BOOK_BORROW);
+      return RenderUtil.error(req, Paths.BOOK_BORROW, "ERROR_USER_NOT_FOUND");
     } else if (bookCopy == null) {
-      req.flash("error", true)
-        .flash("error_message", "ERROR_BOOKCOPY_NOT_FOUND");
-      return Results.redirect(Paths.BOOK_BORROW);
+      return RenderUtil.error(req, Paths.BOOK_BORROW, "ERROR_BOOKCOPY_NOT_FOUND");
     }
     // Both objects exist
 
     // Check if book copy already borrowed
     if (bookCopy.getBorrower() != null) {
-      req.flash("error", true)
-        .flash("error_message", "ERROR_BOOKCOPY_BORROWED");
-      return Results.redirect(Paths.BOOK_BORROW);
+      return RenderUtil.error(req, Paths.BOOK_BORROW, "ERROR_BOOKCOPY_BORROWED");
     }
 
     // Borrow book
@@ -126,8 +88,6 @@ public class BorrowController {
 
     bookCopyEntityStore.update(bookCopy);
 
-    req.flash("success", true)
-      .flash("success_message", "SUCCESS_BOOK_BORROWED");
-    return Results.redirect(Paths.BOOK_BORROW);
+    return RenderUtil.success(req, Paths.BOOK_BORROW, "SUCCESS_BOOK_BORROWED");
   }
 }

@@ -32,11 +32,6 @@ public class AppTest {
   @BeforeClass
   public static void setUp() throws Exception {
     DatabaseUtil.setUpTestDatabase();
-//    DatabaseUtil.insertAuthors();
-//    DatabaseUtil.insertCategories();
-//    DatabaseUtil.insertPublishers();
-//    DatabaseUtil.insertTestBooks();
-//    DatabaseUtil.insertBookAuthors();
 
     webClient = new WebClient();
     webClient.getOptions().setCssEnabled(false);

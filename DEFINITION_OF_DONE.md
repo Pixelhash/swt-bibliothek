@@ -1,4 +1,4 @@
-## Definition of Done
+# Definition of Done
 
 - Alle Akzeptanzkriterien werden
 erfüllt

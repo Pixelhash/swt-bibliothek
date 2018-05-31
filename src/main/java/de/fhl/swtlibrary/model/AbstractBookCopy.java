@@ -24,13 +24,13 @@ public abstract class AbstractBookCopy {
   @Column(name = "buch_id", nullable = false)
   @ForeignKey
   @ManyToOne
-  AbstractBook book;
+  Book book;
 
   @Column(name = "benutzer_id")
   @ForeignKey
   @ManyToOne
   @JsonIgnore
-  AbstractUser borrower;
+  User borrower;
 
   public String getBorrowedOnFormatted() {
     return borrowedOn.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));

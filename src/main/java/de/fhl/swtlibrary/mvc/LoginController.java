@@ -2,8 +2,7 @@ package de.fhl.swtlibrary.mvc;
 
 import com.google.inject.Inject;
 import de.fhl.swtlibrary.model.User;
-import de.fhl.swtlibrary.util.AuthenticationChecker;
-import de.fhl.swtlibrary.util.Paths;
+import de.fhl.swtlibrary.util.*;
 import io.requery.EntityStore;
 import io.requery.Persistable;
 import org.jooby.Request;
@@ -15,14 +14,14 @@ import org.jooby.mvc.Path;
 import org.mindrot.jbcrypt.BCrypt;
 
 @Path("/user/session")
-public class AuthenticationController {
+public class LoginController {
 
   private Request req;
   private EntityStore<Persistable, User> userEntityStore;
 
   @Inject
-  public AuthenticationController(Request req,
-                                  EntityStore<Persistable, User> userEntityStore) {
+  public LoginController(Request req,
+                         EntityStore<Persistable, User> userEntityStore) {
     this.req = req;
     this.userEntityStore = userEntityStore;
   }
@@ -36,8 +35,16 @@ public class AuthenticationController {
   @POST
   @Path("/login")
   public Result postUserLogin() {
-    int userId = req.param("user_id").intValue(-1);
+    String userIdStr = req.param("user_id").value();
     String password = req.param("password").value();
+
+    Tuple<Boolean, Integer> validUserId = Validation.isValidInt(userIdStr);
+
+    if (!validUserId.getFirstValue() || !Validation.isNonEmptyString(password)) {
+      return RenderUtil.error(req, Paths.USER_LOGIN, "ERROR_INVALID_LOGIN");
+    }
+
+    int userId = validUserId.getSecondValue();
 
     if (userId != -1 || !password.trim().isEmpty()) {
       User user = userEntityStore.select(User.class)
@@ -46,25 +53,13 @@ public class AuthenticationController {
         .firstOrNull();
       if (user != null) {
         if (BCrypt.checkpw(password, user.getPassword())) {
-          req.session().set("userId", user.getId());
+          AuthenticationManager.login(req.session(), user);
           return Results.redirect(Paths.USER_DASHBOARD);
         }
       }
     }
 
-    req.flash("error", true)
-      .flash("error_message", "ERROR_INVALID_LOGIN");
-    return Results.redirect(Paths.USER_LOGIN);
-  }
-
-  @POST
-  @Path("/logout")
-  public Result postUserLogout() {
-    if (AuthenticationChecker.isLoggedIn(req)) {
-      req.session().unset("userId");
-    }
-
-    return Results.redirect(Paths.USER_LOGIN);
+    return RenderUtil.error(req, Paths.USER_LOGIN, "ERROR_INVALID_LOGIN");
   }
 
 }

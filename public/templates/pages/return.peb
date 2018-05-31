@@ -36,13 +36,13 @@ Rückgabe | Bibliothek
           <div class="field">
             <div class="control">
               <input class="input is-medium" type="text" name="user_id" placeholder="{{ i18n("messages", "INPUT_USER_ID") }}"
-                     autofocus="">
+                     autofocus required autocomplete="off">
             </div>
           </div>
           <div class="field">
             <div class="control">
               <input class="input is-medium" type="text" name="bookcopy_id"
-                     placeholder="{{ i18n("messages", "INPUT_BOOKEXEMPLAR_ID") }}">
+                     placeholder="{{ i18n("messages", "INPUT_BOOKEXEMPLAR_ID") }}" required autocomplete="off">
             </div>
           </div>
           <div class="field">

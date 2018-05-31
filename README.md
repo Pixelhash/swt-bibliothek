@@ -25,7 +25,32 @@ im Fach Softwaretchnik 2 im SS 2018 der FH-Lübeck entwickelt.
 - Java 8
 - MariaDB 10.1
 
-## Installation
+## Installation (Entwicklung)
+
+1. MySQL/MariaDB Server muss vorhanden und die Datenbankstruktur angelegt/vorhanden sein.
+
+2. Die Installation einiger Plugins in IntelliJ IDEA ist empfohlen:
+
+    - [Pebble](https://plugins.jetbrains.com/plugin/9407-pebble) (Template Engine Support)
+    - [CheckStyle-IDEA](https://plugins.jetbrains.com/plugin/1065-checkstyle-idea) Code Analyse
+    
+3. Das Projekt in IntelliJ IDEA öffnen
+
+4. Die fehlenden Model Klassen mithilfe von Maven generieren lassen:
+
+    - `mvn compile` ausführen oder im Maven Tab in IntelliJ ausführen lassen
+
+5. Die generierten Klassen befinden sich im Ordner `target/generated-sources` und sollten von IntelliJ automatisch erkannt werden
+
+6. Konfigurationsdatei kopieren und anpassen:
+
+    - `cp conf/application-example.conf conf/application.conf`
+
+7. Applikation im Entwicklungsmodus starten, dies startet die App bei jeder Veränderung im Code automatisch neu:
+
+    - `mvn jooby:run`    
+
+## Installation (Produktion)
 
 Die Installation kann entweder manuell oder mit Docker/Docker Compose durchgeführt werden.
 
@@ -67,11 +92,15 @@ Die Installation kann entweder manuell oder mit Docker/Docker Compose durchgefü
 
 1. Applikation vorbereiten und starten:
 
-    - Konfigurationsdatei kopieren: `cp application-example.yaml application.yaml`
-    - Die kopierte `application.yaml` anpassen
-    - Applikation starten mit `java -jar target/dist/Bibliothek.jar`
+    - Release .zip Datei herunterladen (`swt-library-x.x.x.stork.zip`)
+    - Jene .zip Datei entpacken
+    - Konfigurationsdatei kopieren: `cp conf/application-example.conf conf/application.conf`
+    - Die kopierte `application.conf` anpassen
+    - Applikation starten mit `bin/swt-library{.bat} --run`
 
 ### Mit Docker/Docker Compose
+
+**Noch nicht wieder funktionsfähig!**
 
 1. Sicherstellen, dass [Docker](https://www.docker.com/) und [Docker Compose](https://docs.docker.com/compose/) installiert sind:
 
@@ -88,7 +117,7 @@ Die Installation kann entweder manuell oder mit Docker/Docker Compose durchgefü
 
 1. Konfigurationsdatei für Docker kopieren:
 
-    - `cp application-docker.yaml data/bibliothek/application.yaml`
+    - `cp conf/application-docker.yaml data/bibliothek/application.conf`
 
 1. Einstellungen abgleichen:
 
@@ -129,12 +158,10 @@ Die Installation kann entweder manuell oder mit Docker/Docker Compose durchgefü
 #### Java:
 
 - [Maven](https://maven.apache.org/)
-- [Spark Web Framework](http://sparkjava.com/)
-- [Velocity Template Engine](http://velocity.apache.org/engine/1.7/)
-- [OrmLite](http://ormlite.com/)
+- [jooby](https://jooby.org/)
+- [Pebble Template Engine](http://www.mitchellbosecke.com/pebble/home)
+- [requery](https://github.com/requery/requery)
 - [jBCrypt](https://www.mindrot.org/projects/jBCrypt/)
-- [cfg4j](http://www.cfg4j.org/)
-- [minimal-json](https://github.com/ralfstx/minimal-json)
 
 #### SQL:
 
@@ -151,17 +178,6 @@ Die Installation kann entweder manuell oder mit Docker/Docker Compose durchgefü
 
 ## Testkonzept
 
-- Unit Testing: jUnit 5
-- Integration Testing: Selenium (bzw. eines der Derivate, z.B. [Katalon Studio](https://github.com/Pixelhash/swt-bibliothek.git))
+- Unit Testing: [HtmlUnit](http://htmlunit.sourceforge.net/)
+- Integration Testing: Auch [HtmlUnit](http://htmlunit.sourceforge.net/)
 - Geplante Testabdeckung: Mindestens 85%
-
-## Zukünftige Features
-
-- Anlegen von Büchern
-- Filter für die Buchsuche
-- Anlegen eines Bereichs zum Stöbern in Kategorien
-- Automatische Erinnerung von Kunden bei nahendem Abgabedatum
-- Funktion um das Passwort zurückzusetzen
-- Möglichkeit für den Kunden seine Daten zu ändern
-- Reservierung von Büchern ermöglichen
-- Automatisierte Registrierung von Kunden

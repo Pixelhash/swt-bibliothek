@@ -29,30 +29,30 @@ public abstract class AbstractBook {
   @Column(name = "kategorie_id", nullable = false)
   @ForeignKey
   @OneToOne
-  AbstractCategory category;
+  Category category;
 
   @Column(name = "verlag_id", nullable = false)
   @ForeignKey
   @OneToOne
-  AbstractPublisher publisher;
+  Publisher publisher;
 
+  /* Classes given in annotations must be available at compile time! */
   @JunctionTable(type = AbstractBookAuthor.class)
   //@JunctionTable(name = "buch_hat_autor")
   @ManyToMany
-  List<AbstractAuthor> authors;
+  List<Author> authors;
 
   @OneToMany
-  List<AbstractBookCopy> copies;
+  List<BookCopy> copies;
 
   public String authorsToString() {
     return authors.stream()
-      .map(a -> ((Author) a).getName())
+      .map(Author::getName)
       .collect(Collectors.joining(", "));
   }
 
   public List<BookCopy> getAvailableCopies() {
     return copies.stream()
-      .map(c -> (BookCopy) c)
       .filter(c -> c.borrower == null)
       .collect(Collectors.toList());
   }

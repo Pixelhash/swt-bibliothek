@@ -2,5 +2,6 @@ package de.fhl.swtlibrary.model;
 
 public enum UserRole {
   MITARBEITER,
-  KUNDE
+  KUNDE,
+  EGAL,
 }

@@ -32,7 +32,7 @@ Buchsuche | Bibliothek
           <div class="field">
             <div class="control">
               <input class="input is-medium" type="text" name="query" placeholder="{{ i18n("messages", "INDEX_INPUT_PLACEHOLDER") }}"
-              autofocus>
+              autofocus required>
             </div>
           </div>
           <div class="field">

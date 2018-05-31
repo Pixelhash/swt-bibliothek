@@ -6,7 +6,7 @@
   <title>{% block title %}Bibliothek{% endblock %}</title>
   <meta name="description" content="Bibliothek">
   <meta name="author" content="SWT-2 Gruppe">
-  <link rel="icon" href="/assets/img/favicon.ico">
+  <link rel="icon" type="image/png" href="/assets/img/favicon.png">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
   {{ home_styles | raw}}

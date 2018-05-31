@@ -38,10 +38,10 @@ public abstract class AbstractUser {
   @Column(name = "adresse_id")
   @ForeignKey
   @OneToOne
-  AbstractAddress address;
+  Address address;
 
   @OneToMany
-  List<AbstractBookCopy> borrowedBooks;
+  List<BookCopy> borrowedBooks;
 
   public String getFullName() {
     return forename + " " + surname;
