@@ -21,5 +21,5 @@ Da hier das Prinzip der **Feature Branches** angewendet wird, gelten folgende Na
 
     - Bsp.: `feature/i-2`
     
-*TL;DR* `feature/`vorweg und Kleinschreibung sowie Trennung der Wörter mit Bindestrichen
+*TL;DR* `feature/` vorweg und Kleinschreibung sowie Trennung der Wörter mit Bindestrichen
 

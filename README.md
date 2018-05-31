@@ -3,18 +3,19 @@
 - [Beschreibung](#beschreibung)
 - [Demo](#demo)
 - [Systemvoraussetzungen](#systemvoraussetzungen)
-- [Installation](#installation)
-- [Passwort für einen Nutzer erstellen](#passwort-für-nutzer-erstellen)
+- [Installation (Entwicklung)](#installation-(entwicklung))
+- [Installation (Produktion)](#installation-(produktion))
 - [Verwendete Tools und Libraries](#verwendete-tools-und-libraries)
 - [Testkonzept](#Testkonzept)
-- [Zukünftige Features](#zukünftige-features)
 
 ## Beschreibung
 
 Diese Applikation wurde im Studiengang Informatik/Softwaretechnik
 im Fach Softwaretchnik 2 im SS 2018 der FH-Lübeck entwickelt.
 
-## Demo (inaktiv)
+## Demo
+
+**Derzeit inaktiv!**
 
 - URL: <https://swt-bibliothek.codehat.de/>
 - Nutzername: `swt`
@@ -145,13 +146,6 @@ Die Installation kann entweder manuell oder mit Docker/Docker Compose durchgefü
 
     - Ins Verzeichnis des Repos wechseln
     - `docker-compose down` ausführen
-
-## Passwort für Nutzer erstellen
-
-- In das Verzeichnis der kompilierten JAR-Datei wechseln
-- Ausführen mit folgendem Befehl: `java -jar {datei}.jar -p`
-- Das Passwort eingeben (ist in der Konsole nicht sichtbar) und ENTER drücken
-- Der generierte Hash zum Passwort wird angezeigt
 
 ## Verwendete Tools und Libraries
 
