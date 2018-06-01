@@ -20,10 +20,32 @@
 </section>
 <section class="section">
   <div class="container has-text-centered">
+      {% if flash.error == "true" %}
+        <div class="column is-4 is-offset-4">
+          <div class="notification is-danger">
+            {{ i18n("messages", flash.error_message) }}
+          </div>
+        </div>
+      {% endif %}
+      {% if flash.success == "true" %}
+        <div class="column is-4 is-offset-4">
+          <div class="notification is-success">
+            {{ i18n("messages", flash.success_message) }}
+          </div>
+        </div>
+      {% endif %}
     <div class="columns">
       <div class="column is-5">
         <div class="box">
-          <p class="title is-5">Nutzerdaten</p>
+          <p class="title is-5">
+            Nutzerdaten
+            <a href="{{ Paths.USER_EDIT }}" class="button is-rounded is-small is-pulled-right">
+              <span class="icon is-small">
+                <i class="fa fa-pencil"></i>
+              </span>
+              <span>Bearbeiten</span>
+            </a>
+          </p>
           <hr>
           <table class="table is-fullwidth is-narrow">
             <tbody>

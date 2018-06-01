@@ -17,4 +17,5 @@ public final class Paths {
   public static final String USER_LOGIN = "/user/session/login";
   public static final String USER_LOGOUT = "/user/session/logout";
   public static final String USER_DASHBOARD = "/user/dashboard";
+  public static final String USER_EDIT = "/user/edit";
 }
