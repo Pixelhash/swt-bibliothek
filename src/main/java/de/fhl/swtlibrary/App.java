@@ -114,6 +114,9 @@ public class App extends Jooby {
     /* Search Routes: */
     use(SearchController.class);
 
+    /* Categories Routes: */
+    use(CategoriesController.class);
+
     /* Login Routes: */
     use(LoginController.class);
 

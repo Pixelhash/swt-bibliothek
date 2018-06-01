@@ -21,6 +21,10 @@
                   <span class="icon"><i class="fa fa-search"></i></span>
                   <span>Suche</span>
               </a>
+              <a class="navbar-item" href="{{ Paths.BOOK_CATEGORIES }}">
+                <span class="icon"><i class="fa fa-align-justify"></i></span>
+                <span>Stöbern</span>
+              </a>
               {% else %}
               <div class="navbar-item has-dropdown is-hoverable">
                   <a class="navbar-link">
