@@ -22,7 +22,7 @@ Daten ändern | Bibliothek
   <div class="container">
     <div class="column is-6 is-offset-3">
     {% if flash.error == "true" %}
-      <div class="notification is-danger">
+      <div class="notification is-danger has-text-centered">
       {{ i18n("messages", flash.error_message) }}
       </div>
     {% endif %}
@@ -30,7 +30,7 @@ Daten ändern | Bibliothek
         <div class="field">
           <p>Die mit * gekennzeichneten Felder sind <strong>Pflicht</strong>.</p>
         </div>
-        <form action="{{ Paths.USER_EDIT }}" method="post">
+        <form action="{{ Paths.USER_EDIT }}" method="post" name="edit_user_data">
           <div class="field">
             <label class="label">Vorname *</label>
             <div class="control">
@@ -64,7 +64,7 @@ Daten ändern | Bibliothek
           <div class="field">
             <label class="label">Postleitzahl *</label>
             <div class="control">
-              <input class="input" type="text" name="postcode" value="{{ user.address.postcode }}" required>
+              <input class="input" type="number" name="postcode" value="{{ user.address.postcode }}" required>
             </div>
           </div>
           <div class="field">
@@ -76,7 +76,7 @@ Daten ändern | Bibliothek
 
           <div class="field is-grouped">
             <div class="control">
-              <button class="button is-link">Speichern</button>
+              <button class="button is-link" name="edit_user_data_btn">Speichern</button>
             </div>
             <div class="control">
               <a href="{{ Paths.USER_DASHBOARD }}" class="button is-text">Abbrechen</a>
