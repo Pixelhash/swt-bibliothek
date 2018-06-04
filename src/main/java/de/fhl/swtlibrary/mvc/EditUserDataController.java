@@ -39,29 +39,33 @@ public class EditUserDataController {
     String forename = req.param("forename").value();
     String surname = req.param("surname").value();
     String phoneNumber = req.param("phone_number").value();
+    phoneNumber = Validation.isNonEmptyString(phoneNumber) ? phoneNumber : null;
     String street = req.param("street").value();
     String houseNumber = req.param("house_number").value();
-    String postcodeStr = req.param("postcode").value();
+    String postcode = req.param("postcode").value();
     String city = req.param("city").value();
 
-    Tuple<Boolean, Integer> validPostcode = Validation.isValidInt(postcodeStr);
-
     // Check if all passed parameters are valid
-    if (!Validation.isNonEmptyString(forename)
-      || !Validation.isNonEmptyString(surname)
-      || !Validation.isNonEmptyString(street)
-      || !Validation.isNonEmptyString(houseNumber)
-      || !Validation.isNonEmptyString(city)
-      || !validPostcode.getFirstValue()) {
-      return RenderUtil.error(req, Paths.USER_EDIT, "ERROR_MISSING_FIELDS");
+    if (!Validation.isNonEmptyStringWithMinMaxLengthAndPatterns(forename, 2, 100, Validation.NO_NUMBERS_PATTERN)
+      || !Validation.isNonEmptyStringWithMinMaxLengthAndPatterns(surname, 2, 100, Validation.NO_NUMBERS_PATTERN)
+      || !Validation.isNonEmptyStringWithMinMaxLengthAndPatterns(street, 1, 100, Validation.NO_NUMBERS_PATTERN)
+      || !Validation.isNonEmptyStringWithMinMaxLengthAndPatterns(houseNumber, 1, 8, Validation.IS_HOUSE_NUMBER_PATTERN)
+      || !Validation.isNonEmptyStringWithExactLengthAndPatterns(postcode, 5, Validation.ONLY_NUMBERS_PATTERN)
+      || !Validation.isNonEmptyStringWithMinMaxLengthAndPatterns(city, 1, 100, Validation.NO_NUMBERS_PATTERN)) {
+      return RenderUtil.error(req, Paths.USER_EDIT, "ERROR_INVALID_FIELDS");
     }
 
-    int postcode = validPostcode.getSecondValue();
+    // If the phone number is available, check it too
+    if (phoneNumber != null) {
+      if (!Validation.isNonEmptyStringWithMinMaxLengthAndPatterns(phoneNumber, 5, 20, Validation.ONLY_NUMBERS_PATTERN)) {
+        return RenderUtil.error(req, Paths.USER_EDIT, "ERROR_INVALID_FIELDS");
+      }
+    }
 
     // Set new values
     user.setForename(forename);
     user.setSurname(surname);
-    user.setPhoneNumber(Validation.isNonEmptyString(phoneNumber) ? phoneNumber : null);
+    user.setPhoneNumber(phoneNumber);
     user.getAddress().setStreet(street);
     user.getAddress().setHouseNumber(houseNumber);
     user.getAddress().setPostcode(postcode);

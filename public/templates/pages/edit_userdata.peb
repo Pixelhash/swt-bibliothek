@@ -64,7 +64,7 @@ Daten ändern | Bibliothek
           <div class="field">
             <label class="label">Postleitzahl *</label>
             <div class="control">
-              <input class="input" type="number" name="postcode" value="{{ user.address.postcode }}" required>
+              <input class="input" type="text" name="postcode" value="{{ user.address.postcode }}" required>
             </div>
           </div>
           <div class="field">
