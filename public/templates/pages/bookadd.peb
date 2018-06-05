@@ -35,7 +35,7 @@ Buch hinzufügen | Bibliothek
         <div class="field">
           <p>Die mit * gekennzeichneten Felder sind <strong>Pflicht</strong>.</p>
         </div>
-        <form action="{{ Paths.USER_EDIT }}" method="post" name="edit_user_data">
+        <form action="{{ Paths.BOOK_ADD }}" method="post" name="book_add">
           <div class="field">
             <label class="label">Titel *</label>
             <div class="control">
