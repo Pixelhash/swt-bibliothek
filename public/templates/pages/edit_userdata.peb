@@ -1,0 +1,91 @@
+{% extends 'layouts/master' %}
+
+{% block title %}
+Daten ändern | Bibliothek
+{% endblock %}
+
+{% block content %}
+<section class="hero is-light is-bold">
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <h1 class="title is-3 is-spaced">
+                <span class="icon icon-nav has-text-grey-dark">
+                    <i class="fa fa-list"></i>
+                </span>
+        <span>{{ i18n("messages", "USERDATA_TITLE") }}</span>
+      </h1>
+      <h3 class="subtitle is-5">{{ i18n("messages", "USERDATA_SUBTITLE") }}</h3>
+    </div>
+  </div>
+</section>
+<section class="section">
+  <div class="container">
+    <div class="column is-6 is-offset-3">
+    {% if flash.error == "true" %}
+      <div class="notification is-danger has-text-centered">
+      {{ i18n("messages", flash.error_message) }}
+      </div>
+    {% endif %}
+      <div class="box">
+        <div class="field">
+          <p>Die mit * gekennzeichneten Felder sind <strong>Pflicht</strong>.</p>
+        </div>
+        <form action="{{ Paths.USER_EDIT }}" method="post" name="edit_user_data">
+          <div class="field">
+            <label class="label">Vorname *</label>
+            <div class="control">
+              <input class="input" type="text" name="forename" value="{{ user.forename }}" required>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Nachname *</label>
+            <div class="control">
+              <input class="input" type="text" name="surname" value="{{ user.surname }}" required>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Telefonnummer</label>
+            <div class="control">
+              <input class="input" type="text" name="phone_number" value="{{ user.phoneNumber }}">
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Straße *</label>
+            <div class="control">
+              <input class="input" type="text" name="street" value="{{ user.address.street }}" required>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Hausnummer *</label>
+            <div class="control">
+              <input class="input" type="text" name="house_number" value="{{ user.address.houseNumber }}" required>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Postleitzahl *</label>
+            <div class="control">
+              <input class="input" type="text" name="postcode" value="{{ user.address.postcode }}" required>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Stadt *</label>
+            <div class="control">
+              <input class="input" type="text" name="city" value="{{ user.address.city }}" required>
+            </div>
+          </div>
+
+          <div class="field is-grouped">
+            <div class="control">
+              <button class="button is-link" name="edit_user_data_btn">Speichern</button>
+            </div>
+            <div class="control">
+              <a href="{{ Paths.USER_DASHBOARD }}" class="button is-text">Abbrechen</a>
+            </div>
+          </div>
+          <input type="hidden" name="csrf" value="{{ csrf }}">
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

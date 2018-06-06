@@ -20,7 +20,7 @@ public abstract class AbstractAddress {
   String city;
 
   @Column(name = "plz", length = 5, nullable = false)
-  int postcode;
+  String postcode;
 
   public String getFullAddress() {
     return street + " " + houseNumber;
