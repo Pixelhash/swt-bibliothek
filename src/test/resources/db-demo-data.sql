@@ -32,9 +32,9 @@ INSERT INTO `verlag` (`id`, `name`, `ort`) VALUES (5, 'Eher', 'München');
 INSERT INTO `verlag` (`id`, `name`, `ort`) VALUES (6, 'S. Fischer', 'Frankfurt');
 INSERT INTO `verlag` (`id`, `name`, `ort`) VALUES (7, 'Gabler', 'Wiesbaden');
 
-INSERT INTO `adresse` (`id`, `strasse`, `hausnummer`, `ort`, `plz`) VALUES (1, 'Schulweg', '10', 'Vinzier', 23843);
-INSERT INTO `adresse` (`id`, `strasse`, `hausnummer`, `ort`, `plz`) VALUES (2, 'Oldesloer Strasse', '126', 'Bad Oldesloe', 23843);
-INSERT INTO `adresse` (`id`, `strasse`, `hausnummer`, `ort`, `plz`) VALUES (3, 'Ringstrasse', '76', 'Lübeck', 23558);
+INSERT INTO `adresse` (`id`, `strasse`, `hausnummer`, `ort`, `plz`) VALUES (1, 'Schulweg', '10', 'Vinzier', '23843');
+INSERT INTO `adresse` (`id`, `strasse`, `hausnummer`, `ort`, `plz`) VALUES (2, 'Oldesloer Strasse', '126', 'Bad Oldesloe', '23843');
+INSERT INTO `adresse` (`id`, `strasse`, `hausnummer`, `ort`, `plz`) VALUES (3, 'Ringstrasse', '76', 'Lübeck', '23558');
 
 INSERT INTO `buch` (`id`, `titel`, `isbn`, `erscheinungsjahr`, `standort`, `kategorie_id`, `verlag_id`) VALUES (1, 'Ni Xing', '000111222333', 2017, 'R45', 7, 1);
 INSERT INTO `buch` (`id`, `titel`, `isbn`, `erscheinungsjahr`, `standort`, `kategorie_id`, `verlag_id`) VALUES (2, 'Mathematik', '9783642449185', 2017, 'R13', 2, 2);
