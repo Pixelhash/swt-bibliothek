@@ -1,6 +1,8 @@
 package de.fhl.swtlibrary;
 
 import de.fhl.swtlibrary.model.Models;
+import io.requery.cache.EmptyEntityCache;
+import io.requery.cache.EntityCacheBuilder;
 import io.requery.meta.EntityModel;
 import io.requery.sql.*;
 import org.h2.jdbcx.JdbcDataSource;
@@ -22,6 +24,7 @@ public final class DatabaseUtil {
     EntityModel model = Models.DEFAULT;
     new SchemaModifier(dataSource, model).createTables(TableCreationMode.CREATE_NOT_EXISTS);
     Configuration configuration = new ConfigurationBuilder(dataSource, model)
+      .setEntityCache(new EmptyEntityCache())
       .useDefaultLogging()
       .build();
     RunScript.execute(dataSource.getConnection(), new FileReader("src/test/resources/db-demo-data.sql"));
