@@ -73,6 +73,16 @@ public class AddBookController {
       return RenderUtil.error(req, Paths.BOOK_ADD, "ERROR_MISSING_FIELDS");
     }
 
+    //If a Book with the same ISBN exists, return error
+    Book alreadyExists = bookEntityStore.select(Book.class)
+      .where(Book.ISBN.equal(isbn))
+      .get()
+      .firstOrNull();
+    System.out.println(alreadyExists);
+    if(alreadyExists != null) {
+      return RenderUtil.error(req, Paths.BOOK_ADD, "BOOK_ADD_ALREADY_EXISTS");
+    }
+
     final short releaseYear = validYear.getSecondValue().shortValue();
 
     //Get Category and Publisher by given ID
