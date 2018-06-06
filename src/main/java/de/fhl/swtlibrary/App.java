@@ -17,6 +17,7 @@ import org.jooby.handlers.CsrfHandler;
 import org.jooby.jdbc.Jdbc;
 import org.jooby.json.Jackson;
 import org.jooby.pebble.Pebble;
+import org.jooby.quartz.Quartz;
 import org.jooby.requery.Requery;
 import org.jooby.whoops.Whoops;
 
@@ -51,6 +52,9 @@ public class App extends Jooby {
     use(new Pebble("templates", ".peb"));
 
     use(new FlashScope());
+
+    /*QUARTZ (job scheduling)*/
+    use(new Quartz().with(ReminderController.class));
 
     use("*", new CsrfHandler());
 
@@ -113,6 +117,9 @@ public class App extends Jooby {
 
     /* Search Routes: */
     use(SearchController.class);
+
+    /*Remind Routes: */
+    use(ReminderController.class);
 
     /* Login Routes: */
     use(LoginController.class);
