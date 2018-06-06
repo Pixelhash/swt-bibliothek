@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS `bibliothekssoftware`.`adresse` (
   `strasse` VARCHAR(100) NOT NULL,
   `hausnummer` VARCHAR(8) NOT NULL,
   `ort` VARCHAR(100) NOT NULL,
-  `plz` INT(5) UNSIGNED NOT NULL,
+  `plz` CHAR(5) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -222,9 +222,9 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `bibliothekssoftware`;
-INSERT INTO `bibliothekssoftware`.`adresse` (`id`, `strasse`, `hausnummer`, `ort`, `plz`) VALUES (1, 'Schulweg', '10', 'Vinzier', 23843);
-INSERT INTO `bibliothekssoftware`.`adresse` (`id`, `strasse`, `hausnummer`, `ort`, `plz`) VALUES (2, 'Oldesloer Strasse', '126', 'Bad Oldesloe', 23843);
-INSERT INTO `bibliothekssoftware`.`adresse` (`id`, `strasse`, `hausnummer`, `ort`, `plz`) VALUES (3, 'Ringstrasse', '76', 'Lübeck', 23558);
+INSERT INTO `bibliothekssoftware`.`adresse` (`id`, `strasse`, `hausnummer`, `ort`, `plz`) VALUES (1, 'Schulweg', '10', 'Vinzier', '23843');
+INSERT INTO `bibliothekssoftware`.`adresse` (`id`, `strasse`, `hausnummer`, `ort`, `plz`) VALUES (2, 'Oldesloer Strasse', '126', 'Bad Oldesloe', '23843');
+INSERT INTO `bibliothekssoftware`.`adresse` (`id`, `strasse`, `hausnummer`, `ort`, `plz`) VALUES (3, 'Ringstrasse', '76', 'Lübeck', '23558');
 
 COMMIT;
 

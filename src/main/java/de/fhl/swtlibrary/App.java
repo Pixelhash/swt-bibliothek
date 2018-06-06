@@ -128,6 +128,9 @@ public class App extends Jooby {
       /* Dashboard Routes: */
       use(DashboardController.class);
 
+      /* Edit User Data Routes: */
+      use(EditUserDataController.class);
+
     }).attr("needsLogin", true);
 
     with(() -> {

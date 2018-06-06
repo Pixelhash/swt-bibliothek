@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS `bibliothekssoftware`.`adresse` (
   `strasse` VARCHAR(100) NOT NULL,
   `hausnummer` VARCHAR(8) NOT NULL,
   `ort` VARCHAR(100) NOT NULL,
-  `plz` INT(5) UNSIGNED NOT NULL,
+  `plz` CHAR(5) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 

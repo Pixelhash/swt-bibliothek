@@ -20,10 +20,36 @@
 </section>
 <section class="section">
   <div class="container has-text-centered">
+      {% if flash.error == "true" %}
+        <div class="columns">
+          <div class="column is-10 is-offset-1">
+            <div class="notification is-danger">
+            {{ i18n("messages", flash.error_message) }}
+            </div>
+          </div>
+        </div>
+      {% endif %}
+      {% if flash.success == "true" %}
+        <div class="columns">
+          <div class="column is-10 is-offset-1">
+            <div class="notification is-success">
+            {{ i18n("messages", flash.success_message) }}
+            </div>
+          </div>
+        </div>
+      {% endif %}
     <div class="columns">
       <div class="column is-5">
         <div class="box">
-          <p class="title is-5">Nutzerdaten</p>
+          <p class="title is-5">
+            Nutzerdaten
+            <a href="{{ Paths.USER_EDIT }}" class="button is-rounded is-small is-pulled-right">
+              <span class="icon is-small">
+                <i class="fa fa-pencil"></i>
+              </span>
+              <span>Bearbeiten</span>
+            </a>
+          </p>
           <hr>
           <table class="table is-fullwidth is-narrow">
             <tbody>
@@ -39,7 +65,7 @@
             </tr>
             <tr class="no-border">
               <th>Name:</th>
-              <td class="is-pulled-right">{{ user.getFullName() }}</td>
+              <td class="is-pulled-right" id="name">{{ user.getFullName() }}</td>
             </tr>
             <tr class="no-border">
               <th>E-Mail:</th>
@@ -47,7 +73,7 @@
             </tr>
             <tr class="no-border">
               <th>Tel. Nr.:</th>
-              <td class="is-pulled-right">
+              <td class="is-pulled-right" id="phone_number">
                 {% if user.phoneNumber is null %}
                 -
                 {% else %}
@@ -61,11 +87,11 @@
             </tr>
             <tr class="no-border">
               <th>Straße:</th>
-              <td class="is-pulled-right">{{ user.address.getFullAddress() }}</td>
+              <td class="is-pulled-right" id="street">{{ user.address.getFullAddress() }}</td>
             </tr>
             <tr class="no-border">
               <th>Ort:</th>
-              <td class="is-pulled-right">{{ user.address.getFullCity() }}</td>
+              <td class="is-pulled-right" id="location">{{ user.address.getFullCity() }}</td>
             </tr>
             </tbody>
           </table>
