@@ -1,153 +1,24 @@
 package de.fhl.swtlibrary;
 
-import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.*;
-import de.fhl.swtlibrary.model.Book;
-import de.fhl.swtlibrary.model.Category;
 import de.fhl.swtlibrary.util.Paths;
-import io.requery.EntityStore;
-import io.requery.Persistable;
 import org.jooby.test.JoobyRule;
 import org.junit.*;
 
-import java.util.List;
-
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
-/**
- * @author jooby generator
- */
-public class AppTest {
-
-  /**
-   * One app/server for all the test of this class. If you want to start/stop a new server per test,
-   * remove the static modifier and replace the {@link ClassRule} annotation with {@link Rule}.
-   */
+public class EditUserDataControllerTest {
   @ClassRule
   public static JoobyRule app = new JoobyRule(new App());
-
-  private static final String HOSTNAME = "http://localhost:4567";
-  private static WebClient webClient;
-
   @BeforeClass
-  public static void setUp() throws Exception {
-    DatabaseUtil.setUpTestDatabase();
-
-    webClient = new WebClient();
-    webClient.getOptions().setCssEnabled(false);
-    webClient.getOptions().setJavaScriptEnabled(false);
-    webClient.getOptions().setThrowExceptionOnScriptError(false);
+  public static void setup() throws Exception{
+    TestUtil.setup();
   }
 
-  private HtmlPage loginWithTestUser(final int id, final String password) throws Exception {
-    final HtmlPage loginPage = webClient.getPage(HOSTNAME + Paths.USER_LOGIN);
-
-    final HtmlForm loginForm = loginPage.getFormByName("login_form");
-
-    final HtmlButton loginButton = loginForm.getButtonByName("login_btn");
-    final HtmlTextInput userIdField = loginForm.getInputByName("user_id");
-    final HtmlPasswordInput passwordField = loginForm.getInputByName("password");
-
-    userIdField.type(String.valueOf(id));
-    passwordField.type(password);
-
-    // Return the result page, either still login page (error) or user dashboard
-    return loginButton.click();
-  }
-
-  @Test
-  public void testBookSearchForm() throws Exception {
-      final HtmlPage page = webClient.getPage(HOSTNAME + Paths.BOOK_SEARCH);
-
-      String expected = "Buchsuche | Bibliothek";
-      assertEquals(expected, page.getTitleText());
-  }
-
-  @Test
-  public void testBookSearchInputs() throws Exception {
-    final HtmlPage searchPage = webClient.getPage(HOSTNAME + Paths.BOOK_SEARCH);
-
-    final HtmlForm searchForm = searchPage.getFormByName("book_search_form");
-
-    final HtmlButton searchButton = searchForm.getButtonByName("book_search_btn");
-    final HtmlTextInput queryField = searchForm.getInputByName("query");
-
-    queryField.type("mathe");
-
-    final HtmlPage resultsPage = searchButton.click();
-
-    String expected = "Suchergebnisse | Bibliothek";
-    assertEquals(expected, resultsPage.getTitleText());
-  }
-
-  @Test
-  public void testSuccessfulLogin() throws Exception {
-    final HtmlPage dashboardPage = loginWithTestUser(1, "Test1234");
-
-    assertEquals(Paths.USER_DASHBOARD, dashboardPage.getBaseURL().getPath());
-  }
-
-  @Test
-  public void testCategoryCount() throws Exception {
-    final HtmlPage page = webClient.getPage(HOSTNAME + Paths.BOOK_CATEGORIES);
-
-    EntityStore<Persistable, Category> categoryStore = DatabaseUtil.getData();
-    List<Category> categories = categoryStore.select(Category.class)
-      .orderBy(Category.NAME.asc())
-      .get()
-      .toList();
-
-    // Get all Cards which represent a category and all of its books
-    List<DomNode> cards = page.querySelectorAll(".card-header-title");
-
-    // Check if category count from database equals category count on the web page
-    assertTrue(cards.size() == categories.size());
-  }
-
-  @Test
-  public void testCategoryPageName() throws Exception {
-    final HtmlPage page = webClient.getPage(HOSTNAME + Paths.BOOK_CATEGORIES);
-
-    EntityStore<Persistable, Category> categoryStore = DatabaseUtil.getData();
-    List<Category> categories = categoryStore.select(Category.class)
-      .orderBy(Category.NAME.asc())
-      .get()
-      .toList();
-
-    // Get all Cards which represent a category and all of its books
-    List<DomNode> cards = page.querySelectorAll(".card-header-title");
-
-    // Check if category 5 from the sorted database list equals category 5 from the web page
-    assertTrue(categories.get(5).getName().contains(cards.get(5).getTextContent().trim()));
-  }
-
-  @Test
-  public void testCategoryPageContent() throws Exception {
-    final HtmlPage page = webClient.getPage(HOSTNAME + Paths.BOOK_CATEGORIES);
-
-    EntityStore<Persistable, Category> categoryStore = DatabaseUtil.getData();
-    List<Category> categories = categoryStore.select(Category.class)
-      .orderBy(Category.NAME.asc())
-      .get()
-      .toList();
-
-    EntityStore<Persistable, Book> bookStore = DatabaseUtil.getData();
-    List<Book> books = bookStore.select(Book.class)
-      .where(Book.CATEGORY.eq(categories.get(10)))
-      .get()
-      .toList();
-
-    // Get all Cards which represent a category and all of its books
-    List<DomNode> cards = page.querySelectorAll(".card-header-title");
-
-    // Check if the books from the database show up on the webpage in the right category
-    assertTrue(books.stream().map(book -> book.getTitle()).parallel().anyMatch(cards.get(10).getTextContent()::contains));
-  }
 
   @Test
   public void testEditUserDataButtonFromDashboard() throws Exception {
-    final HtmlPage dashboardPage = loginWithTestUser(1, "Test1234");
+    final HtmlPage dashboardPage = TestUtil.loginWithTestUser(1, "Test1234");
 
     final HtmlAnchor anchor = dashboardPage.getAnchorByHref(Paths.USER_EDIT);
 
@@ -158,7 +29,7 @@ public class AppTest {
 
   @Test
   public void testEditUserDataSaveDataSuccessful() throws Exception {
-    final HtmlPage dashboardPage = loginWithTestUser(2, "Test1234");
+    final HtmlPage dashboardPage = TestUtil.loginWithTestUser(2, "Test1234");
 
     final HtmlAnchor anchor = dashboardPage.getAnchorByHref(Paths.USER_EDIT);
 
@@ -225,7 +96,7 @@ public class AppTest {
 
   @Test
   public void testEditUserDataSaveDataFail() throws Exception {
-    final HtmlPage dashboardPage = loginWithTestUser(2, "Test1234");
+    final HtmlPage dashboardPage = TestUtil.loginWithTestUser(2, "Test1234");
 
     final HtmlAnchor anchor = dashboardPage.getAnchorByHref(Paths.USER_EDIT);
 
@@ -267,5 +138,4 @@ public class AppTest {
 
     assertEquals(Paths.USER_EDIT, resultPage.getBaseURL().getPath());
   }
-
 }
