@@ -83,7 +83,7 @@ Buch hinzufügen | Bibliothek
 
           <div class="field is-grouped">
             <div class="control">
-              <button class="button is-link" name="edit_user_data_btn">Anlegen</button>
+              <button class="button is-link" name="book_add_btn">Anlegen</button>
             </div>
             <div class="control">
               <a href="{{ Paths.USER_DASHBOARD }}" class="button is-text">Abbrechen</a>
