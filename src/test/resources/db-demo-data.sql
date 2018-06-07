@@ -1,3 +1,14 @@
+SET REFERENTIAL_INTEGRITY FALSE;
+TRUNCATE TABLE kategorie;
+TRUNCATE TABLE autor;
+TRUNCATE TABLE verlag;
+TRUNCATE TABLE adresse;
+TRUNCATE TABLE buch;
+TRUNCATE TABLE benutzer;
+TRUNCATE TABLE buchexemplar;
+TRUNCATE TABLE buch_hat_autor;
+SET REFERENTIAL_INTEGRITY TRUE;
+
 INSERT INTO `kategorie` (`id`, `name`) VALUES (1, 'Jura');
 INSERT INTO `kategorie` (`id`, `name`) VALUES (2, 'Mathematik');
 INSERT INTO `kategorie` (`id`, `name`) VALUES (3, 'Informatik');
