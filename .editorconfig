@@ -13,6 +13,7 @@ indent_size = 2
 [public/templates/**.peb]
 indent_style = space
 indent_size = 2
+insert_final_newline = false
 
 [assets/js/**.js]
 indent_style = space
