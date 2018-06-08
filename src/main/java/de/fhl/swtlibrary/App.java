@@ -1,5 +1,6 @@
 package de.fhl.swtlibrary;
 
+import com.typesafe.config.Config;
 import de.fhl.swtlibrary.model.Models;
 import de.fhl.swtlibrary.model.User;
 import de.fhl.swtlibrary.model.UserRole;
@@ -10,12 +11,17 @@ import io.requery.EntityStore;
 import io.requery.Persistable;
 import io.requery.sql.TableCreationMode;
 import javassist.NotFoundException;
+import org.apache.commons.mail.Email;
+import org.apache.commons.mail.EmailException;
+import org.apache.commons.mail.HtmlEmail;
+import org.apache.commons.mail.SimpleEmail;
 import org.jooby.*;
 import org.jooby.assets.Assets;
 import org.jooby.banner.Banner;
 import org.jooby.handlers.CsrfHandler;
 import org.jooby.jdbc.Jdbc;
 import org.jooby.json.Jackson;
+import org.jooby.mail.CommonsEmail;
 import org.jooby.pebble.Pebble;
 import org.jooby.quartz.Quartz;
 import org.jooby.requery.Requery;
@@ -50,6 +56,9 @@ public class App extends Jooby {
 
     /* Template Engine: */
     use(new Pebble("templates", ".peb"));
+
+    /* Email Engine: */
+    use(new CommonsEmail());
 
     use(new FlashScope());
 
