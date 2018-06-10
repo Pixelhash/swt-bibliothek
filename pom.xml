@@ -76,6 +76,12 @@
       <version>${jooby.version}</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.jooby</groupId>
+      <artifactId>jooby-commons-email</artifactId>
+      <version>${jooby.version}</version>
+    </dependency>
+
     <!-- bCrypt Support -->
     <dependency>
       <groupId>org.mindrot</groupId>

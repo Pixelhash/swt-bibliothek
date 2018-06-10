@@ -5,6 +5,7 @@
 - [Systemvoraussetzungen](#systemvoraussetzungen)
 - [Installation (Entwicklung)](#installation-(entwicklung))
 - [Installation (Produktion)](#installation-(produktion))
+- [Snippets](#snippets)
 - [Verwendete Tools und Libraries](#verwendete-tools-und-libraries)
 - [Testkonzept](#Testkonzept)
 
@@ -30,24 +31,27 @@ im Fach Softwaretchnik 2 im SS 2018 der FH-Lübeck entwickelt.
 
 1. MySQL/MariaDB Server muss vorhanden und die Datenbankstruktur angelegt/vorhanden sein.
 
-2. Die Installation einiger Plugins in IntelliJ IDEA ist empfohlen:
+1. Die Installation einiger Plugins in IntelliJ IDEA ist empfohlen:
 
     - [Pebble](https://plugins.jetbrains.com/plugin/9407-pebble) (Template Engine Support)
     - [CheckStyle-IDEA](https://plugins.jetbrains.com/plugin/1065-checkstyle-idea) Code Analyse
     
-3. Das Projekt in IntelliJ IDEA öffnen
+1. Das Projekt in IntelliJ IDEA öffnen
 
-4. Die fehlenden Model Klassen mithilfe von Maven generieren lassen:
+1. Die fehlenden Model Klassen mithilfe von Maven generieren lassen:
 
     - `mvn compile` ausführen oder im Maven Tab in IntelliJ ausführen lassen
 
-5. Die generierten Klassen befinden sich im Ordner `target/generated-sources` und sollten von IntelliJ automatisch erkannt werden
+1. Die generierten Klassen befinden sich im Ordner `target/generated-sources` und sollten von IntelliJ automatisch erkannt werden
 
-6. Konfigurationsdatei kopieren und anpassen:
+1. Konfigurationsdatei kopieren und anpassen:
 
     - `cp conf/application-example.conf conf/application.conf`
 
-7. Applikation im Entwicklungsmodus starten, dies startet die App bei jeder Veränderung im Code automatisch neu:
+1. Um den E-Mail Verkehr während der Entwicklung testen zu können, bietet es sich an einen Account bei [Mailtrap](https://mailtrap.io/) anzulegen.
+Dort bekommt man Zugangsdaten für einen SMTP-Nutzer, welcher an ihm gesendete E-Mails im Browser anzeigt.
+
+1. Applikation im Entwicklungsmodus starten, dies startet die App bei jeder Veränderung im Code automatisch neu:
 
     - `mvn jooby:run`    
 
@@ -147,6 +151,39 @@ Die Installation kann entweder manuell oder mit Docker/Docker Compose durchgefü
     - Ins Verzeichnis des Repos wechseln
     - `docker-compose down` ausführen
 
+## Snippets
+
+### E-Mails senden
+
+Aus der `App.java` heraus:
+```java
+public class App extends Jooby {
+  {
+     require(SimpleEmail.class)
+       .setSubject("[Bibliothek] Passwort zurücksetzen")
+       .setMsg("Sie haben angefordert Ihr Passwort zurückzusetzen...")
+       .addTo("user@example.com")
+       .send();
+  }
+}
+```
+
+Oder im Controller:
+
+```java
+public class ExampleController {
+
+  private SimpleEmail email;
+
+  @Inject
+  public ExampleController(SimpleEmail email) {
+    this.email = email;
+  }
+
+  // In der Route die E-Mail senden wie im Beispiel oben...
+}
+```
+
 ## Verwendete Tools und Libraries
 
 #### Java:
@@ -156,6 +193,7 @@ Die Installation kann entweder manuell oder mit Docker/Docker Compose durchgefü
 - [Pebble Template Engine](http://www.mitchellbosecke.com/pebble/home)
 - [requery](https://github.com/requery/requery)
 - [jBCrypt](https://www.mindrot.org/projects/jBCrypt/)
+- [Apache Commons Email](https://commons.apache.org/proper/commons-email/)
 
 #### SQL:
 

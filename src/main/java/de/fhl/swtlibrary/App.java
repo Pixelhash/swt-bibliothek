@@ -18,6 +18,7 @@ import org.jooby.banner.Banner;
 import org.jooby.handlers.CsrfHandler;
 import org.jooby.jdbc.Jdbc;
 import org.jooby.json.Jackson;
+import org.jooby.mail.CommonsEmail;
 import org.jooby.pebble.Pebble;
 import org.jooby.requery.Requery;
 import org.jooby.whoops.Whoops;
@@ -53,6 +54,9 @@ public class App extends Jooby {
 
     /* Template Engine: */
     use(new Pebble("templates", ".peb"));
+
+    /* Email Engine: */
+    use(new CommonsEmail());
 
     /* Flash Attributes: */
     use(new FlashScope());
