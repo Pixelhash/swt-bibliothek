@@ -115,9 +115,9 @@
                                 <span>Übersicht</span>
                             </a>
                         </p>
-                        <form action="{{ Paths.USER_LOGOUT }}" method="post">
+                        <form action="{{ Paths.USER_LOGOUT }}" method="post" name="logout_form">
                             <p class="control">
-                                <button type="submit" class="button is-link">
+                                <button type="submit" class="button is-link" name="logout_btn">
                                     <span class="icon">
                                         <i class="fa fa-sign-out"></i>
                                     </span>
