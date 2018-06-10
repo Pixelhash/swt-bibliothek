@@ -55,7 +55,7 @@ public class AddBookController {
   @POST
   public Result postAddBook() {
     String title = req.param("title").value();
-    String isbn = req.param("isbn").value();
+    String isbn = req.param("isbn").value().replaceAll("-", "");
     String releaseYearString = req.param("release_year").value();
     String location = req.param("location").value();
     String category = req.param("category").value();
@@ -65,12 +65,12 @@ public class AddBookController {
 
     // Check if all passed parameters are valid
     if (!Validation.isNonEmptyString(title)
-      || !Validation.isNonEmptyString(isbn)
+      || !Validation.isNonEmptyStringWithMinMaxLength(isbn, 0, 13)
       || !Validation.isNonEmptyString(location)
       || !Validation.isNonEmptyString(category)
       || !Validation.isNonEmptyString(publisher)
       || !validYear.getFirstValue()) {
-      return RenderUtil.error(req, Paths.BOOK_ADD, "ERROR_MISSING_FIELDS");
+      return RenderUtil.error(req, Paths.BOOK_ADD, "ERROR_INVALID_FIELDS");
     }
 
     //If a Book with the same ISBN exists, return error
