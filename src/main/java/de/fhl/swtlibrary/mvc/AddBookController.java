@@ -21,16 +21,22 @@ public class AddBookController {
   private EntityStore<Persistable, Book> bookEntityStore;
   private EntityStore<Persistable, Category> categoryEntityStore;
   private EntityStore<Persistable, Publisher> publisherEntityStore;
+  private EntityStore<Persistable, Author> authorEntityStore;
+  private EntityStore<Persistable, BookAuthor> bookAuthorEntityStore;
 
   @Inject
   public AddBookController(Request req,
                                 EntityStore<Persistable, Book> bookEntityStore,
                                 EntityStore<Persistable, Category> categoryEntityStore,
-                                EntityStore<Persistable, Publisher> publisherEntityStore) {
+                                EntityStore<Persistable, Publisher> publisherEntityStore,
+                                EntityStore<Persistable, Author> authorEntityStore,
+                                EntityStore<Persistable, BookAuthor> bookAuthorEntityStore) {
     this.req = req;
     this.bookEntityStore = bookEntityStore;
     this.categoryEntityStore = categoryEntityStore;
     this.publisherEntityStore = publisherEntityStore;
+    this.authorEntityStore = authorEntityStore;
+    this.bookAuthorEntityStore = bookAuthorEntityStore;
   }
 
   @GET
@@ -45,9 +51,15 @@ public class AddBookController {
       .orderBy(Publisher.NAME)
       .get()
       .toList();
+    final List<Author> aList = authorEntityStore
+      .select(Author.class)
+      .orderBy(Author.NAME)
+      .get()
+      .toList();
 
     req.set("cList", cList);
     req.set("pList", pList);
+    req.set("aList", aList);
 
     return Results.html("pages/bookadd");
   }
@@ -60,8 +72,10 @@ public class AddBookController {
     String location = req.param("location").value();
     String category = req.param("category").value();
     String publisher = req.param("publisher").value();
+    String author = req.param("author").value();
 
     Tuple<Boolean, Integer> validYear = Validation.isValidInt(releaseYearString);
+    Tuple<Boolean, Integer> validAuthor = Validation.isValidInt(author);
 
     // Check if all passed parameters are valid
     if (!Validation.isNonEmptyString(title)
@@ -69,6 +83,7 @@ public class AddBookController {
       || !Validation.isNonEmptyString(location)
       || !Validation.isNonEmptyString(category)
       || !Validation.isNonEmptyString(publisher)
+      || !validAuthor.getFirstValue()
       || !validYear.getFirstValue()) {
       return RenderUtil.error(req, Paths.BOOK_ADD, "ERROR_INVALID_FIELDS");
     }
@@ -84,6 +99,7 @@ public class AddBookController {
     }
 
     final short releaseYear = validYear.getSecondValue().shortValue();
+    final int authorId = validAuthor.getSecondValue();
 
     //Get Category and Publisher by given ID
     final Category cat = categoryEntityStore.select(Category.class)
@@ -105,7 +121,14 @@ public class AddBookController {
     book.setPublisher(pub);
 
     // Insert Book into Database
-    bookEntityStore.insert(book);
+    int bookid = bookEntityStore.insert(book).getId();
+
+    //Create Book - Author connection
+    BookAuthor bookauthor = new BookAuthor();
+    bookauthor.setAuthorId(authorId);
+    bookauthor.setBookId(bookid);
+
+    bookAuthorEntityStore.insert(bookauthor);
 
     return RenderUtil.success(req, Paths.BOOK_ADD, "BOOK_ADD_SUCCESS");
   }

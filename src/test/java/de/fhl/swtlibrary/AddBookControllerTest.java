@@ -52,6 +52,7 @@ public class AddBookControllerTest {
     final HtmlInput locationField = bookAddForm.getInputByName("location");
     final HtmlSelect categorySelection = bookAddForm.getSelectByName("category");
     final HtmlSelect publisherSelection = bookAddForm.getSelectByName("publisher");
+    final HtmlSelect authorSelection = bookAddForm.getSelectByName("author");
 
     // Setup demo data for assertion
     String title = "Deutsch für die 5. Klasse";
@@ -60,6 +61,7 @@ public class AddBookControllerTest {
     String location = "R2";
     String category = "17";
     String publisher = "4";
+    String author = "3";
 
     // Type demo data into fields
     titleField.setValueAttribute(title);
@@ -68,16 +70,20 @@ public class AddBookControllerTest {
     locationField.setValueAttribute(location);
     categorySelection.getOptionByValue(category).setSelected(true);
     publisherSelection.getOptionByValue(publisher).setSelected(true);
-
-    final HtmlPage resultPage = bookAddButton.click();
+    authorSelection.getOptionByValue(author).setSelected(true);
 
     EntityStore<Persistable, Book> bookStore = DatabaseUtil.getData();
+
+    bookAddButton.click();
 
     Book book = bookStore.select(Book.class)
       .where(Book.ISBN.equal(isbn))
       .get().firstOrNull();
 
     assertNotNull(book);
+
+    assertEquals(title, book.getTitle()); //Check if Title is the same
+    assertEquals(Integer.parseInt(author), book.getAuthors().get(0).getId()); //Check if author is right
   }
   @Test
   public void testAddBookDuplicateISBN() throws Exception {
@@ -97,6 +103,7 @@ public class AddBookControllerTest {
     final HtmlInput locationField = bookAddForm.getInputByName("location");
     final HtmlSelect categorySelection = bookAddForm.getSelectByName("category");
     final HtmlSelect publisherSelection = bookAddForm.getSelectByName("publisher");
+    final HtmlSelect authorSelection = bookAddForm.getSelectByName("author");
 
     // Setup demo data for assertion
     String title = "Mathematik";
@@ -105,6 +112,7 @@ public class AddBookControllerTest {
     String location = "R13";
     String category = "2";
     String publisher = "2";
+    String author = "3";
 
     // Type demo data into fields
     titleField.setValueAttribute(title);
@@ -113,6 +121,7 @@ public class AddBookControllerTest {
     locationField.setValueAttribute(location);
     categorySelection.getOptionByValue(category).setSelected(true);
     publisherSelection.getOptionByValue(publisher).setSelected(true);
+    authorSelection.getOptionByValue(author).setSelected(true);
 
     final HtmlPage resultPage = bookAddButton.click();
 

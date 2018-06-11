@@ -43,6 +43,16 @@ Buch hinzufügen | Bibliothek
             </div>
           </div>
           <div class="field">
+            <label class="label">Autor *</label>
+            <div class="control">
+              <select class="input" name="author">
+              {% for author in aList %}
+                <option value="{{ author.ID }}">{{ author.NAME }}</option>
+              {%endfor%}
+              </select>
+            </div>
+          </div>
+          <div class="field">
             <label class="label">ISBN *</label>
             <div class="control">
               <input class="input" type="text" name="isbn" value="" required>
