@@ -14,6 +14,7 @@ public final class Paths {
 
   public static final String BOOK_BORROW = "/borrow";
   public static final String BOOK_RETURN = "/return";
+  public static final String BOOK_ADD = "/book/add";
 
   public static final String USER_LOGIN = "/user/session/login";
   public static final String USER_LOGOUT = "/user/session/logout";

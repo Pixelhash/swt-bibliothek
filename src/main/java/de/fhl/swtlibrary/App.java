@@ -150,6 +150,9 @@ public class App extends Jooby {
       /* Return BookCopy Routes: */
       use(ReturnController.class);
 
+      /* Add new Book Routes: */
+      use(AddBookController.class);
+
     }).attr("role", UserRole.MITARBEITER).attr("needsLogin", true);
 
   }

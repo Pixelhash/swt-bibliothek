@@ -1,0 +1,108 @@
+{% extends 'layouts/master' %}
+
+{% block title %}
+Buch hinzufügen | Bibliothek
+{% endblock %}
+
+{% block content %}
+<section class="hero is-light is-bold">
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <h1 class="title is-3 is-spaced">
+                <span class="icon icon-nav has-text-grey-dark">
+                    <i class="fa fa-list"></i>
+                </span>
+        <span>{{ i18n("messages", "BOOK_ADD_TITLE") }}</span>
+      </h1>
+      <h3 class="subtitle is-5">{{ i18n("messages", "BOOK_ADD_SUBTITLE") }}</h3>
+    </div>
+  </div>
+</section>
+<section class="section">
+  <div class="container">
+    <div class="column is-6 is-offset-3">
+    {% if flash.error == "true" %}
+      <div class="notification is-danger has-text-centered">
+      {{ i18n("messages", flash.error_message) }}
+      </div>
+    {% endif %}
+    {% if flash.success == "true" %}
+      <div class="notification is-success">
+      {{ i18n("messages", flash.success_message) }}
+      </div>
+    {% endif %}
+      <div class="box">
+        <div class="field">
+          <p>Die mit * gekennzeichneten Felder sind <strong>Pflicht</strong>.</p>
+        </div>
+        <form action="{{ Paths.BOOK_ADD }}" method="post" name="book_add">
+          <div class="field">
+            <label class="label">Titel *</label>
+            <div class="control">
+              <input class="input" type="text" name="title" value="" required>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Autor *</label>
+            <div class="control">
+              <select class="input" name="author">
+              {% for author in aList %}
+                <option value="{{ author.ID }}">{{ author.NAME }}</option>
+              {%endfor%}
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">ISBN *</label>
+            <div class="control">
+              <input class="input" type="text" name="isbn" value="" required>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Erscheinungsjahr *</label>
+            <div class="control">
+              <input class="input" type="number" name="release_year" value="" required>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Standort *</label>
+            <div class="control">
+              <input class="input" type="text" name="location" value="" required>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Kategorie *</label>
+            <div class="control">
+              <select class="input" name="category">
+              {% for category in cList %}
+                <option value="{{ category.ID }}">{{ category.NAME }}</option>
+              {%endfor%}
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Verlag *</label>
+            <div class="control">
+              <select class="input" name="publisher">
+              {% for publisher in pList %}
+                <option value="{{ publisher.ID }}">{{ publisher.NAME }}</option>
+              {%endfor%}
+              </select>
+            </div>
+          </div>
+
+          <div class="field is-grouped">
+            <div class="control">
+              <button class="button is-link" name="book_add_btn">Anlegen</button>
+            </div>
+            <div class="control">
+              <a href="{{ Paths.USER_DASHBOARD }}" class="button is-text">Abbrechen</a>
+            </div>
+          </div>
+          <input type="hidden" name="csrf" value="{{ csrf }}">
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
