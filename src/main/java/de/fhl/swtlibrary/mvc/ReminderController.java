@@ -1,6 +1,7 @@
 package de.fhl.swtlibrary.mvc;
 
 import com.google.inject.Inject;
+import com.typesafe.config.Config;
 import de.fhl.swtlibrary.model.BookCopy;
 import io.requery.EntityStore;
 import io.requery.Persistable;
@@ -13,11 +14,14 @@ import java.util.List;
 public class ReminderController {
 
   private EntityStore<Persistable, BookCopy> bookCopyEntityStore;
+  private Config config;
 
   @Inject
-  public ReminderController(EntityStore<Persistable, BookCopy> bookCopyEntityStore) {
+  public ReminderController(Config config,
+    EntityStore<Persistable, BookCopy> bookCopyEntityStore) {
 
     this.bookCopyEntityStore = bookCopyEntityStore;
+    this.config = config;
 
   }
 
@@ -41,12 +45,12 @@ public class ReminderController {
       .toList();
 
     for (BookCopy b : borrowedBooks) {
-       //if(b.getDaysLeft() == 3){
-          Email email = new SimpleEmail();
-          email.setHostName("smtp.mailtrap.io");
-          email.setSmtpPort(25);
-          email.setAuthentication("8652c71c2a4875", "249751dc161cf5");
-          email.setFrom("Mitarbeiter@Bibliothek.de");
+       if(b.getDaysLeft() == 3){
+         Email email = new SimpleEmail();
+         email.setHostName(config.getString("mail.hostName"));
+         email.setSmtpPort(config.getInt("mail.smtpPort"));
+         email.setAuthentication(config.getString("mail.username"), config.getString("mail.password"));
+         email.setFrom(config.getString("mail.from"));
 
           name = b.getBorrower().getFullName();
           mailAdress = b.getBorrower().getEmail();
@@ -54,20 +58,18 @@ public class ReminderController {
           author = b.getBook().getAuthors().get(0).toString().trim();
           StringBuilder fAuthor = new StringBuilder().append(author, 10, author.length() - 1);
 
-          message = "Sehr geeehrte(r) " + name + ",\n\nDies ist eine automatische Erinnerung für Sie, da sie das Buch \"" + title + "\" von " + fAuthor + " in \ndrei Tagen zurückgeben müssen.\n\nMit freundlichen Grüßen\nIhr Bibliotheksteam";
+          message = "Sehr geeehrte(r) " + name + ",\n\nDies ist eine automatische Erinnerung für Sie, da Sie das Buch \"" + title + "\" von " + fAuthor + " in \ndrei Tagen zurückgeben müssen.\n\nMit freundlichen Grüßen\nIhr Bibliotheksteam";
           subject = "[Bibliothek]Erinnerung an fällige Buchrückgabe";
           System.out.println("Mail gesendet!");
 
 
-          {
             email
               .setSubject(subject)
               .setMsg(message)
               .addTo(mailAdress)
               .send();
-          }
         }
-   // }
+    }
     return borrowedBooks;
   }
 
