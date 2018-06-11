@@ -130,6 +130,9 @@ public class App extends Jooby {
     /*Remind Routes: */
     use(ReminderController.class);
 
+    /* Categories Routes: */
+    use(CategoriesController.class);
+
     /* Login Routes: */
     use(LoginController.class);
 
