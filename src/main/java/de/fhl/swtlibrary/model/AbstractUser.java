@@ -35,6 +35,9 @@ public abstract class AbstractUser {
   @Column(name = "passwort", length = 60, nullable = false)
   String password;
 
+  @Column(length = 64)
+  String activation_token;
+
   @Column(name = "adresse_id")
   @ForeignKey
   @OneToOne

@@ -35,4 +35,38 @@ public class TestUtil {
     // Return the result page, either still login page (error) or user dashboard
     return loginButton.click();
   }
+
+  protected static HtmlPage registerWithTestUser(String email) throws Exception {
+    final HtmlPage loginPage = webClient.getPage(HOSTNAME + Paths.USER_REGISTER);
+
+    final HtmlForm registerForm = loginPage.getFormByName("register_form");
+
+    final HtmlButton registerButton = registerForm.getButtonByName("user_register_btn");
+    final HtmlTextInput nameField = registerForm.getInputByName("name");
+    final HtmlTextInput surnameField = registerForm.getInputByName("surname");
+    final HtmlEmailInput emailField = registerForm.getInputByName("email");
+    final HtmlNumberInput phoneField = registerForm.getInputByName("phone");
+    final HtmlTextInput birthdayField = registerForm.getInputByName("birthday");
+    final HtmlTextInput locationField = registerForm.getInputByName("location");
+    final HtmlNumberInput plzField = registerForm.getInputByName("plz");
+    final HtmlTextInput streetField = registerForm.getInputByName("street");
+    final HtmlNumberInput houseNumberField = registerForm.getInputByName("housenumber");
+    final HtmlPasswordInput passwordField = registerForm.getInputByName("password");
+    final HtmlPasswordInput passwordCorrectField = registerForm.getInputByName("passwordcorrect");
+
+    nameField.type("Max");
+    surnameField.type("Mustermann");
+    emailField.type(email);
+    phoneField.type(123456789);
+    birthdayField.type("01.01.2000");
+    locationField.type("Musterhausen");
+    plzField.type("12345");
+    streetField.type("Musterstraße");
+    houseNumberField.type("123");
+    passwordField.type("Test1234");
+    passwordCorrectField.type("Test1234");
+
+    // Return the result page, either still register page (error) or user dashboard
+    return registerButton.click();
+  }
 }

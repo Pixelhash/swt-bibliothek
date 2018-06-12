@@ -1,10 +1,14 @@
 package de.fhl.swtlibrary.mvc;
 
 import com.google.inject.Inject;
+import com.typesafe.config.Config;
 import de.fhl.swtlibrary.model.*;
 import de.fhl.swtlibrary.util.*;
 import io.requery.EntityStore;
 import io.requery.Persistable;
+import org.apache.commons.mail.Email;
+import org.apache.commons.mail.EmailException;
+import org.apache.commons.mail.SimpleEmail;
 import org.jooby.Request;
 import org.jooby.Result;
 import org.jooby.Results;
@@ -16,16 +20,19 @@ import org.mindrot.jbcrypt.BCrypt;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 @Path("/user/")
 public class RegisterController {
   private Request req;
   private EntityStore<Persistable, User> userEntityStore;
   private EntityStore<Persistable, Address> addressEntityStore;
+  private Config config;
 
   @Inject
-  public RegisterController(Request req, EntityStore<Persistable, User> userEntityStore,
+  public RegisterController(Config config, Request req, EntityStore<Persistable, User> userEntityStore,
                             EntityStore<Persistable, Address> addressEntityStore) {
+    this.config = config;
     this.req = req;
     this.userEntityStore = userEntityStore;
     this.addressEntityStore = addressEntityStore;
@@ -110,11 +117,42 @@ public class RegisterController {
     user.setDateOfBirth(date);
     user.setAddress(address);
     user.setPassword(BCrypt.hashpw(password, BCrypt.gensalt()));
+    user.setActivation_token(getActivationToken());
 
     // Adds the address and user to the database
     addressEntityStore.insert(address);
     int userid = userEntityStore.insert(user).getId();
 
+    // Generate activation email
+
+
+    try {
+      sendActivationEmail(user);
+    } catch (EmailException e) {
+      e.printStackTrace();
+    }
+
+
     return RenderUtil.successWithAnswer(req, Paths.USER_REGISTER, "REGISTER_SUCCESS", "userid", userid);
+  }
+
+  private void sendActivationEmail(User user) throws EmailException {
+    String subject = "[Bibliothek] Aktivieren Sie ihren Account";
+    String activationLink = "http://" + req.hostname() + ":" + req.port() + "/user/activate?" + user.getActivation_token();
+    String message = "Sehr geehrte(r) " + user.getFullName() + ",\n\ndies ist eine automatisch generierte Email. Klicken Sie auf den unten erhaltenen Link um ihren Account zu aktivieren.\n\n" + activationLink;
+
+    Email activationEmail = new SimpleEmail();
+    activationEmail.setHostName(config.getString("mail.hostName"));
+    activationEmail.setSmtpPort(config.getInt("mail.smtpPort"));
+    activationEmail.setStartTLSEnabled(true);
+    activationEmail.setAuthentication(config.getString("mail.username"), config.getString("mail.password"));
+    activationEmail.setFrom(config.getString("mail.from"));
+
+    activationEmail.setSubject(subject).setMsg(message).addTo(user.getEmail()).send();
+  }
+
+  public String getActivationToken() {
+    String uuid = UUID.randomUUID().toString() + UUID.randomUUID().toString();
+    return uuid.replaceAll("-", "");
   }
 }

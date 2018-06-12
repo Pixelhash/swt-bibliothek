@@ -106,7 +106,7 @@ Register | Bibliothek
 
           <div class="field is-grouped">
             <div class="control">
-              <button class="button is-link" name=user_register_btn">Registrieren</button>
+              <button class="button is-link" name="user_register_btn">Registrieren</button>
             </div>
             <div class="control">
               <a href="{{ Paths.USER_DASHBOARD }}" class="button is-text">Abbrechen</a>
