@@ -60,7 +60,6 @@ public class RegisterController {
     String password = req.param("password").value();
     String passwordCorrect = req.param("passwordcorrect").value();
 
-    Tuple<Boolean, Integer> validPhoneNumber = Validation.isValidInt(phoneNumber);
     Tuple<Boolean, Integer> validPlz = Validation.isValidInt(plz);
     Tuple<Boolean, Integer> validHouseNumber = Validation.isValidInt(houseNumber);
 
@@ -124,22 +123,24 @@ public class RegisterController {
     int userid = userEntityStore.insert(user).getId();
 
     // Generate activation email
-
-
     try {
       sendActivationEmail(user);
     } catch (EmailException e) {
       e.printStackTrace();
     }
 
-
-    return RenderUtil.successWithAnswer(req, Paths.USER_REGISTER, "REGISTER_SUCCESS", "userid", userid);
+    return RenderUtil.success(req, Paths.USER_REGISTER, "REGISTER_SUCCESS");
   }
 
   private void sendActivationEmail(User user) throws EmailException {
     String subject = "[Bibliothek] Aktivieren Sie ihren Account";
-    String activationLink = "http://" + req.hostname() + ":" + req.port() + "/user/activate?" + user.getActivation_token();
-    String message = "Sehr geehrte(r) " + user.getFullName() + ",\n\ndies ist eine automatisch generierte Email. Klicken Sie auf den unten erhaltenen Link um ihren Account zu aktivieren.\n\n" + activationLink;
+    String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+    String activationLink = "http://" + req.hostname() + ":" + req.port() + "/user/activate?activation_token=" + user.getActivation_token() + "?timestamp=" + timeStamp;
+    String message = "Sehr geehrte(r) " + user.getFullName() + ",\n\ndies ist eine automatisch generierte Email. " +
+      "Klicken Sie auf den unten erhaltenen Link um " +
+      "ihren Account zu aktivieren.\n\n" + activationLink +
+      "\n\nDie ID um sich einzuloggen lautet: " + user.getId() +
+      "\n\nHinweis: Der Link ist nach einem Tag oder nach erfolgreicher Aktivierung ungültig und führt zur Startseite.";
 
     Email activationEmail = new SimpleEmail();
     activationEmail.setHostName(config.getString("mail.hostName"));

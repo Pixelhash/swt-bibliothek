@@ -28,7 +28,7 @@ Register | Bibliothek
     {% endif %}
     {% if flash.success == "true" %}
       <div class="notification is-success">
-      {{ i18n("messages", flash.success_message) + flash.userid}}
+      {{ i18n("messages", flash.success_message) }}
       </div>
     {% endif %}
       <div class="box">

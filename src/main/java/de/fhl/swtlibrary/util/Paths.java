@@ -21,4 +21,5 @@ public final class Paths {
   public static final String USER_REGISTER = "/user/register";
   public static final String USER_DASHBOARD = "/user/dashboard";
   public static final String USER_EDIT = "/user/edit";
+  public static final String USER_ACTIVATE = "/user/activate";
 }
