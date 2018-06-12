@@ -9,7 +9,11 @@ import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.SimpleEmail;
 import org.jooby.quartz.Scheduled;
+
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class ReminderController {
 
@@ -34,40 +38,49 @@ public class ReminderController {
   public List<BookCopy> remind() throws EmailException {
     String name;
     String mailAdress;
-    String title;
-    String author;
     String message;
     String subject;
+    String booksDue;
+    String bookTitles;
+    List<String> alreadyReminded = new LinkedList<>();
 
     List<BookCopy> borrowedBooks = bookCopyEntityStore.select(BookCopy.class)
       .where(BookCopy.BORROWER_ID.notNull())
       .get()
       .toList();
 
+    Map booksByUser = new HashMap();
+
     for (BookCopy b : borrowedBooks) {
-       if(b.getDaysLeft() == 3){
+      booksByUser.put(b.getBorrower().getFullName(), booksByUser.get(b.getBorrower().getFullName()) + "," + b.getBook().getTitle());
+    }
+
+    for (BookCopy b : borrowedBooks) {
+       if(b.getDaysLeft() == 3 && !alreadyReminded.contains(b.getBorrower().getFullName())){
          Email email = new SimpleEmail();
          email.setHostName(config.getString("mail.hostName"));
          email.setSmtpPort(config.getInt("mail.smtpPort"));
          email.setAuthentication(config.getString("mail.username"), config.getString("mail.password"));
          email.setFrom(config.getString("mail.from"));
 
-          name = b.getBorrower().getFullName();
-          mailAdress = b.getBorrower().getEmail();
-          title = b.getBook().getTitle();
-          author = b.getBook().getAuthors().get(0).toString().trim();
-          StringBuilder fAuthor = new StringBuilder().append(author, 10, author.length() - 1);
+         name = b.getBorrower().getFullName();
+         mailAdress = b.getBorrower().getEmail();
+         booksDue = (String) booksByUser.get(name);
+         alreadyReminded.add(name);
 
-          message = "Sehr geeehrte(r) " + name + ",\n\nDies ist eine automatische Erinnerung für Sie, da Sie das Buch \"" + title + "\" von " + fAuthor + " in \ndrei Tagen zurückgeben müssen.\n\nMit freundlichen Grüßen\nIhr Bibliotheksteam";
-          subject = "[Bibliothek]Erinnerung an fällige Buchrückgabe";
-          System.out.println("Mail gesendet!");
+         bookTitles = "- " + booksDue.replaceAll(",","\n- ");
+         StringBuilder correctedBookTitles = new StringBuilder().append(bookTitles, 6, bookTitles.length());
+
+         message = "Sehr geeehrte(r) " + name + ",\n\nDies ist eine automatische Erinnerung für Sie, da Sie folgende Bücher in drei Tagen abgeben müssen:\n" + correctedBookTitles + "\n\nMit freundlichen Grüßen\nIhr Bibliotheksteam";
+         subject = "[Bibliothek]Erinnerung an fällige Buchrückgabe";
+         System.out.println("Mail gesendet!");
 
 
-            email
-              .setSubject(subject)
-              .setMsg(message)
-              .addTo(mailAdress)
-              .send();
+         email
+           .setSubject(subject)
+           .setMsg(message)
+           .addTo(mailAdress)
+           .send();
         }
     }
     return borrowedBooks;
