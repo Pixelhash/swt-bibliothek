@@ -1,0 +1,65 @@
+{% extends 'layouts/master' %}
+
+{% block title %}
+Stöbern | Bibliothek
+{% endblock %}
+
+{% block content %}
+<section class="hero is-light is-bold">
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <h1 class="title is-3">
+                <span class="icon icon-nav has-text-grey-dark">
+                    <i class="fa fa-align-justify"></i>
+                </span>
+        <span>{{ i18n("messages", "CATEGORIES_TITLE") }}</span>
+      </h1>
+    </div>
+  </div>
+</section>
+<section class="section">
+  <div class="container has-text-centered">
+    <h3 class="subtitle is-5">{{ amount }} {{ subtitle }} <b>{{ query }}</b></h3>
+    <div class="columns">
+      <div class="column is-1"></div>
+      <div class="column is-10">
+      {% for category in categories %}
+        <div class="card">
+          <header class="card-header" style="background-color: #efefef;">
+            <i class="card-header-title is-centered">
+              {{ category.getName() }}
+            </i>
+          </header>
+          <div class="card-content">
+            <div class="columns is-gapless">
+              <div class="column is-1"></div>
+              <div class="column is-10">
+                <div style="overflow-x: auto;">
+                  <table class="table is-fullwidth is-narrow">
+                    <tbody>
+                    {% for book in books %}
+                    {% if book.getCategory() == category %}
+                      <tr class="no-border">
+                        <th>{{ book.getTitle() }}</th>
+                        <td class="is-pulled-right">{{ book.authorsToString() }} ({{ book.getReleaseYear() }})</td>
+                      </tr>
+                    {% endif %}
+                    {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="column is-1"></div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        <div class="content padding-top">
+          <a href="{{ Paths.BOOK_SEARCH }}">{{ i18n("messages", "INDEX_RESULTS_BACK") }}</a>
+        </div>
+      </div>
+      <div class="column is-1"></div>
+    </div>
+  </div>
+</section>
+{% endblock %}

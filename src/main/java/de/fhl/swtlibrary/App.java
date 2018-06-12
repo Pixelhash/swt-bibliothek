@@ -123,6 +123,9 @@ public class App extends Jooby {
     /* Search Routes: */
     use(SearchController.class);
 
+    /* Categories Routes: */
+    use(CategoriesController.class);
+
     /* Login Routes: */
     use(LoginController.class);
 
@@ -146,6 +149,9 @@ public class App extends Jooby {
 
       /* Return BookCopy Routes: */
       use(ReturnController.class);
+
+      /* Add new Book Routes: */
+      use(AddBookController.class);
 
     }).attr("role", UserRole.MITARBEITER).attr("needsLogin", true);
 

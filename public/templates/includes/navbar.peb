@@ -21,6 +21,10 @@
                   <span class="icon"><i class="fa fa-search"></i></span>
                   <span>Suche</span>
               </a>
+              <a class="navbar-item" href="{{ Paths.BOOK_CATEGORIES }}">
+                <span class="icon"><i class="fa fa-align-justify"></i></span>
+                <span>Stöbern</span>
+              </a>
               {% else %}
               <div class="navbar-item has-dropdown is-hoverable">
                   <a class="navbar-link">
@@ -58,7 +62,7 @@
                       Anlegen
                   </a>
                   <div class="navbar-dropdown is-boxed">
-                      <a class="navbar-item" href="#">
+                      <a class="navbar-item" href="{{ Paths.BOOK_ADD }}">
                           <span class="icon"><i class="fa fa-clipboard"></i></span>
                           <span>Buch</span>
                       </a>
@@ -84,6 +88,10 @@
                       </a>
                   </div>
               </div>
+              <a class="navbar-item" href="{{ Paths.BOOK_CATEGORIES }}">
+                <span class="icon"><i class="fa fa-align-justify"></i></span>
+                <span>Stöbern</span>
+              </a>
               <a class="navbar-item" href="{{ Paths.BOOK_BORROW }}">
                   <span class="icon"><i class="fa fa-book"></i></span>
                   <span>Ausleihen</span>

@@ -18,7 +18,6 @@ public class SearchControllerTest {
     TestUtil.setup();
   }
 
-
   @Test
   public void testBookSearchForm() throws Exception {
     final HtmlPage page = TestUtil.webClient.getPage(TestUtil.HOSTNAME + Paths.BOOK_SEARCH);
