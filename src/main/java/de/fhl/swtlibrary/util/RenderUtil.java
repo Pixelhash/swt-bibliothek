@@ -18,4 +18,10 @@ public final class RenderUtil {
     return Results.redirect(path);
   }
 
+  public static Result successWithAnswer(final Request req, final String path, final String messageKey, final String requestName, final Object parameter) {
+    req.flash("success", true)
+      .flash("success_message", messageKey)
+      .flash(requestName, parameter);
+    return Results.redirect(path);
+  }
 }

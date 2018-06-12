@@ -129,6 +129,9 @@ public class App extends Jooby {
     /* Login Routes: */
     use(LoginController.class);
 
+    /* Register Routes: */
+    use(RegisterController.class);
+
     with(() -> {
 
       /* Logout Route: */
