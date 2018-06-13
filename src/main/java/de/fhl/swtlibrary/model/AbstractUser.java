@@ -3,6 +3,7 @@ package de.fhl.swtlibrary.model;
 import io.requery.*;
 import io.requery.converter.EnumStringConverter;
 
+
 import java.util.Date;
 import java.util.List;
 
@@ -42,6 +43,9 @@ public abstract class AbstractUser {
 
   @OneToMany
   List<BookCopy> borrowedBooks;
+
+  @OneToMany
+  List<Reservation> reserve;
 
   public String getFullName() {
     return forename + " " + surname;

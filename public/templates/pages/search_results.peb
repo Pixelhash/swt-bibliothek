@@ -83,6 +83,10 @@ Suchergebnisse | Bibliothek
                             {% else %}
                                 has-text-success
                             {% endif %}">{{ book.getAvailableCopies().size() }} {{ exemplare }} vorhanden</p>
+            {% if book.getAvailableCopies().size() > 0 %}
+              <!-- user is not null and -->
+              <a class="button is-info" href="{{ Paths.BOOK_RESERVE + "/" + book.id }}">Reservieren</a>
+            {% endif %}
           </footer>
         </div>
         {% endfor %}

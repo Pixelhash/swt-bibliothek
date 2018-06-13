@@ -53,7 +53,7 @@ public abstract class AbstractBook {
 
   public List<BookCopy> getAvailableCopies() {
     return copies.stream()
-      .filter(c -> c.borrower == null)
+      .filter(c -> c.borrower == null && c.reservation== null)
       .collect(Collectors.toList());
   }
 }

@@ -13,6 +13,8 @@ public final class Paths {
   public static final String ADV_SEARCH_PUBLISHER = "/search/publisher";
 
   public static final String BOOK_BORROW = "/borrow";
+  public static final String BOOK_RESERVE = "/reserve";
+  public static final String BOOK_RESERVE_SUBMIT = "/reserve/submit";
   public static final String BOOK_RETURN = "/return";
   public static final String BOOK_ADD = "/book/add";
 

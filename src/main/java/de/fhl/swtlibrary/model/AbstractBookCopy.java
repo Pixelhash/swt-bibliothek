@@ -6,6 +6,7 @@ import io.requery.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 @Table(name = "buchexemplar")
 @Entity(cacheable = false)
@@ -21,6 +22,7 @@ public abstract class AbstractBookCopy {
   @Column(name = "rueckgabedatum")
   LocalDateTime returnOn;
 
+
   @Column(name = "buch_id", nullable = false)
   @ForeignKey
   @ManyToOne
@@ -31,6 +33,11 @@ public abstract class AbstractBookCopy {
   @ManyToOne
   @JsonIgnore
   User borrower;
+
+  @OneToOne
+  Reservation reservation;
+
+
 
   public String getBorrowedOnFormatted() {
     return borrowedOn.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));

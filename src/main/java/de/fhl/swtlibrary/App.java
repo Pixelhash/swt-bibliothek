@@ -1,6 +1,5 @@
 package de.fhl.swtlibrary;
 
-import com.typesafe.config.Config;
 import de.fhl.swtlibrary.model.Models;
 import de.fhl.swtlibrary.model.User;
 import de.fhl.swtlibrary.model.UserRole;
@@ -10,11 +9,6 @@ import de.fhl.swtlibrary.util.Paths;
 import io.requery.EntityStore;
 import io.requery.Persistable;
 import io.requery.sql.TableCreationMode;
-import javassist.NotFoundException;
-import org.apache.commons.mail.Email;
-import org.apache.commons.mail.EmailException;
-import org.apache.commons.mail.HtmlEmail;
-import org.apache.commons.mail.SimpleEmail;
 import org.jooby.*;
 import org.jooby.assets.Assets;
 import org.jooby.banner.Banner;
@@ -139,6 +133,10 @@ public class App extends Jooby {
 
       /* Edit User Data Routes: */
       use(EditUserDataController.class);
+      /* Reserve a BookCopy */
+
+      use(ReservationController.class);
+
 
     }).attr("needsLogin", true);
 
@@ -152,6 +150,8 @@ public class App extends Jooby {
 
       /* Add new Book Routes: */
       use(AddBookController.class);
+
+
 
     }).attr("role", UserRole.MITARBEITER).attr("needsLogin", true);
 
