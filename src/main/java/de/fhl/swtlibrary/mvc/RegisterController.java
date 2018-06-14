@@ -116,7 +116,7 @@ public class RegisterController {
     user.setDateOfBirth(date);
     user.setAddress(address);
     user.setPassword(BCrypt.hashpw(password, BCrypt.gensalt()));
-    user.setActivation_token(getActivationToken());
+    user.setActivation_token(createActivationToken());
 
     // Adds the address and user to the database
     addressEntityStore.insert(address);
@@ -152,7 +152,7 @@ public class RegisterController {
     activationEmail.setSubject(subject).setMsg(message).addTo(user.getEmail()).send();
   }
 
-  public String getActivationToken() {
+  public String createActivationToken() {
     String uuid = UUID.randomUUID().toString() + UUID.randomUUID().toString();
     return uuid.replaceAll("-", "");
   }

@@ -3,7 +3,6 @@ package de.fhl.swtlibrary;
 import com.dumbster.smtp.SimpleSmtpServer;
 import com.dumbster.smtp.SmtpMessage;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.gargoylesoftware.htmlunit.javascript.background.JavaScriptJobManager;
 import de.fhl.swtlibrary.model.User;
 import de.fhl.swtlibrary.util.Paths;
 import io.requery.EntityStore;
@@ -13,7 +12,6 @@ import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
 
-import java.io.File;
 import java.net.URL;
 import java.util.List;
 

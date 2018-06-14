@@ -1,12 +1,8 @@
 package de.fhl.swtlibrary;
 
-import com.dumbster.smtp.SimpleSmtpServer;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.*;
-import com.typesafe.config.Config;
 import de.fhl.swtlibrary.util.Paths;
-import org.apache.commons.mail.Email;
-import org.apache.commons.mail.SimpleEmail;
 
 public class TestUtil {
 

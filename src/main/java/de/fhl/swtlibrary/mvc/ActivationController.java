@@ -1,27 +1,18 @@
 package de.fhl.swtlibrary.mvc;
 
 import com.google.inject.Inject;
-import de.fhl.swtlibrary.model.Book;
-import de.fhl.swtlibrary.model.Category;
 import de.fhl.swtlibrary.model.User;
-import de.fhl.swtlibrary.util.Paths;
-import de.fhl.swtlibrary.util.RenderUtil;
 import io.requery.EntityStore;
 import io.requery.Persistable;
 import org.jooby.Request;
 import org.jooby.Result;
 import org.jooby.Results;
-import org.jooby.mvc.POST;
 import org.jooby.mvc.GET;
 import org.jooby.mvc.Path;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Duration;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Path("/user/")
