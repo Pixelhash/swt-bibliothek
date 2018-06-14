@@ -39,8 +39,6 @@ public class ActivationController {
   @GET
   @Path("/activate")
   public Result getActivationPage() {
-
-
     long diff = 0;
 
     String activationTokenString = req.queryString().get().split("\\?")[0].substring(17);
@@ -67,7 +65,7 @@ public class ActivationController {
     } else {
       user.setActivation_token(null);
       userEntityStore.update(user);
+      return Results.html("pages/activate");
     }
-    return Results.html("pages/activate");
   }
 }

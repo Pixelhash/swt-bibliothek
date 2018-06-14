@@ -3,7 +3,7 @@ package de.fhl.swtlibrary;
 import com.dumbster.smtp.SimpleSmtpServer;
 import com.dumbster.smtp.SmtpMessage;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.typesafe.config.Config;
+import com.gargoylesoftware.htmlunit.javascript.background.JavaScriptJobManager;
 import de.fhl.swtlibrary.model.User;
 import de.fhl.swtlibrary.util.Paths;
 import io.requery.EntityStore;
@@ -13,9 +13,12 @@ import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
 
+import java.io.File;
+import java.net.URL;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 public class RegisterControllerTest {
@@ -38,7 +41,7 @@ public class RegisterControllerTest {
   @Test
   public void testSuccessfulUser() throws Exception {
     try (SimpleSmtpServer dumbster = SimpleSmtpServer.start(2525)) {
-      final HtmlPage dashboardPage = TestUtil.registerWithTestUser("test@test.com");
+      TestUtil.registerWithTestUser("test@test.com");
 
       List<SmtpMessage> emails = dumbster.getReceivedEmails();
       SmtpMessage mail = emails.get(0);
@@ -54,6 +57,66 @@ public class RegisterControllerTest {
         .firstOrNull();
 
       assertTrue(user.getEmail().equals("test@test.com"));
+    }
+  }
+
+  @Test
+  public void testRecieveEmail() throws Exception {
+    try (SimpleSmtpServer dumbster = SimpleSmtpServer.start(2525)) {
+      TestUtil.registerWithTestUser("test@test.de");
+
+      List<SmtpMessage> emails = dumbster.getReceivedEmails();
+      SmtpMessage mail = emails.get(0);
+
+      assertTrue(mail != null);
+    }
+  }
+
+  @Test
+  public void testUnactivatedUser() throws Exception {
+    try (SimpleSmtpServer dumbster = SimpleSmtpServer.start(2525)) {
+      TestUtil.registerWithTestUser("test@test123.com");
+
+      EntityStore<Persistable, User> userStore = DatabaseUtil.getData();
+      User user = userStore.select(User.class)
+        .orderBy(User.ID.desc())
+        .get()
+        .firstOrNull();
+
+      assertTrue(user.getActivation_token() != null);
+    }
+  }
+
+  @Test
+  public void testActivatedUser() throws Exception {
+    try (SimpleSmtpServer dumbster = SimpleSmtpServer.start(2525)) {
+      TestUtil.registerWithTestUser("test123@test123.com");
+
+      List<SmtpMessage> emails = dumbster.getReceivedEmails();
+      SmtpMessage mail = emails.get(0);
+
+      EntityStore<Persistable, User> userStore = DatabaseUtil.getData();
+      User user = userStore.select(User.class)
+        .orderBy(User.ID.desc())
+        .get()
+        .firstOrNull();
+
+      String mailText = mail.getBody();
+      int index = mailText.indexOf("timestamp") + 12;
+      int domainIndexBeginning = mailText.indexOf("http");
+      int domainIndexEnding = mailText.indexOf("/user");
+
+      String host = mailText.substring(domainIndexBeginning, domainIndexEnding);
+      String timeStamp = mailText.substring(index, index + 14);
+      String activationToken = user.getActivation_token();
+
+      URL url = new URL(host + "/user/activate?activation_token=" + activationToken + "?timestamp=" + timeStamp);
+
+      TestUtil.webClient.getPage(url);
+
+      userStore.refresh(user);
+
+      assertNull(user.getActivation_token());
     }
   }
 }
