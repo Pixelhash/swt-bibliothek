@@ -49,7 +49,8 @@ public class App extends Jooby {
     /* JSON: */
     use(new Jackson());
 
-    /* Assets (e.g. CSS, Js, ...): */
+    /* Assets (e.g. CSS, JS, ...): */
+    assets("/assets/img/**");
     use(new Assets());
 
     /* Template Engine: */
