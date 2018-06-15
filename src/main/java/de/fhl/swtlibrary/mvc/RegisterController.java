@@ -52,6 +52,7 @@ public class RegisterController {
     String surname = req.param("surname").value();
     String email = req.param("email").value();
     String phoneNumber = req.param("phone").value();
+    phoneNumber = Validation.isNonEmptyString(phoneNumber) ? phoneNumber : null;
     String birthday = req.param("birthday").value();
     String location = req.param("location").value();
     String plz = req.param("plz").value();
@@ -64,18 +65,25 @@ public class RegisterController {
     Tuple<Boolean, Integer> validHouseNumber = Validation.isValidInt(houseNumber);
 
     // Check if all passed parameters are valid
-    if (!Validation.isNonEmptyString(name)
-      || !Validation.isNonEmptyString(surname)
+    if (!Validation.isNonEmptyStringWithMinMaxLengthAndPatterns(name, 2, 100, Validation.NO_NUMBERS_PATTERN)
+      || !Validation.isNonEmptyStringWithMinMaxLengthAndPatterns(surname, 2, 100, Validation.NO_NUMBERS_PATTERN)
       || !Validation.isNonEmptyString(email)
-      || !Validation.isNonEmptyString(location)
-      || !Validation.isNonEmptyString(birthday)
-      || !Validation.isNonEmptyString(street)
-      || !validPlz.getFirstValue()
-      || !validHouseNumber.getFirstValue()
+      || !Validation.isNonEmptyStringWithMinMaxLengthAndPatterns(location, 1, 100, Validation.NO_NUMBERS_PATTERN)
+      || !Validation.isNonEmptyStringWithExactLengthAndPatterns(birthday, 10, Validation.IS_CORRECT_DATE)
+      || !Validation.isNonEmptyStringWithMinMaxLengthAndPatterns(street, 1, 100, Validation.NO_NUMBERS_PATTERN)
+      || !Validation.isNonEmptyStringWithExactLengthAndPatterns(plz, 5, Validation.ONLY_NUMBERS_PATTERN)
+      || !Validation.isNonEmptyStringWithMinMaxLengthAndPatterns(houseNumber, 1, 8, Validation.IS_HOUSE_NUMBER_PATTERN)
       || !Validation.isNonEmptyString(password)
       || !Validation.isNonEmptyString(passwordCorrect)
       || !password.equals(passwordCorrect)) {
       return RenderUtil.error(req, Paths.USER_REGISTER, "ERROR_INVALID_FIELDS");
+    }
+
+    // If the phone number is available, check it too
+    if (phoneNumber != null) {
+      if (!Validation.isNonEmptyStringWithMinMaxLengthAndPatterns(phoneNumber, 5, 20, Validation.ONLY_NUMBERS_PATTERN)) {
+        return RenderUtil.error(req, Paths.USER_EDIT, "ERROR_INVALID_FIELDS");
+      }
     }
 
     // If a User with the same e-mail exists
@@ -120,7 +128,7 @@ public class RegisterController {
 
     // Adds the address and user to the database
     addressEntityStore.insert(address);
-    int userid = userEntityStore.insert(user).getId();
+    userEntityStore.insert(user);
 
     // Generate activation email
     try {

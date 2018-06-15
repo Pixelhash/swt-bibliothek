@@ -55,7 +55,7 @@ Register | Bibliothek
           <div class="field">
             <label class="label">Telefonnummer</label>
             <div class="control">
-              <input class="input" type="number" name="phone" value="">
+              <input class="input" type="text" name="phone" value="">
             </div>
           </div>
           <div class="field">
@@ -76,7 +76,7 @@ Register | Bibliothek
           <div class="field">
             <label class="label">Postleitzahl *</label>
             <div class="control">
-              <input class="input" type="number" name="plz" value="" required>
+              <input class="input" type="text" name="plz" value="" required>
             </div>
           </div>
           <div class="field">
@@ -88,7 +88,7 @@ Register | Bibliothek
           <div class="field">
             <label class="label">Hausnummer *</label>
             <div class="control">
-              <input class="input" type="number" name="housenumber" value="" required>
+              <input class="input" type="text" name="housenumber" value="" required>
             </div>
           </div>
           <div class="field">
