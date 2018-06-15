@@ -45,12 +45,12 @@ public class TestUtil {
     final HtmlTextInput nameField = registerForm.getInputByName("name");
     final HtmlTextInput surnameField = registerForm.getInputByName("surname");
     final HtmlEmailInput emailField = registerForm.getInputByName("email");
-    final HtmlNumberInput phoneField = registerForm.getInputByName("phone");
+    final HtmlTextInput phoneField = registerForm.getInputByName("phone");
     final HtmlTextInput birthdayField = registerForm.getInputByName("birthday");
     final HtmlTextInput locationField = registerForm.getInputByName("location");
-    final HtmlNumberInput plzField = registerForm.getInputByName("plz");
+    final HtmlTextInput plzField = registerForm.getInputByName("plz");
     final HtmlTextInput streetField = registerForm.getInputByName("street");
-    final HtmlNumberInput houseNumberField = registerForm.getInputByName("housenumber");
+    final HtmlTextInput houseNumberField = registerForm.getInputByName("housenumber");
     final HtmlPasswordInput passwordField = registerForm.getInputByName("password");
     final HtmlPasswordInput passwordCorrectField = registerForm.getInputByName("passwordcorrect");
 
