@@ -61,9 +61,6 @@ public class RegisterController {
     String password = req.param("password").value();
     String passwordCorrect = req.param("passwordcorrect").value();
 
-    Tuple<Boolean, Integer> validPlz = Validation.isValidInt(plz);
-    Tuple<Boolean, Integer> validHouseNumber = Validation.isValidInt(houseNumber);
-
     // Check if all passed parameters are valid
     if (!Validation.isNonEmptyStringWithMinMaxLengthAndPatterns(name, 2, 100, Validation.NO_NUMBERS_PATTERN)
       || !Validation.isNonEmptyStringWithMinMaxLengthAndPatterns(surname, 2, 100, Validation.NO_NUMBERS_PATTERN)
@@ -111,8 +108,8 @@ public class RegisterController {
     Address address = new Address();
     address.setCity(location);
     address.setStreet(street);
-    address.setPostcode(validPlz.getSecondValue().toString());
-    address.setHouseNumber(validHouseNumber.getSecondValue().toString());
+    address.setPostcode(plz);
+    address.setHouseNumber(houseNumber);
 
     // Generate new user
     User user = new User();
