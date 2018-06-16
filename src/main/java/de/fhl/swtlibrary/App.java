@@ -23,6 +23,7 @@ import org.jooby.jdbc.Jdbc;
 import org.jooby.json.Jackson;
 import org.jooby.mail.CommonsEmail;
 import org.jooby.pebble.Pebble;
+import org.jooby.quartz.Quartz;
 import org.jooby.requery.Requery;
 import org.jooby.whoops.Whoops;
 
@@ -60,6 +61,9 @@ public class App extends Jooby {
     use(new CommonsEmail());
 
     use(new FlashScope());
+
+    /*QUARTZ (job scheduling)*/
+    use(new Quartz().with(ReminderController.class));
 
     use("*", new CsrfHandler());
 
@@ -122,6 +126,9 @@ public class App extends Jooby {
 
     /* Search Routes: */
     use(SearchController.class);
+
+    /*Remind Routes: */
+    use(ReminderController.class);
 
     /* Categories Routes: */
     use(CategoriesController.class);
