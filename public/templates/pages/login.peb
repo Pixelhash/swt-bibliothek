@@ -51,7 +51,7 @@ Login | Bibliothek
             </div>
           </div>
           <div class="field">
-            <a class="modal-open">Passwort vergessen?</a>
+            <a class="modal-open" name="password_reset_request_btn">Passwort vergessen?</a>
           </div>
           <input type="hidden" name="csrf" value="{{ csrf }}">
         </form>
@@ -80,7 +80,7 @@ Login | Bibliothek
         </form>
       </section>
       <footer class="modal-card-foot">
-        <button class="button is-success" type="submit" form="password_reset_form">Absenden</button>
+        <button class="button is-success" type="submit" name="password_reset_btn" form="password_reset_form">Absenden</button>
         <button class="button close-modal">Abbrechen</button>
       </footer>
     </div>
