@@ -31,10 +31,10 @@ Reservieren | Bibliothek
           <li>Name: {{ book.title }}</li>
           <li>Autoren: {{ book.authorsToString() }}</li>
         </uo>
-        <form action="{{ Paths.BOOK_RESERVE_SUBMIT}}" method="post">
+        <form action="{{ Paths.BOOK_RESERVE_SUBMIT}}" method="post" name="book_reservation">
           <input type="hidden" name="book_id" value="{{ book.id }}">
           <input type="hidden" name="csrf" value="{{ csrf }}">
-          <button class="button is-success" type="submit">Reservieren</button>
+          <button class="button is-success" name="reserve_submit_btn" type="submit">Reservieren</button>
 
         </form>
       </div>

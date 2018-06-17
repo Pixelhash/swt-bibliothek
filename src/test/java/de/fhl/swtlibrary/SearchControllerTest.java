@@ -39,7 +39,7 @@ public class SearchControllerTest {
 
     final HtmlPage resultsPage = searchButton.click();
 
-    String expected = "Suchergebnisse | Bibliothek";
+    String expected = "Buch reservieren | Bibliothek";
     assertEquals(expected, resultsPage.getTitleText());
   }
 }
