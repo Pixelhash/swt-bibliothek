@@ -17,8 +17,6 @@ USE `bibliothekssoftware` ;
 -- -----------------------------------------------------
 -- Table `bibliothekssoftware`.`kategorie`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `bibliothekssoftware`.`kategorie` ;
-
 CREATE TABLE IF NOT EXISTS `bibliothekssoftware`.`kategorie` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(100) NOT NULL,
@@ -29,8 +27,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `bibliothekssoftware`.`autor`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `bibliothekssoftware`.`autor` ;
-
 CREATE TABLE IF NOT EXISTS `bibliothekssoftware`.`autor` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(100) NOT NULL,
@@ -41,8 +37,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `bibliothekssoftware`.`verlag`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `bibliothekssoftware`.`verlag` ;
-
 CREATE TABLE IF NOT EXISTS `bibliothekssoftware`.`verlag` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(100) NOT NULL,
@@ -54,8 +48,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `bibliothekssoftware`.`adresse`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `bibliothekssoftware`.`adresse` ;
-
 CREATE TABLE IF NOT EXISTS `bibliothekssoftware`.`adresse` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `strasse` VARCHAR(100) NOT NULL,
@@ -69,8 +61,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `bibliothekssoftware`.`buch`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `bibliothekssoftware`.`buch` ;
-
 CREATE TABLE IF NOT EXISTS `bibliothekssoftware`.`buch` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `titel` VARCHAR(150) NOT NULL,
@@ -98,8 +88,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `bibliothekssoftware`.`benutzer`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `bibliothekssoftware`.`benutzer` ;
-
 CREATE TABLE IF NOT EXISTS `bibliothekssoftware`.`benutzer` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `vorname` VARCHAR(30) NOT NULL,
@@ -123,8 +111,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `bibliothekssoftware`.`buchexemplar`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `bibliothekssoftware`.`buchexemplar` ;
-
 CREATE TABLE IF NOT EXISTS `bibliothekssoftware`.`buchexemplar` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `ausleihdatum` DATETIME NULL,
@@ -150,8 +136,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `bibliothekssoftware`.`buch_hat_autor`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `bibliothekssoftware`.`buch_hat_autor` ;
-
 CREATE TABLE IF NOT EXISTS `bibliothekssoftware`.`buch_hat_autor` (
   `autor_id` INT UNSIGNED NOT NULL,
   `buch_id` INT UNSIGNED NOT NULL,
@@ -174,8 +158,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `bibliothekssoftware`.`reservierung`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `bibliothekssoftware`.`reservierung` ;
-
 CREATE TABLE IF NOT EXISTS `bibliothekssoftware`.`reservierung` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `ablaufdatum` DATETIME NOT NULL,

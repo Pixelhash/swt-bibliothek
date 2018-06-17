@@ -12,8 +12,9 @@ import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import java.util.List;
+
+import static org.junit.Assert.*;
 
 public class ReservationControllerTest {
   @ClassRule
@@ -23,67 +24,49 @@ public class ReservationControllerTest {
     TestUtil.setup();
   }
 
-
   @Test
-  public void testreservation() throws Exception {
+  public void testReserveBook() throws Exception {
+    EntityStore<Persistable, Reservation> reservationEntityStore = DatabaseUtil.getData();
+    List<Reservation> reservations = reservationEntityStore.select(Reservation.class)
+      .get()
+      .toList();
+    assertTrue(reservations.isEmpty());
+
+    // First login
     final HtmlPage dashboardPage = TestUtil.loginWithTestUser(2, "Test1234");
 
-    final HtmlAnchor anchore = dashboardPage.getAnchorByHref(Paths.BOOK_SEARCH);
+    final HtmlPage reservationPage = TestUtil.webClient.getPage(TestUtil.HOSTNAME + Paths.BOOK_RESERVE + "/2");
+    final HtmlForm reservationForm = reservationPage.getFormByName("book_reservation");
+    final HtmlButton submitButton = reservationForm.getButtonByName("reserve_submit_btn");
 
+    final HtmlPage resultPage = submitButton.click();
 
-    final HtmlPage searchPage = TestUtil.webClient.getPage(TestUtil.HOSTNAME + Paths.BOOK_SEARCH);
+    // If success, you're headed to the dashboard
+    assertEquals(Paths.USER_DASHBOARD, resultPage.getBaseURL().getPath());
 
-    final HtmlPage bookAddPage = anchore.click();
-    final HtmlForm searchForm = bookAddPage.getFormByName("book_search_form");
+    reservations = reservationEntityStore.select(Reservation.class)
+      .get()
+      .toList();
 
-    final HtmlButton searchButton = searchForm.getButtonByName("book_search_btn");
+    assertEquals(1, reservations.size());
 
-    final HtmlTextInput queryField = searchForm.getInputByName("query");
+    int reservationId = reservations.get(0).getId();
 
-    queryField.type("mathe");
+    // Now try to delete the reservation
+    final HtmlPage deleteReservationPage = TestUtil.webClient.getPage(TestUtil.HOSTNAME + Paths.BOOK_RESERVE_DELETE + "/" + reservationId);
+    final HtmlForm reservationDeleteForm = deleteReservationPage.getFormByName("book_reservation_delete");
+    final HtmlButton submitDeleteButton = reservationDeleteForm.getButtonByName("reserve_delete_submit_btn");
 
-    final HtmlPage resultsPage = searchButton.click();
+    final HtmlPage resultDeletePage = submitDeleteButton.click();
 
-    final HtmlAnchor reserveBook = resultsPage.getAnchorByHref("/reserve/3");
+    // If success, you're headed to the dashboard
+    assertEquals(Paths.USER_DASHBOARD, resultDeletePage.getBaseURL().getPath());
 
+    reservations = reservationEntityStore.select(Reservation.class)
+      .get()
+      .toList();
 
-    final HtmlPage addreservation = reserveBook.click();
-
-    final HtmlForm bookReserveForm = addreservation.getFormByName("book_reservation");
-    final HtmlInput bookId = bookReserveForm.getInputByName("book_id");
-
-
-    final HtmlButton reserveSubmit = bookReserveForm.getButtonByName("reserve_submit_btn");
-
-     final HtmlPage btn=  reserveSubmit.click();
-
-
-
-
-    EntityStore<Persistable, Reservation> reservationEntityStore = DatabaseUtil.getData();
-
-
-     Reservation reservation = reservationEntityStore.select(Reservation.class)
-      .where(Reservation.BOOK_COPY_ID.equal(Integer.valueOf(bookId.getValueAttribute()))).get().firstOrNull();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    assertEquals(0, reservations.size());
   }
 
 }

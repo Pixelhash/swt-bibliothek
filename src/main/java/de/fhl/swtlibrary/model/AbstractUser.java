@@ -45,7 +45,7 @@ public abstract class AbstractUser {
   List<BookCopy> borrowedBooks;
 
   @OneToMany
-  List<Reservation> reserve;
+  List<Reservation> reservations;
 
   public String getFullName() {
     return forename + " " + surname;

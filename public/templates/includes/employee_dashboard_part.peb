@@ -1,38 +1,40 @@
-<p class="title is-5">Statistiken</p>
-<hr>
-<div style="overflow-x: auto;">
-  <table class="table is-fullwidth is-hoverable is-narrow">
-    <thead>
-    <tr>
-      <th>Typ</th>
-      <th>Anzahl</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-      <th>Benutzer</th>
-      <td>{{ userAmount }}</td>
-    </tr>
-    <tr>
-      <th>Bücher</th>
-      <td>{{ bookAmount }}</td>
-    </tr>
-    <tr>
-      <th>BuchExemplare</th>
-      <td>{{ bookCopyAmount }}</td>
-    </tr>
-    <tr>
-      <th>Autoren</th>
-      <td>{{ authorAmount }}</td>
-    </tr>
-    <tr>
-      <th>Kategorien</th>
-      <td>{{ categoryAmount }}</td>
-    </tr>
-    <tr>
-      <th>Verläge</th>
-      <td>{{ publisherAmount }}</td>
-    </tr>
-    </tbody>
-  </table>
+<div class="box">
+  <p class="title is-5">Statistiken</p>
+  <hr>
+  <div style="overflow-x: auto;">
+    <table class="table is-fullwidth is-hoverable is-narrow">
+      <thead>
+      <tr>
+        <th>Typ</th>
+        <th>Anzahl</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <th>Benutzer</th>
+        <td>{{ userAmount }}</td>
+      </tr>
+      <tr>
+        <th>Bücher</th>
+        <td>{{ bookAmount }}</td>
+      </tr>
+      <tr>
+        <th>BuchExemplare</th>
+        <td>{{ bookCopyAmount }}</td>
+      </tr>
+      <tr>
+        <th>Autoren</th>
+        <td>{{ authorAmount }}</td>
+      </tr>
+      <tr>
+        <th>Kategorien</th>
+        <td>{{ categoryAmount }}</td>
+      </tr>
+      <tr>
+        <th>Verläge</th>
+        <td>{{ publisherAmount }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

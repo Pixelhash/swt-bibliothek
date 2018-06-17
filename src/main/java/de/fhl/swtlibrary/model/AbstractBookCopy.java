@@ -22,7 +22,6 @@ public abstract class AbstractBookCopy {
   @Column(name = "rueckgabedatum")
   LocalDateTime returnOn;
 
-
   @Column(name = "buch_id", nullable = false)
   @ForeignKey
   @ManyToOne
@@ -36,8 +35,6 @@ public abstract class AbstractBookCopy {
 
   @OneToOne
   Reservation reservation;
-
-
 
   public String getBorrowedOnFormatted() {
     return borrowedOn.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
