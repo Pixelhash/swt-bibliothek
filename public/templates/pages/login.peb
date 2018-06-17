@@ -23,7 +23,12 @@ Login | Bibliothek
     <div class="column is-4 is-offset-4">
     {% if flash.error == "true" %}
       <div class="notification is-danger">
-      {{ i18n("messages", flash.error_message) }}
+        {{ i18n("messages", flash.error_message) }}
+      </div>
+    {% endif %}
+    {% if flash.success == "true" %}
+      <div class="notification is-success">
+        {{ i18n("messages", flash.success_message) }}
       </div>
     {% endif %}
       <div class="box">
@@ -45,9 +50,39 @@ Login | Bibliothek
               <button class="button is-info is-medium" name="login_btn">{{ i18n("messages", "INPUT_BTN_LOGIN") }}</button>
             </div>
           </div>
+          <div class="field">
+            <a class="modal-open">Passwort vergessen?</a>
+          </div>
           <input type="hidden" name="csrf" value="{{ csrf }}">
         </form>
       </div>
+    </div>
+  </div>
+  <div class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Passwort vergessen</p>
+        <button class="delete close-modal" aria-label="close"></button>
+      </header>
+      <section class="modal-card-body">
+        <div class="content">
+          <p>Bitte geben Sie Ihre <strong>E-Mail Adresse</strong> ein. Wir senden Ihnen dann einen Link zum Zurücksetzen des Passworts.</p>
+        </div>
+        <form action="{{ Paths.USER_PASSWORD_RESET_REQUEST }}" method="post" name="password_reset_form" id="password_reset_form">
+          <div class="field">
+            <div class="control">
+              <input class="input is-medium" type="text" name="email" placeholder="E-Mail Adresse"
+                     autofocus required>
+            </div>
+          </div>
+          <input type="hidden" name="csrf" value="{{ csrf }}">
+        </form>
+      </section>
+      <footer class="modal-card-foot">
+        <button class="button is-success" type="submit" form="password_reset_form">Absenden</button>
+        <button class="button close-modal">Abbrechen</button>
+      </footer>
     </div>
   </div>
 </section>
