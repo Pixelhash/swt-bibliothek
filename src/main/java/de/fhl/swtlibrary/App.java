@@ -1,6 +1,5 @@
 package de.fhl.swtlibrary;
 
-import com.typesafe.config.Config;
 import de.fhl.swtlibrary.model.Models;
 import de.fhl.swtlibrary.model.User;
 import de.fhl.swtlibrary.model.UserRole;
@@ -10,12 +9,10 @@ import de.fhl.swtlibrary.util.Paths;
 import io.requery.EntityStore;
 import io.requery.Persistable;
 import io.requery.sql.TableCreationMode;
-import javassist.NotFoundException;
-import org.apache.commons.mail.Email;
-import org.apache.commons.mail.EmailException;
-import org.apache.commons.mail.HtmlEmail;
-import org.apache.commons.mail.SimpleEmail;
-import org.jooby.*;
+import org.jooby.FlashScope;
+import org.jooby.Jooby;
+import org.jooby.RequestLogger;
+import org.jooby.Results;
 import org.jooby.assets.Assets;
 import org.jooby.banner.Banner;
 import org.jooby.handlers.CsrfHandler;
@@ -26,22 +23,24 @@ import org.jooby.pebble.Pebble;
 import org.jooby.quartz.Quartz;
 import org.jooby.requery.Requery;
 import org.jooby.whoops.Whoops;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("unchecked")
 public class App extends Jooby {
 
-  private static boolean TESTING = false;
+  public static Logger LOG = LoggerFactory.getLogger(App.class);
 
   {
     {
-      TESTING = Boolean.valueOf(System.getProperty("application.testing"));
-      if (TESTING) {
-        System.out.println("---------- Application started in TESTING mode! ----------");
+      boolean isInTestingMode = Boolean.valueOf(System.getProperty("application.testing"));
+      if (isInTestingMode) {
+        LOG.info("Application started in TESTING mode!");
         conf("application-testing.conf");
       }
     }
 
-    /* Connection pool: */
+    /* Connection Pool: */
     use(new Jdbc("db"));
 
     /* Requery: */
@@ -51,7 +50,8 @@ public class App extends Jooby {
     /* JSON: */
     use(new Jackson());
 
-    /* Assets (e.g. CSS, Js, ...): */
+    /* Assets (e.g. CSS, JS, ...): */
+    assets("/assets/img/**");
     use(new Assets());
 
     /* Template Engine: */
@@ -60,29 +60,29 @@ public class App extends Jooby {
     /* Email Engine: */
     use(new CommonsEmail());
 
+    /* Flash Attributes: */
     use(new FlashScope());
 
     /*QUARTZ (job scheduling)*/
     use(new Quartz().with(ReminderController.class));
 
+    /* CSRF Check: */
     use("*", new CsrfHandler());
 
+    /* Enable pretty error pages in development mode: */
     on("dev", () -> {
       /* Pretty Error page: */
       use(new Whoops());
     }).orElse(() -> {
 
-      err(404, (req, rsp, err) -> {
-        rsp.send(Results.html("errors/404"));
-      });
+      err(404, (req, rsp, err) -> rsp.send(Results.html("errors/404")));
 
       // Not really error 500. Could be anything, but 404.
-      err((req, rsp, err) -> {
-        rsp.send(Results.html("errors/500"));
-      });
+      err((req, rsp, err) -> rsp.send(Results.html("errors/500")));
 
     });
 
+    /* Enable some extras like logging in production: */
     on("prod", () -> {
       /* ASCII banner: */
       use(new Banner("SWT-II Library").font("doom"));
@@ -91,37 +91,44 @@ public class App extends Jooby {
       use("*", new RequestLogger());
     });
 
+    /* Set some attributes for each request: */
     before((req, res) -> {
-      req.set("session", req.session());
-      req.set("Paths", new Paths());
+      req.set("session", req.session()); // Current session
+      req.set("Paths", new Paths()); // All available URL base paths
+      if (AuthenticationManager.isLoggedIn(req)) { // Set user if logged in
+        EntityStore<Persistable, User> userStore = require(EntityStore.class);
+        User user = AuthenticationManager.getLoggedInUser(userStore, req);
+
+        req.set("user", user);
+      }
     });
 
-    /* Check if user is authenticated */
+    /* Check if user is authenticated: */
     use("*", "*", (req, res, chain) -> {
         Boolean needsLogin = (Boolean) req.route().attributes().get("needsLogin"); // Reference boolean used here for null check
-        if (needsLogin == null || !needsLogin) {
-          chain.next(req, res);
-        } else {
-          if (!AuthenticationManager.isLoggedIn(req)) {
-            res.redirect(Paths.USER_LOGIN);
-            return;
-          }
 
-          EntityStore<Persistable, User> userStore = require(EntityStore.class);
-          User user = AuthenticationManager.getLoggedInUser(userStore, req);
-
-          req.set("user", user);
-          chain.next(req, res);
+        // If route needs login and user isn't authenticated, redirect him to the login page
+        if (needsLogin != null && needsLogin && !AuthenticationManager.isLoggedIn(req)) {
+          res.redirect(Paths.USER_LOGIN);
+          return;
         }
+
+        // User is authenticated, continue
+        chain.next(req, res);
     });
 
-    /* Check if user has a specific role */
-    use("*", (req, res, chain) -> {
-      UserRole r = (UserRole) req.route().attributes().get("role");
-      if(r == null || ((User) req.get("user")).getRole() == r) {
-        chain.next(req, res);
+    /* Check if user has a specific role: */
+    use("*", "*", (req, res, chain) -> {
+      UserRole role = (UserRole) req.route().attributes().get("role");
+
+      // If route needs a specific role and the roles don't match redirect the user to the dashboard
+      if (role != null && ((User) req.get("user")).getRole() != role) {
+        res.redirect(Paths.USER_DASHBOARD);
+        return;
       }
-      res.redirect(Paths.USER_DASHBOARD);
+
+      // Roles match, continue
+      chain.next(req, res);
     });
 
     /* Search Routes: */
@@ -145,6 +152,7 @@ public class App extends Jooby {
     /* Activation Routes */
     use(ActivationController.class);
 
+    /* Routes that require an authenticated user: */
     with(() -> {
 
       /* Logout Route: */
@@ -158,6 +166,7 @@ public class App extends Jooby {
 
     }).attr("needsLogin", true);
 
+    /* Routes that require the user to be an employee: */
     with(() -> {
 
       /* Borrow BookCopy Routes: */
