@@ -15,6 +15,7 @@ import org.jooby.mvc.Path;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Path("/user/dashboard")
 public class DashboardController {
@@ -70,7 +71,18 @@ public class DashboardController {
         return bc2.getBorrowedOn().compareTo(bc1.getBorrowedOn());
       });
 
+      // Get the user's reservations
+      List<Reservation> reservations = user.getReservations();
+
+      // Copy list to be able to sort it, because the above list is immutable
+      List<Reservation> reservationsCopy = new ArrayList<>(reservations);
+
+      reservationsCopy.sort((r1, r2) -> {
+        return r2.getReservedUntil().compareTo(r1.getReservedUntil());
+      });
+
       req.set("borrowedBooks", borrowedBooksCopy);
+      req.set("reservations", reservationsCopy);
     } else if (user.isEmployee()) {
       int userAmount = userEntityStore.select(User.class)
         .get()

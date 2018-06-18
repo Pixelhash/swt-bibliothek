@@ -2,6 +2,7 @@ package de.fhl.swtlibrary.mvc;
 
 import com.google.inject.Inject;
 import de.fhl.swtlibrary.model.BookCopy;
+import de.fhl.swtlibrary.model.Reservation;
 import de.fhl.swtlibrary.model.User;
 import de.fhl.swtlibrary.util.Paths;
 import de.fhl.swtlibrary.util.RenderUtil;
@@ -25,15 +26,18 @@ public class BorrowController {
   private Request req;
   private EntityStore<Persistable, User> userEntityStore;
   private EntityStore<Persistable, BookCopy> bookCopyEntityStore;
+  private EntityStore<Persistable, Reservation> reservationEntityStore;
 
   @Inject
   public BorrowController(Request req,
                           EntityStore<Persistable, User> userEntityStore,
-                          EntityStore<Persistable, BookCopy> bookCopyEntityStore) {
+                          EntityStore<Persistable, BookCopy> bookCopyEntityStore,
+                          EntityStore<Persistable, Reservation> reservationEntityStore) {
 
     this.req = req;
     this.userEntityStore = userEntityStore;
     this.bookCopyEntityStore = bookCopyEntityStore;
+    this.reservationEntityStore = reservationEntityStore;
   }
 
   @GET
@@ -77,6 +81,13 @@ public class BorrowController {
     // Check if book copy already borrowed
     if (bookCopy.getBorrower() != null) {
       return RenderUtil.error(req, Paths.BOOK_BORROW, "ERROR_BOOKCOPY_BORROWED");
+    }
+
+    // Check if already reserved by other customer
+    if (bookCopy.getReservation() != null && bookCopy.getReservation().getUser().getId() != targetUser.getId()) {
+      return RenderUtil.error(req, Paths.BOOK_BORROW, "ERROR_BOOKCOPY_RESERVED");
+    } else if (bookCopy.getReservation() != null && bookCopy.getReservation().getUser().getId() == targetUser.getId()) {
+      reservationEntityStore.delete(bookCopy.getReservation()); // Delete reservation if it's the correct customer
     }
 
     // Borrow book

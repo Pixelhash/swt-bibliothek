@@ -33,6 +33,14 @@ Suchergebnisse | Bibliothek
             <i class="card-header-title is-centered">
               {{ book.title }}
             </i>
+            {% if user is not null and book.getAvailableCopies().size() > 0 %}
+              <a href="{{ Paths.BOOK_RESERVE + "/" + book.id }}" class="card-header-icon" aria-label="more options">
+                <span class="icon">
+                  <i class="fa fa-bookmark" aria-hidden="true"></i>
+                </span>
+                Reservieren
+              </a>
+            {% endif %}
           </header>
           <div class="card-content">
             <div class="columns is-gapless">

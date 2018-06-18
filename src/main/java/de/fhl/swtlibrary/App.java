@@ -1,5 +1,6 @@
 package de.fhl.swtlibrary;
 
+import de.fhl.swtlibrary.jobs.ReservationJob;
 import de.fhl.swtlibrary.model.Models;
 import de.fhl.swtlibrary.model.User;
 import de.fhl.swtlibrary.model.UserRole;
@@ -63,8 +64,8 @@ public class App extends Jooby {
     /* Flash Attributes: */
     use(new FlashScope());
 
-    /*QUARTZ (job scheduling)*/
-    use(new Quartz().with(ReminderController.class));
+    /* QUARTZ (job scheduling): */
+    use(new Quartz().with(ReminderController.class).with(ReservationJob.class));
 
     /* CSRF Check: */
     use("*", new CsrfHandler());
@@ -163,6 +164,9 @@ public class App extends Jooby {
 
       /* Edit User Data Routes: */
       use(EditUserDataController.class);
+
+      /* Reserve Books Routes: */
+      use(ReservationController.class);
 
     }).attr("needsLogin", true);
 

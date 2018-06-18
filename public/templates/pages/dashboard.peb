@@ -99,13 +99,11 @@
         </div>
       </div>
       <div class="column is-7">
-        <div class="box">
-          {% if user.isCustomer() %}
-            {% include 'includes/customer_dashboard_part' %}
-          {% elseif user.isEmployee() %}
-            {% include 'includes/employee_dashboard_part' %}
-          {% endif %}
-        </div>
+        {% if user.isCustomer() %}
+          {% include 'includes/customer_dashboard_part' %}
+        {% elseif user.isEmployee() %}
+          {% include 'includes/employee_dashboard_part' %}
+        {% endif %}
       </div>
     </div>
   </div>

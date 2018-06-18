@@ -1,0 +1,50 @@
+{% extends 'layouts/master' %}
+
+{% block title %}
+Reservieren | Bibliothek
+{% endblock %}
+
+{% block content %}
+<section class="hero is-light is-bold">
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <h1 class="title is-3">
+                <span class="icon icon-nav has-text-grey-dark">
+                    <i class="fa fa-bookmark"></i>
+                </span>
+        <span>{{ i18n("messages", "RESERVATION_TITLE") }}</span>
+      </h1>
+    </div>
+  </div>
+</section>
+<section class="section">
+  <div class="container has-text-centered">
+    <h3 class="subtitle is-5">{{ i18n("messages", "RESERVATION_SUBTITLE") }}</h3>
+    <div class="column is-4 is-offset-4">
+    {% if flash.error == "true" %}
+      <div class="notification is-danger">
+      {{ i18n("messages", flash.error_message) }}
+      </div>
+    {% else %}
+      <div class="box">
+        <div class="content is-medium">
+          <p>
+            Name: <strong>{{ book.title }}</strong><br>
+            Autoren: <strong>{{ book.authorsToString() }}</strong>
+          </p>
+        </div>
+        <form action="{{ Paths.BOOK_RESERVE_SUBMIT}}" method="post" name="book_reservation">
+          <input type="hidden" name="book_id" value="{{ book.id }}">
+          <input type="hidden" name="csrf" value="{{ csrf }}">
+          <div class="field">
+            <div class="control text-center">
+              <button class="button is-success" name="reserve_submit_btn" type="submit">Reservieren</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -157,6 +157,30 @@ CREATE TABLE IF NOT EXISTS `bibliothekssoftware`.`buch_hat_autor` (
 ENGINE = InnoDB;
 
 
+-- -----------------------------------------------------
+-- Table `bibliothekssoftware`.`reservierung`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `bibliothekssoftware`.`reservierung` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `ablaufdatum` DATETIME NOT NULL,
+  `benutzer_id` INT UNSIGNED NOT NULL,
+  `buchexemplar_id` INT UNSIGNED NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_reservierung_benutzer1_idx` (`benutzer_id` ASC),
+  INDEX `fk_reservierung_buchexemplar1_idx` (`buchexemplar_id` ASC),
+  CONSTRAINT `fk_reservierung_benutzer1`
+    FOREIGN KEY (`benutzer_id`)
+    REFERENCES `bibliothekssoftware`.`benutzer` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_reservierung_buchexemplar1`
+    FOREIGN KEY (`buchexemplar_id`)
+    REFERENCES `bibliothekssoftware`.`buchexemplar` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

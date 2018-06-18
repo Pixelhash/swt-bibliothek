@@ -2,7 +2,6 @@ package de.fhl.swtlibrary.model;
 
 import io.requery.*;
 
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,7 +37,6 @@ public abstract class AbstractBook {
 
   /* Classes given in annotations must be available at compile time! */
   @JunctionTable(type = AbstractBookAuthor.class)
-  //@JunctionTable(name = "buch_hat_autor")
   @ManyToMany
   List<Author> authors;
 
@@ -53,7 +51,7 @@ public abstract class AbstractBook {
 
   public List<BookCopy> getAvailableCopies() {
     return copies.stream()
-      .filter(c -> c.borrower == null)
+      .filter(c -> c.getBorrower() == null && c.getReservation() == null)
       .collect(Collectors.toList());
   }
 }
