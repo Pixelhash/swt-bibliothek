@@ -24,6 +24,17 @@ public final class Validation {
     return new Tuple<>(true, res);
   }
 
+  public static Tuple<Boolean, Long> isValidLong(final String longStr) {
+    if (longStr == null || longStr.isEmpty()) return new Tuple<>(false, null);
+    long res;
+    try {
+      res = Long.parseLong(longStr);
+    } catch (NumberFormatException e) {
+      return new Tuple<>(false, null);
+    }
+    return new Tuple<>(true, res);
+  }
+
   public static boolean isNonEmptyString(final String str) {
     return str != null && !str.isEmpty();
   }

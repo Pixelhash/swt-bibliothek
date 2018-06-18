@@ -121,7 +121,7 @@ public class RegisterController {
     user.setDateOfBirth(date);
     user.setAddress(address);
     user.setPassword(BCrypt.hashpw(password, BCrypt.gensalt()));
-    user.setActivation_token(createActivationToken());
+    user.setActivationToken(createActivationToken());
 
     // Adds the address and user to the database
     addressEntityStore.insert(address);
@@ -140,7 +140,7 @@ public class RegisterController {
   private void sendActivationEmail(User user) throws EmailException {
     String subject = "[Bibliothek] Aktivieren Sie ihren Account";
     String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-    String activationLink = "http://" + req.hostname() + ":" + req.port() + "/user/activate?activation_token=" + user.getActivation_token() + "?timestamp=" + timeStamp;
+    String activationLink = "http://" + req.hostname() + ":" + req.port() + "/user/activate?activation_token=" + user.getActivationToken() + "?timestamp=" + timeStamp;
     String message = "Sehr geehrte(r) " + user.getFullName() + ",\n\ndies ist eine automatisch generierte Email. " +
       "Klicken Sie auf den unten erhaltenen Link um " +
       "ihren Account zu aktivieren.\n\n" + activationLink +
