@@ -1,7 +1,7 @@
 <nav class="navbar is-dark is-spaced">
     <div class="container">
         <div class="navbar-brand">
-            <a class="navbar-item is-size-5" href="{{ Paths.BOOK_SEARCH }}">
+            <a class="navbar-item is-size-5" href="{{ Paths.BOOK_INDEX }}">
                 <span class="icon icon-nav">
                     <i class="fa fa-lg fa-book"></i>
                 </span>
@@ -17,7 +17,7 @@
         <div id="navbar" class="navbar-menu">
             <div class="navbar-start">
               {# @pebvariable name="user" type="User" #}{% if user is null or user.isCustomer() %}
-              <a class="navbar-item" href="{{ Paths.BOOK_SEARCH }}">
+              <a class="navbar-item" href="{{ Paths.BOOK_INDEX }}">
                   <span class="icon"><i class="fa fa-search"></i></span>
                   <span>Suche</span>
               </a>
