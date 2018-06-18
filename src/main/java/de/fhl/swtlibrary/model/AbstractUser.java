@@ -35,6 +35,9 @@ public abstract class AbstractUser {
   @Column(name = "passwort", length = 60, nullable = false)
   String password;
 
+  @Column(name = "activation_token", length = 64)
+  String activationToken;
+
   @Column(name = "password_reset_token", length = 64)
   String passwordResetToken;
 

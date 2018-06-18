@@ -18,8 +18,10 @@ public final class Paths {
 
   public static final String USER_LOGIN = "/user/session/login";
   public static final String USER_LOGOUT = "/user/session/logout";
+  public static final String USER_REGISTER = "/user/register";
   public static final String USER_DASHBOARD = "/user/dashboard";
   public static final String USER_EDIT = "/user/edit";
   public static final String USER_PASSWORD_RESET_REQUEST = "/user/password/reset/request";
   public static final String USER_PASSWORD_RESET_SET = "/user/password/reset/set";
+  public static final String USER_ACTIVATE = "/user/activate";
 }

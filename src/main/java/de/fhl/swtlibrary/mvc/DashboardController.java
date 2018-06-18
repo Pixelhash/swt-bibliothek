@@ -47,6 +47,12 @@ public class DashboardController {
   @GET
   public Result getUserDashboard(@Local User user) {
 
+    boolean isActivated = userEntityStore.select(User.class)
+      .where(User.ID.eq(user.getId()))
+      .get()
+      .firstOrNull()
+      .getActivationToken() == null;
+
     if (user.isCustomer()) {
       // Get the user's borrowed books
       List<BookCopy> borrowedBooks = bookCopyEntityStore.select(BookCopy.class)
@@ -102,8 +108,9 @@ public class DashboardController {
       req.set("authorAmount", authorAmount);
       req.set("categoryAmount", categoryAmount);
       req.set("publisherAmount", publisherAmount);
-    }
 
+    }
+    req.set("isActivated", isActivated);
     return Results.html("pages/dashboard");
   }
 }

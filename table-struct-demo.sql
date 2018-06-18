@@ -98,6 +98,7 @@ CREATE TABLE IF NOT EXISTS `bibliothekssoftware`.`benutzer` (
   `geburtsdatum` DATE NOT NULL,
   `passwort` CHAR(60) NOT NULL,
   `password_reset_token` CHAR(64) NULL,
+  `activation_token` CHAR(64) NULL,
   `adresse_id` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_benutzer_adresse1_idx` (`adresse_id` ASC),

@@ -139,6 +139,12 @@ public class App extends Jooby {
     /* Password Reset Routes: */
     use(PasswordResetController.class);
 
+    /* Register Routes: */
+    use(RegisterController.class);
+
+    /* Activation Routes */
+    use(ActivationController.class);
+
     with(() -> {
 
       /* Logout Route: */
