@@ -2,7 +2,8 @@ package de.fhl.swtlibrary.util;
 
 public final class Paths {
 
-  public static final String BOOK_SEARCH = "/";
+  public static final String BOOK_INDEX = "/";
+  public static final String BOOK_SEARCH = "/search";
   public static final String BOOK_CATEGORIES = "/categories";
 
   public static final String ADV_SEARCH_BOOK = "/search/book";
