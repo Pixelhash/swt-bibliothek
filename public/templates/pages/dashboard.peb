@@ -19,6 +19,7 @@
   </div>
 </section>
 <section class="section">
+{% if isActivated %}
   <div class="container has-text-centered">
       {% if flash.error == "true" %}
         <div class="columns">
@@ -108,5 +109,14 @@
       </div>
     </div>
   </div>
+{% else %}
+  <div class="columns">
+    <div class="column is-10 is-offset-1">
+      <div class="notification is-danger text-center">
+      {{ i18n("messages", "DASHBOARD_NOT_ACTIVATED") }}
+      </div>
+    </div>
+  </div>
+{% endif %}
 </section>
 {% endblock %}

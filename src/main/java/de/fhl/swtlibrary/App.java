@@ -20,6 +20,7 @@ import org.jooby.jdbc.Jdbc;
 import org.jooby.json.Jackson;
 import org.jooby.mail.CommonsEmail;
 import org.jooby.pebble.Pebble;
+import org.jooby.quartz.Quartz;
 import org.jooby.requery.Requery;
 import org.jooby.whoops.Whoops;
 import org.slf4j.Logger;
@@ -61,6 +62,9 @@ public class App extends Jooby {
 
     /* Flash Attributes: */
     use(new FlashScope());
+
+    /*QUARTZ (job scheduling)*/
+    use(new Quartz().with(ReminderController.class));
 
     /* CSRF Check: */
     use("*", new CsrfHandler());
@@ -130,8 +134,20 @@ public class App extends Jooby {
     /* Search Routes: */
     use(SearchController.class);
 
+    /*Remind Routes: */
+    use(ReminderController.class);
+
+    /* Categories Routes: */
+    use(CategoriesController.class);
+
     /* Login Routes: */
     use(LoginController.class);
+
+    /* Register Routes: */
+    use(RegisterController.class);
+
+    /* Activation Routes */
+    use(ActivationController.class);
 
     /* Routes that require an authenticated user: */
     with(() -> {
@@ -155,6 +171,9 @@ public class App extends Jooby {
 
       /* Return BookCopy Routes: */
       use(ReturnController.class);
+
+      /* Add new Book Routes: */
+      use(AddBookController.class);
 
     }).attr("role", UserRole.MITARBEITER).attr("needsLogin", true);
 

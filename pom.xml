@@ -82,6 +82,12 @@
       <version>${jooby.version}</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.jooby</groupId>
+      <artifactId>jooby-quartz</artifactId>
+      <version>${jooby.version}</version>
+    </dependency>
+
     <!-- bCrypt Support -->
     <dependency>
       <groupId>org.mindrot</groupId>
@@ -130,6 +136,14 @@
       <groupId>io.rest-assured</groupId>
       <artifactId>rest-assured</artifactId>
       <version>3.1.0</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- Fake SMTP Server -->
+    <dependency>
+      <groupId>com.github.kirviq</groupId>
+      <artifactId>dumbster</artifactId>
+      <version>1.7.1</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
