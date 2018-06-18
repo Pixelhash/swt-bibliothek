@@ -17,10 +17,15 @@ public class LoginControllerTest {
     TestUtil.setup();
   }
 
-
   @Test
   public void testSuccessfulLogin() throws Exception {
     final HtmlPage dashboardPage = TestUtil.loginWithTestUser(1, "Test1234");
     assertEquals(Paths.USER_DASHBOARD, dashboardPage.getBaseURL().getPath());
+  }
+
+  @Test
+  public void testFailingLogin() throws Exception {
+    final HtmlPage loginPage = TestUtil.loginWithTestUser(1, "Test6789");
+    assertEquals(Paths.USER_LOGIN, loginPage.getBaseURL().getPath());
   }
 }

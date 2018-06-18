@@ -1,12 +1,10 @@
 package de.fhl.swtlibrary.mvc;
 
 import com.google.inject.Inject;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import de.fhl.swtlibrary.model.Book;
 import de.fhl.swtlibrary.model.BookCopy;
 import de.fhl.swtlibrary.model.Reservation;
 import de.fhl.swtlibrary.model.User;
-
 import de.fhl.swtlibrary.util.*;
 import io.requery.EntityStore;
 import io.requery.Persistable;
@@ -19,7 +17,6 @@ import org.jooby.mvc.Path;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Path(Paths.BOOK_RESERVE)
 public class ReservationController {

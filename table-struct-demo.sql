@@ -97,6 +97,8 @@ CREATE TABLE IF NOT EXISTS `bibliothekssoftware`.`benutzer` (
   `email` VARCHAR(100) NOT NULL,
   `geburtsdatum` DATE NOT NULL,
   `passwort` CHAR(60) NOT NULL,
+  `password_reset_token` CHAR(64) NULL,
+  `activation_token` CHAR(64) NULL,
   `adresse_id` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_benutzer_adresse1_idx` (`adresse_id` ASC),
@@ -271,9 +273,9 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `bibliothekssoftware`;
-INSERT INTO `bibliothekssoftware`.`benutzer` (`id`, `vorname`, `nachname`, `rolle`, `telefonnummer`, `email`, `geburtsdatum`, `passwort`, `adresse_id`) VALUES (1, 'Peter', 'Meyer', 'MITARBEITER', '0123456789', 'peter.meyer@gmail.com', '1979-01-10', '$2a$10$VeGuPer4REsqJABd7DwYyeP6oB1Ft7LpzkBHbTDy.CSNxwctriKuy', 2);
-INSERT INTO `bibliothekssoftware`.`benutzer` (`id`, `vorname`, `nachname`, `rolle`, `telefonnummer`, `email`, `geburtsdatum`, `passwort`, `adresse_id`) VALUES (2, 'Anna', 'Kubinzki', 'KUNDE', '0987654321', 'anna.kubinzki@web.de', '1987-07-24', '$2a$10$bJQMIcO4ldf5xwuNK/Rtx.2z1bsXHH5V0UNOtDvNm0i.iigVSRh16', 1);
-INSERT INTO `bibliothekssoftware`.`benutzer` (`id`, `vorname`, `nachname`, `rolle`, `telefonnummer`, `email`, `geburtsdatum`, `passwort`, `adresse_id`) VALUES (3, 'Klaus-Dieter', 'Wottramm', 'KUNDE', '01928173645', 'klaus-dieter.wottramm@gmx.de', '1958-04-16', '$2a$10$MHq0aXFeXFXsu7wYlRavTOarqkZ4T/7DlXbk4S1RC.m17MTER2hue', 3);
+INSERT INTO `bibliothekssoftware`.`benutzer` (`id`, `vorname`, `nachname`, `rolle`, `telefonnummer`, `email`, `geburtsdatum`, `passwort`, `password_reset_token`, `adresse_id`) VALUES (1, 'Peter', 'Meyer', 'MITARBEITER', '0123456789', 'peter.meyer@gmail.com', '1979-01-10', '$2a$10$VeGuPer4REsqJABd7DwYyeP6oB1Ft7LpzkBHbTDy.CSNxwctriKuy', NULL, 2);
+INSERT INTO `bibliothekssoftware`.`benutzer` (`id`, `vorname`, `nachname`, `rolle`, `telefonnummer`, `email`, `geburtsdatum`, `passwort`, `password_reset_token`, `adresse_id`) VALUES (2, 'Anna', 'Kubinzki', 'KUNDE', '0987654321', 'anna.kubinzki@web.de', '1987-07-24', '$2a$10$bJQMIcO4ldf5xwuNK/Rtx.2z1bsXHH5V0UNOtDvNm0i.iigVSRh16', NULL, 1);
+INSERT INTO `bibliothekssoftware`.`benutzer` (`id`, `vorname`, `nachname`, `rolle`, `telefonnummer`, `email`, `geburtsdatum`, `passwort`, `password_reset_token`, `adresse_id`) VALUES (3, 'Klaus-Dieter', 'Wottramm', 'KUNDE', '01928173645', 'klaus-dieter.wottramm@gmx.de', '1958-04-16', '$2a$10$MHq0aXFeXFXsu7wYlRavTOarqkZ4T/7DlXbk4S1RC.m17MTER2hue', NULL, 3);
 
 COMMIT;
 

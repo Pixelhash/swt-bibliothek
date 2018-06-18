@@ -20,7 +20,7 @@ public class SearchControllerTest {
 
   @Test
   public void testBookSearchForm() throws Exception {
-    final HtmlPage page = TestUtil.webClient.getPage(TestUtil.HOSTNAME + Paths.BOOK_SEARCH);
+    final HtmlPage page = TestUtil.webClient.getPage(TestUtil.HOSTNAME + Paths.BOOK_INDEX);
 
     String expected = "Buchsuche | Bibliothek";
     assertEquals(expected, page.getTitleText());
@@ -28,11 +28,11 @@ public class SearchControllerTest {
 
   @Test
   public void testBookSearchInputs() throws Exception {
-    final HtmlPage searchPage = TestUtil.webClient.getPage(TestUtil.HOSTNAME + Paths.BOOK_SEARCH);
+    final HtmlPage searchPage = TestUtil.webClient.getPage(TestUtil.HOSTNAME + Paths.BOOK_INDEX);
 
     final HtmlForm searchForm = searchPage.getFormByName("book_search_form");
 
-    final HtmlButton searchButton = searchForm.getButtonByName("book_search_btn");
+    final HtmlButton searchButton = searchForm.querySelector("#book_search_btn");
     final HtmlTextInput queryField = searchForm.getInputByName("query");
 
     queryField.type("mathe");
