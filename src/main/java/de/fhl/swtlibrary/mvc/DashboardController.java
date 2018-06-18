@@ -51,7 +51,7 @@ public class DashboardController {
       .where(User.ID.eq(user.getId()))
       .get()
       .firstOrNull()
-      .getActivation_token() == null;
+      .getActivationToken() == null;
 
     if (user.isCustomer()) {
       // Get the user's borrowed books

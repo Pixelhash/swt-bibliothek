@@ -81,7 +81,7 @@ public class RegisterControllerTest {
         .get()
         .firstOrNull();
 
-      assertTrue(user.getActivation_token() != null);
+      assertTrue(user.getActivationToken() != null);
     }
   }
 
@@ -106,7 +106,7 @@ public class RegisterControllerTest {
 
       String host = mailText.substring(domainIndexBeginning, domainIndexEnding);
       String timeStamp = mailText.substring(index, index + 14);
-      String activationToken = user.getActivation_token();
+      String activationToken = user.getActivationToken();
 
       URL url = new URL(host + "/user/activate?activation_token=" + activationToken + "?timestamp=" + timeStamp);
 
@@ -114,7 +114,7 @@ public class RegisterControllerTest {
 
       userStore.refresh(user);
 
-      assertNull(user.getActivation_token());
+      assertNull(user.getActivationToken());
     }
   }
 }

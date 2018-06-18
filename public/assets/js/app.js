@@ -24,6 +24,14 @@ $(document).ready(function () {
     })
   });
 
+  $('.modal-open').on('click', function () {
+     $('.modal').addClass('is-active');
+  });
+
+  $('.close-modal').on('click', function () {
+      $('.modal').removeClass('is-active');
+  });
+
   // Delete button on advanced search
   $('.btn-delete').on('click', function (e) {
     e.preventDefault();
