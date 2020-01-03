@@ -14,14 +14,6 @@
 Diese Applikation wurde im Studiengang Informatik/Softwaretechnik
 im Fach Softwaretchnik 2 im SS 2018 der FH-Lübeck entwickelt.
 
-## Demo
-
-**Derzeit inaktiv!**
-
-- URL: <https://swt-bibliothek.codehat.de/>
-- Nutzername: `swt`
-- Passwort: `bibliothek`
-
 ## Systemvoraussetzungen
 
 - Java 8
